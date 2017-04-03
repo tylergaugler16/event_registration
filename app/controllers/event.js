@@ -1,0 +1,28 @@
+var Event = require('../models/event.js');
+
+exports.list = function(req, res){
+  Event.find(function(err, events) {
+    res.render('./events/index',{events: events})
+  });
+};
+
+exports.findEventById = function(req, res){
+  console.log(req.params.id);
+  Event.find({_id: req.params.id}, function(err,event){
+    if(err) res.send('could not find event with that id');
+    else res.render('/events/show', {event: event});
+  });
+};
+
+exports.new = function(req, res){
+  res.render('./events/new');
+}
+exports.create = function(req,res){
+  console.log(req.body);
+  var event = new Event(req.body);
+  console.log(event);
+  event.save(function(err){
+    if(err) res.redirect('/events/new');
+    else res.redirect('/events/'+event._id);
+  });
+}

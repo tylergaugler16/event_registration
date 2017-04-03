@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/event-registration');
+mongoose.connect('mongodb://localhost/event-registration', function(err){
+  if (err)
+        return console.error(err);
+});
 
 // grab the things we need
 var Schema = mongoose.Schema;
@@ -42,6 +45,14 @@ userSchema.pre('save', function(next) {
   }
 
 });
+
+userSchema.methods.full_name = function(){
+  return this.firstname + " " + this.lastname;
+}
+
+userSchema.methods.is_admin = function(){
+  return this.status == 'admin'
+}
 
 
 // the schema is useless so far

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Events</title>
+  </head>
+  <body>
+    <h1>Events</h1>
+    <% for(var i =0; i<events.length;i++) { %>
+      <div class="event">
+        <h2><%= events[i]._id %></h2>
+        <h3><%= events[i].title %></h3>
+        <h3><%= events[i].date %></h3>
+      </div>
+
+      <% } %>
+  </body>
+</html>
+
+<style>
+  .event{
+    padding:10px;
+    width: 80%;
+    margin:10px auto;
+    border: 1px solid green;
+  }
+
+</style>

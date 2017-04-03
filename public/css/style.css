@@ -1,0 +1,17 @@
+*{
+  border: 1px solid red;
+}
+html,body{
+  padding:0;
+  margin:0;
+}
+#header{
+  width:100%;
+  background: green;
+}
+#header h2{
+  display: inline-block;
+}
+#header span{
+  display: inline-block;
+}

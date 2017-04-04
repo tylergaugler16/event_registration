@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
+const db = require('./app/models/db');
 const routes = require('./app/routes/routes.js');
 const bodyParser = require('body-parser');
+
 
 
 app.use(bodyParser.json());
@@ -10,7 +12,6 @@ app.set('view engine', 'ejs');
 app.set('views', './app/views');
 app.use(express.static('public'));
 app.use('/',routes);
-
 
 // User.findOneAndUpdate({email: 'tylergaugler16@gmail.com'},{firstname: 'Tyler'}, function(err, user){
 //   if(err) throw err;

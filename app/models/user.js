@@ -1,8 +1,4 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/event-registration', function(err){
-  if (err)
-        return console.error(err);
-});
 
 // grab the things we need
 var Schema = mongoose.Schema;

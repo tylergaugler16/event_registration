@@ -1,16 +1,24 @@
-var User = require('../models/user.js');
+// var User = require('../models/user.js');
+var mongoose = require( 'mongoose' ),
+    User = mongoose.model('User', 'userSchema');
 
 exports.list = function(req, res){
   User.find(function(err, users) {
-    res.render('./users/index',{users: users})
+    if(err) console.log(err);
+    else{
+      console.log(users);
+      res.render('./users/index',{users: users});
+    }
+
   });
 };
 exports.findUserById = function(req, res){
-  console.log(req.params.id);
-  User.find({_id: req.params.id}, function(err,user){
-    console.log(user.full_name);
+  User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
-    else res.send(user);
+    else{
+      console.log(user);
+      res.render('./users/show',{user: user});
+    }
   });
 };
 exports.create = function(req, res){

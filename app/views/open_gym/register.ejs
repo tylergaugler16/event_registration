@@ -3,19 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Open Gym Registration</title>
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <script src="/js/open_gym.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>Register For Open Gym</h1>
     <% if(role == 'parent') { %>
-      <h3>Register you child</h3>
-    <form class="" action="/open_gym/register" method="post">
-        <label for="firstname">Firstname</label>
-        <input type="text" name="firstname" value="">
-        <label for="lastname">Lastname</label>
-        <input type="text" name="lastname" value="">
-        <input type="hidden" name="legal_guardian_id" value="58e2f67b84cef6713d4d0bdf">
-        <input type="submit" name="" value="Submit">
-    </form>
+    <% include ./_parent_form %>
+
     <% } else { %>
       <h3>Register yourself</h3>
     <form class="" action="/open_gym/register_post" method="post">

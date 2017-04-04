@@ -18,7 +18,7 @@ Router.route('/events/:id').get(events.findEventById);
 
 Router.route('/open_gym/info').get(open_gym.info);
 Router.route('/open_gym/register').get(open_gym.register);
-Router.route('/open_gym/register').post(open_gym.register_post);
+Router.route('/open_gym/register_children').post(open_gym.register_children);
 
 Router.route('/').get(dashboard.home);
 

@@ -4,25 +4,21 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var userSchema = new Schema({
+var childSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
-  email: { type: String, required: true, unique: true },
-  status: {type: String, required: false, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
-  children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
+  email: { type: String, sparse: true, unique: true },
+  address: {type: String, required: false, unique: false},
+  legal_guardian_id: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  registered_for_og: {type: Boolean, default: false},
   created_at: Date,
   updated_at: Date
 });
 
-userSchema.methods.dudify = function() {
-  // add some stuff to the users name
-  this.firstname = this.firstname + '-dude';
 
-  return this.firstname;
-};
 
 // on every save, add the date
-userSchema.pre('save', function(next) {
+childSchema.pre('save', function(next) {
 
   var currentDate = new Date();
   this.updated_at = currentDate;
@@ -33,7 +29,7 @@ userSchema.pre('save', function(next) {
 
 //VALIDATE EMAIL
   var email_regex =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  if(!email_regex.test(this.email)){
+  if(this.email && !email_regex.test(this.email)){
     var err = new Error('WRONG EMAIL FORMAT');
     next(err);
   }
@@ -43,18 +39,18 @@ userSchema.pre('save', function(next) {
 
 });
 
-userSchema.methods.full_name = function(){
+childSchema.methods.full_name = function(){
   return this.firstname + " " + this.lastname;
 }
 
-userSchema.methods.is_admin = function(){
-  return this.status == 'admin'
+childSchema.methods.get_gaurdians = function(){
+  return this.legal_guardian_id;
 }
 
 
 // the schema is useless so far
 // we need to create a model using it
-var User = mongoose.model('User', userSchema);
+var Child = mongoose.model('Child', childSchema);
 
-// make this available to our users in our Node applications
-module.exports = User;
+// make this available to our childs in our Node applications
+module.exports = Child;

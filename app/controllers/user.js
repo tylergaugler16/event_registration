@@ -1,6 +1,7 @@
 // var User = require('../models/user.js');
 var mongoose = require( 'mongoose' ),
-    User = mongoose.model('User', 'userSchema');
+    User = mongoose.model('User', 'userSchema'),
+    Child = mongoose.model('Child', 'childSchema');
 
 exports.list = function(req, res){
   User.find(function(err, users) {
@@ -16,8 +17,11 @@ exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
     else{
-      console.log(user);
-      res.render('./users/show',{user: user});
+      // var id = user._id;
+      Child.find({legal_guardian_id: user._id }, function(err, children){
+        if(err) console.log(err);
+        else res.render('./users/show',{user: user, children: children});
+      });
     }
   });
 };

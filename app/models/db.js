@@ -33,4 +33,5 @@ process.on('SIGINT', function() {
 
 // BRING IN YOUR SCHEMAS & MODELS
 require('./event');
-require('./user')
+require('./child');
+require('./user');

@@ -1,7 +1,8 @@
 // Bring Mongoose into the app
 var mongoose = require( 'mongoose' );
 // Build the connection string
-var dbURI = 'mongodb://localhost/event-registration';
+var env = process.env.NODE_ENV || 'dev';
+var dbURI = (env == 'dev')? 'mongodb://localhost/event-registration' : MONGODB_URI;
 
 // Create the database connection
 mongoose.connect(dbURI);

@@ -8,9 +8,16 @@ var childSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
   email: { type: String, sparse: true, unique: true },
-  address: {type: String, required: false, unique: false},
+  address: {type: String, required: true, unique: false},
+  zip_code: {type: String, required: true},
+  emergency_contact_name: {type: String, required: true},
+  emergency_contact_phone: {type: String, required: true},
+  birthday: {type: Date, required: true},
+  permission_to_walk: {type: Boolean, default: false},
+  media_agreement: {type: Boolean, default: false},
   legal_guardian_id: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   registered_for_og: {type: Boolean, default: false},
+  on_waiting_list: {type: Boolean, default: true},
   created_at: Date,
   updated_at: Date
 });

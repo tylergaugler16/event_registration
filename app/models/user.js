@@ -1,5 +1,7 @@
-var mongoose = require('mongoose');
-
+var mongoose = require('mongoose'),
+    bcrypt = require('bcrypt'),
+    SALT_WORK_FACTOR = 10;
+var salt = bcrypt.genSaltSync(10);
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -8,6 +10,10 @@ var userSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
   email: { type: String, required: true, unique: true },
+  phone_number: [{type: String, required: false, unique: true}],
+  password: {type: String, required: true, unique: true},
+  church: {type: String, required:false },
+  Address: {type: String, required: false},
   status: {type: String, required: false, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
   created_at: Date,
@@ -22,8 +28,8 @@ userSchema.methods.dudify = function() {
 };
 
 // on every save, add the date
-userSchema.pre('save', function(next) {
-
+userSchema.pre('save', true, function(next, done) {
+  var user = this;
   var currentDate = new Date();
   this.updated_at = currentDate;
 
@@ -37,11 +43,21 @@ userSchema.pre('save', function(next) {
     var err = new Error('WRONG EMAIL FORMAT');
     next(err);
   }
-  else{
-    next();
-  }
 
+// only hash password if it has been modified
+  if (!this.isModified('password')) return next();
+    // hash the password along with our new salt
+    bcrypt.hash(user.password, salt, function(err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+    });
+    done();
 });
+
+
+
+// METHODS
 
 userSchema.methods.full_name = function(){
   return this.firstname + " " + this.lastname;
@@ -50,7 +66,12 @@ userSchema.methods.full_name = function(){
 userSchema.methods.is_admin = function(){
   return this.status == 'admin'
 }
-
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+}
 
 // the schema is useless so far
 // we need to create a model using it

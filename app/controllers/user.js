@@ -3,7 +3,7 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Child = mongoose.model('Child', 'childSchema');
 
-// to update my password or anything else
+// to update password make sure you use user.save
 // User.findOne({_id: '58e6a01dc375513e12332508'}, function(err, user){
 //       if (err) console.log(err);
 //       else{
@@ -18,10 +18,9 @@ exports.list = function(req, res){
   User.find(function(err, users) {
     if(err) console.log(err);
     else{
-      console.log(users);
+      // console.log(users);
       res.render('./users/index',{users: users});
     }
-
   });
 };
 exports.findUserById = function(req, res){
@@ -62,7 +61,10 @@ exports.signin = function(req, res){
       user.comparePassword(req.body.password, function(err, isMatch){
         console.log(isMatch);
         if(err || !isMatch) res.render('./users/login',{error: 'Incorrect Password'});
-        else res.redirect('/users/'+user._id);
+        else {
+          req.session.user = user;
+          res.redirect('/users/'+user._id);
+        }
       });
     }
   });

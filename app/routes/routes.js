@@ -5,13 +5,17 @@ const open_gym = require('../controllers/open_gym.js');
 const express = require('express');
 const Router = express.Router();
 
+function isLoggedIn(req,res,next){
+  if(req.session.user) return next();
+  else res.redirect('/users/login');
+}
 
 Router.route('/users').get(users.list);
 Router.route('/users/signup').get(users.signup);
 Router.route('/users/signup').post(users.create);
 Router.route('/users/login').get(users.login);
 Router.route('/users/login').post(users.signin);
-Router.route('/users/:id').get(users.findUserById); // should probably be last users/ route
+Router.route('/users/:id').get(isLoggedIn, users.findUserById); // should probably be last users/ route
 
 
 Router.route('/events/new').get(events.new);

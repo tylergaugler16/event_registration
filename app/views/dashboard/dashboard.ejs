@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <% include ../layouts/header %>
-  <h1>YEET</h1>
+  <% include ../layouts/header %>
+  <% if (typeof user!= 'undefined'){  %>
+  <h1><%= user.firstname %></h1>
+  <% }else{  %>
+  <h1>yeet</h1>
+    <% } %>
   </body>
 </html>

@@ -17,10 +17,10 @@ app.use(express.static('public'));
 app.use(session({
   cookieName: 'session',
   secret: 'eg[isfd-8yF9-7w2315df{}+Ijsli;;to8',  // random string to encrypt cookie
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
+  duration: 30 * 60 * 10000,
+  activeDuration: 5 * 60 * 10000,
   httpOnly: (env == 'dev'),
-  secure: true,
+  secure: (env == 'production'),
   ephemeral: true
 }));
 app.use(function(req, res, next) {
@@ -47,13 +47,6 @@ app.use(function(req, res, next) {
 
 
 app.use('/',routes);
-
-// User.findOneAndUpdate({email: 'tylergaugler16@gmail.com'},{firstname: 'Tyler'}, function(err, user){
-//   if(err) throw err;
-//   console.log(user);
-// });
-
-
 
 
 app.listen(process.env.PORT || 3000, function(){

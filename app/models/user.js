@@ -13,9 +13,10 @@ var userSchema = new Schema({
   phone_number: [{type: String, required: false, unique: true}],
   password: {type: String, required: true, unique: true},
   church: {type: String, required:false },
-  Address: {type: String, required: false},
+  address: {type: String, required: false},
   status: {type: String, required: false, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
+  eventsRegisteredFor: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
   updated_at: Date
 });

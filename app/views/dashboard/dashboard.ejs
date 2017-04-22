@@ -7,7 +7,7 @@
   </head>
   <body>
   <% include ../layouts/header %>
-  <% if (typeof user!= 'undefined'){  %>
+  <% if (user !== null){  %>
   <h1><%= user.firstname %></h1>
   <% }else{  %>
   <h1>yeet</h1>

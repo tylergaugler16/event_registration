@@ -7,7 +7,6 @@ var Schema = mongoose.Schema;
 var childSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
-  email: { type: String, sparse: true, unique: true },
   address: {type: String, required: true, unique: false},
   zip_code: {type: String, required: true},
   emergency_contact_name: {type: String, required: true},

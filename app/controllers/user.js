@@ -3,17 +3,6 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Child = mongoose.model('Child', 'childSchema');
 
-// to update password make sure you use user.save
-// User.findOne({_id: '58e6a01dc375513e12332508'}, function(err, user){
-//       if (err) console.log(err);
-//       else{
-//         user.password = 'foobar1234';
-//         user.save(function(err){
-//           if(err)console.log(err);
-//         });
-//       }
-//     });
-
 exports.list = function(req, res){
   User.find(function(err, users) {
     if(err) console.log(err);

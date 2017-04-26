@@ -3,6 +3,8 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Child = mongoose.model('Child', 'childSchema');
 
+
+
 exports.list = function(req, res){
   User.find(function(err, users) {
     if(err) console.log(err);
@@ -13,6 +15,8 @@ exports.list = function(req, res){
   });
 };
 exports.findUserById = function(req, res){
+  console.log('TYLER');
+  console.log(req.user);
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
     else{
@@ -32,7 +36,7 @@ exports.create = function(req, res){
   user.save(function(err){
     console.log(err);
     if(err) res.redirect('/users/signup');
-    else res.redirect('/users/'+user._id);
+    else res.redirect('/users/login');
   });
 }
 exports.signup = function(req, res){
@@ -44,17 +48,23 @@ exports.login = function(req, res){
 }
 
 exports.signin = function(req, res){
-  User.findOne({email: req.body.email}, function(err, user){
-    if(err) res.render('./users/login',{error: 'Incorrect Email'});
-    else{
-      user.comparePassword(req.body.password, function(err, isMatch){
-        console.log(isMatch);
-        if(err || !isMatch) res.render('./users/login',{error: 'Incorrect Password'});
-        else {
-          req.session.user = user;
-          res.redirect('/users/'+user._id);
-        }
-      });
-    }
-  });
+  res.redirect('/users/'+req.user._id);
+  // User.findOne({email: req.body.email}, function(err, user){
+  //   if(err) res.render('./users/login',{error: 'Incorrect Email'});
+  //   else{
+  //     user.comparePassword(req.body.password, function(err, isMatch){
+  //       console.log(isMatch);
+  //       if(err || !isMatch) res.render('./users/login',{error: 'Incorrect Password'});
+  //       else {
+  //         req.session.user = user;
+  //         res.redirect('/users/'+user._id);
+  //       }
+  //     });
+  //   }
+  // });
+}
+
+exports.logout = function(req, res){
+  req.logout();
+  res.redirect('/');
 }

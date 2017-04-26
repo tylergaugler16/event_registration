@@ -56,8 +56,9 @@ $(document).on('click', '#submitRegistrationForms', function(e){
   $('form').each(function(){
        $(this).submit();
    });
- url = window.location.origin;
- window.location.href = url;
+   
+ // url = window.location.origin;
+ // window.location.href = url;
 
 
 });

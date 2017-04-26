@@ -1,5 +1,6 @@
 exports.home = function(req, res){
-if(req.session.user) user = req.session.user;
+console.log(req.user);
+if(req.user) user = req.user;
 else user = null;
 res.render('./dashboard/dashboard', {user: user});
 }

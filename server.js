@@ -1,14 +1,19 @@
 const express = require('express');
 const app = express();
 const db = require('./app/models/db');
-const routes = require('./app/routes/routes.js');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const session = require('client-sessions');
+
+const flash = require('connect-flash');
+
 const env = process.env.NODE_ENV || 'dev';
 
-var mongoose = require( 'mongoose' ),
+const mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema');
-
+app.use(logger('dev'));
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
@@ -23,30 +28,19 @@ app.use(session({
   secure: (env == 'production'),
   ephemeral: true
 }));
-app.use(function(req, res, next) {
-  if (req.session && req.session.user) {
-    console.log("we have a session!");
+app.use(passport.initialize());
+app.use(passport.session());
 
-    User.findOne({ _id: '58e6a01dc375513e12332508'}, function(err, user){
-        if (!err && (user != null)) {
-          console.log(user.firstname);
-          req.user = user
-          delete req.user.password; // delete the password from the session
-          req.session.user = user  //refresh the session value
-          res.locals.user = user // local allws user to be accessed in view
-      }
-      else{
-        res.locals.user = null;
-      }
-    });
-    next();
-  } else {
-    next();
-  }
-});
-
-
+const initPassport = require('./passport/init');
+initPassport(passport);
+const routes = require('./app/routes/routes.js')(passport);
 app.use('/',routes);
+
+
+
+
+
+
 
 
 app.listen(process.env.PORT || 3000, function(){

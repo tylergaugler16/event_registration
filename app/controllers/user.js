@@ -15,7 +15,6 @@ exports.list = function(req, res){
   });
 };
 exports.findUserById = function(req, res){
-  console.log('TYLER');
   console.log(req.user);
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');

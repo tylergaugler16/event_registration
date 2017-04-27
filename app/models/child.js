@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -49,8 +48,8 @@ childSchema.methods.full_name = function(){
   return this.firstname + " " + this.lastname;
 }
 
-childSchema.methods.get_gaurdians = function(){
-  return this.legal_guardian_id;
+childSchema.methods.get_gaurdian = function(){
+  return this.legal_guardian_id[0];
 }
 
 

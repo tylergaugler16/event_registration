@@ -74,6 +74,16 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 }
 
+// Statics
+
+userSchema.statics.findParent = function(parent_id, next){
+  this.findOne({_id: parent_id}, function(err, user){
+    if(user) return next(user);
+    else return next('yeet');
+  });
+
+}
+
 // the schema is useless so far
 // we need to create a model using it
 var User = mongoose.model('User', userSchema);

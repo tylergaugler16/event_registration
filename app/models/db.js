@@ -1,5 +1,7 @@
 // Bring Mongoose into the app
 var mongoose = require( 'mongoose' );
+mongoose.Promise = global.Promise;
+// assert.equal(query.exec().constructor, global.Promise);
 // Build the connection string
 var env = process.env.NODE_ENV || 'dev';
 var dbURI = (env == 'dev')? 'mongodb://localhost/event-registration' : process.env.MONGODB_URI;

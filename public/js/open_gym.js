@@ -15,7 +15,7 @@ $(document).ready(function(){
 });
 
 $(document).on('click', '#addChild', function(){
-  var legal_guardian_id = $('input[name="legal_guardian_id"]').val();
+  var legal_guardian_id = $('input[name="legal_guardian_id"]').first().val();
   console.log(legal_guardian_id);
     $('.register_children_form').last().after(
       `<form class="register_children_form" action="/open_gym/register_children" method="post">
@@ -56,7 +56,7 @@ $(document).on('click', '#submitRegistrationForms', function(e){
   $('form').each(function(){
        $(this).submit();
    });
-   
+
  // url = window.location.origin;
  // window.location.href = url;
 

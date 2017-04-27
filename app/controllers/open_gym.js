@@ -10,18 +10,9 @@ exports.info = function(req, res){
 exports.register = function(req, res){
   user = (req.session.user)? req.session.user : null ;
   if(pretend_role == 'parent'){
-    res.render('./open_gym/register', {role: 'parent', current_user: user});
+    res.render('./open_gym/register', {role: 'parent'});
   }
   else res.send('not working');
-  //   var child = new Child(
-  //   {
-  //     firstname: 'Test',
-  //     lastname: 'Child',
-  //     legal_guardian_id: ['58e2a3438e1fa8658c8e18f8']
-  //   }
-  // )
-  // res.send(child);
-  // res.render('./open_gym/register');
 }
 
 exports.register_children = function(req,res){

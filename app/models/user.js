@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 var salt = bcrypt.genSaltSync(10);
+var mailchimp = require('../../config/mailchimp.js');
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -14,6 +15,7 @@ var userSchema = new Schema({
   password: {type: String, required: true, unique: true},
   church: {type: String, required:false },
   address: {type: String, required: false},
+  zip_code: {type: String, required: false},
   status: {type: String, required: false, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
   eventsRegisteredFor: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
@@ -56,6 +58,10 @@ userSchema.pre('save', true, function(next, done) {
     done();
 });
 
+userSchema.post('save', function(user){
+  console.log('trying to add user email');
+  mailchimp(user.email);
+});
 
 
 // METHODS

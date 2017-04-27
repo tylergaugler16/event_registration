@@ -19,6 +19,7 @@
     "ejs": "^2.5.6",
     "exceljs": "^0.4.4",
     "express": "^4.15.2",
+    "mailchimp-api-v3": "^1.7.0",
     "mongoose": "^4.9.2",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",

@@ -44,7 +44,9 @@ module.exports = function(passport){
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
   Router.route('/open_gym/register_children').post(open_gym.register_children);
 
-  Router.route('/spreadsheets').get(spreadsheets.create);
+  Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
+  Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);
+
 
   Router.route('/').get(dashboard.home);
 

@@ -2,11 +2,8 @@ var mongoose = require( 'mongoose' ),
     Child = mongoose.model('Child', 'childSchema'),
     User = mongoose.model('User', 'userSchema');
 var Excel = require('exceljs');
-var Sync = require('sync');
 
-var writeToFile = function(workbook, filename){
 
-}
 var writeRows = function(done){
   var workbook = new Excel.Workbook();
   var sheet = workbook.addWorksheet("My Sheet",{
@@ -46,7 +43,7 @@ var writeRows = function(done){
           emergency_contact_name: item.emergency_contact_name,
           emergency_contact_phone: item.emergency_contact_phone,
           permission_to_walk: (item.permission_to_walk)? 'yes' : 'no',
-          on_waiting_list: (item.permission_to_walk)? 'yes' : 'no'
+          on_waiting_list: (item.on_waiting_list)? 'yes' : 'no'
         });
       });
     });
@@ -63,13 +60,14 @@ exports.create = function(req, res){
     workbook.xlsx.writeFile(filename)
       .then(function() {
         console.log("wrote to a file");
-        res.send(filename);
-        // res.download(filename); // works like expected
+        res.download(filename); // works like expected
       })
       .catch(function(err){
         console.log(err);
       });
   });
-
-
 };
+
+exports.index = function(req, res){
+  res.render('./admin/spreadsheets/index.ejs')
+}

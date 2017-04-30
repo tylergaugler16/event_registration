@@ -12,7 +12,7 @@ var userSchema = new Schema({
   lastname: { type: String, required: true, unique: false },
   email: { type: String, required: true, unique: true },
   phone_number: [{type: String, required: false, unique: true}],
-  password: {type: String, required: true, unique: true},
+  password: {type: String, required: true},
   church: {type: String, required:false },
   address: {type: String, required: false},
   zip_code: {type: String, required: false},

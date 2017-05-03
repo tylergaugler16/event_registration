@@ -3,13 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Event</title>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h2>Yeet</h2>
-    <h4><%= user.firstname %></h4>
-    <h4><%= user._id %></h4>
+    <% include ../layouts/header %>
+    <div class="main-container">
+      <h2>Yeet</h2>
+      <h4><%= user.firstname %></h4>
+      <h4><%= user._id %></h4>
+      <% for(var i =0;i<children.length;i++){ %>
+        <h4><%= children[i].full_name() %></h4>
+      <% } %>
+
+
+    </div>
   </body>
-  <% for(var i =0;i<children.length;i++){ %>
-    <h4><%= children[i].full_name() %></h4>
-  <% } %>
+
 </html>

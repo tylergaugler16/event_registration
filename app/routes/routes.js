@@ -12,12 +12,7 @@ function isLoggedIn(req,res,next){
 }
 
 var isAuthenticated = function (req, res, next) {
-	// if user is authenticated in the session, call the next() to call the next request handler
-	// Passport adds this method to request object. A middleware is allowed to add properties to
-	// request and response objects
-	if (req.isAuthenticated())
-		return next();
-	// if the user is not authenticated then redirect him to the login page
+	if (req.isAuthenticated()) return next();
 	res.redirect('/');
 }
 var isAdmin = function(req, res, next){
@@ -35,14 +30,14 @@ module.exports = function(passport){
   Router.route('/users/:id').get(isAuthenticated, users.findUserById); // should probably be last users/ route
 
 
-  Router.route('/events/new').get(events.new);
-  Router.route('/events/create').post(events.create);
+  Router.route('/events/new').get(isAdmin, events.new);
+  Router.route('/events/create').post(isAdmin, events.create);
   Router.route('/events').get(events.list);
   Router.route('/events/:id').get(events.findEventById); // should probably be the last events/ route
 
   Router.route('/open_gym/info').get(open_gym.info);
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
-  Router.route('/open_gym/register_children').post(open_gym.register_children);
+  Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
 
   Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
   Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);

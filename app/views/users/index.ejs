@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>Users</title>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1>Users</h1>
-    <% for(var i =0; i<users.length;i++) { %>
-      <div class="user <%= (users[i].is_admin())? 'admin' : '' %> ">
-        <h2><%= users[i].full_name() %></h2>
-        <h3><%= users[i].email %></h3>
-        <h3><%= users[i].status %></h3>
-        <h3><%= users[i]._id %></h3>
-      </div>
+    <% include ../layouts/header %>
+    <div class="main-container">
+      <h1>Users</h1>
+      <% for(var i =0; i<users.length;i++) { %>
+        <div class="user <%= (users[i].is_admin())? 'admin' : '' %> ">
+          <h2><%= users[i].full_name() %></h2>
+          <h3><%= users[i].email %></h3>
+          <h3><%= users[i].status %></h3>
+          <h3><%= users[i]._id %></h3>
+        </div>
 
-      <% } %>
+        <% } %>
+
+    </div>
   </body>
 </html>
 

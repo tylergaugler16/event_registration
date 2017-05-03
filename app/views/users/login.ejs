@@ -3,15 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Login Page</title>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1>Login!</h1>
-    <form class="" action="/users/login" method="post">
-      <label for="email">Email</label>
-      <input type="text" name="email" value=""> <br>
-      <label for="password">Password</label>
-      <input type="password" name="password" value=""><br>
-      <input type="submit" name="" value="Log In">
-    </form>
+    <% include ../layouts/header %>
+    <div class="main-container">
+      <h1>Login!</h1>
+      <form class="" action="/users/login" method="post">
+        <label for="email">Email</label>
+        <input type="text" name="email" value=""> <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" value=""><br>
+        <input type="submit" name="" value="Log In">
+      </form>
+    </div>
+
   </body>
 </html>

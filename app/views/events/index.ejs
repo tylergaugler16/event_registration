@@ -3,8 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Events</title>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
+    <% include ../layouts/header %>
+    <div class="main-container">
     <h1>Events</h1>
     <% for(var i =0; i<events.length;i++) { %>
       <div class="event">
@@ -14,6 +17,7 @@
       </div>
 
       <% } %>
+    </div>
   </body>
 </html>
 

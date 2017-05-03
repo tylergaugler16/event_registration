@@ -4,10 +4,15 @@
     <meta charset="utf-8">
     <title>Create Event</title>
     <link rel="stylesheet" href="/css/DateTimePicker.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
     <script src="/js/DateTimePicker.js" charset="utf-8"></script>
   </head>
   <body>
+    <% include ../layouts/header %>
+    <div class="main-container">
+
+
     <h1>Create an Event</h1>
 
     <form action="/events/create" method="post">
@@ -23,7 +28,7 @@
       <div id="dtBox"></div>
 
     </form>
-
+  </div>
   </body>
 
 </html>

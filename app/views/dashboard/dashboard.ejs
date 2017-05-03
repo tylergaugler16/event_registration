@@ -7,13 +7,16 @@
   </head>
   <body>
   <% include ../layouts/header %>
-  <% if (current_user){  %>
-  <h1><%= current_user.firstname %> logged in</h1>
-  <% }else{  %>
-  <h1>yeet</h1>
-    <% } %>
-    <% if(message){  %>
-    <h3><%= message %></h3>
-    <% } %>
+  <div class="main-container">
+    <% if (current_user){  %>
+    <h1><%= current_user.firstname %> logged in</h1>
+    <% }else{  %>
+    <h1>yeet</h1>
+      <% } %>
+      <% if(message){  %>
+      <h3><%= message %></h3>
+      <% } %>
+  </div>
+
   </body>
 </html>

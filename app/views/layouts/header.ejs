@@ -1,7 +1,18 @@
 <div id="header">
-  <h2 id="header_title">MBC Dashboard</h2>
-  <div id="profile_info">
-    <span>Tyler</span>
-    <span>Settings</span>
+
+  <div id="header_main_nav">
+    <a href="/"><h2>Maspeth Bible Church</h2></a>
+
+  </div>
+
+  <div id="header_buttons">
+    <div class="button"><a href="/open_gym/info">Open Gym</a></div>
+    <% if (current_user) { %>
+      <div class="button"> <span> <%= current_user.full_name() %> </span></div>
+      <div class="button"> <a href="/users/logut">Logout</a></div>
+    <% } else{ %>
+      <div class="button"><a href="/users/login">Log in</a></div>
+      <div class="button"><a href="/users/signup">Sign Up</a></div>
+    <% } %>
   </div>
 </div>

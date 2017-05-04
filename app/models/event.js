@@ -11,6 +11,13 @@ var eventSchema = new Schema({
   date: { type: Date, required: true, unique: false },
 });
 
+eventSchema.methods.in_the_past = function(){
+  return (new Date(this.date) < new Date());
+}
+eventSchema.methods.formatDate = function(){
+  return this.date.toDateString() + " " + this.date.toLocaleTimeString();
+}
+
 
 // the schema is useless so far
 // we need to create a model using it

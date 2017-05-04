@@ -3,6 +3,7 @@ const events = require('../controllers/event.js');
 const dashboard = require('../controllers/dashboard.js');
 const open_gym = require('../controllers/open_gym.js');
 const spreadsheets = require('../controllers/spreadsheets.js');
+const admin = require('../controllers/admin.js');
 const express = require('express');
 const Router = express.Router();
 
@@ -39,6 +40,7 @@ module.exports = function(passport){
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
   Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
 
+  Router.route('/admin').get(isAdmin, admin.home)
   Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
   Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);
 

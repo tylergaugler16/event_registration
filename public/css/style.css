@@ -10,16 +10,16 @@ ul,li{list-style:none;margin:0;padding:0;}
   border:0.5px solid red;
 }*/
 .main-container{
-  margin-top: 50px;
+  margin-top: 40px;
 }
 #header{
   width:100%;
   height:auto;
   background: green;
   display: block;
-  position:absolute;
-  top:0;
-  right:0;
+  margin:0 auto;
+  background-color: #cccccc;
+
 }
 
 #header_title{
@@ -28,15 +28,81 @@ ul,li{list-style:none;margin:0;padding:0;}
 #header_main_nav{
   display: block;
   width:100%;
-  background-color: blue;
+  background-color: #2c3f48;
+  padding: 5px 0;
+}
+#header_main_nav a{
+  color:white; !important
 }
 #header_buttons{
   display: block;
   width:100%;
-  background-color: yellow;
+  background-color: #cccccc;
+  padding: 7px 0;
+  text-align: right;
+  box-shadow:1px 1px 5px 0px rgba(50, 50, 50, 0.75);
 }
 .button{
   display:inline-block;
   margin: 0 3px;
-  float:right;
+  margin-right:5px;
+  color: #2c3f48; !important
+
+}
+.button a{
+  margin-right: 5px;
+  background-color: #2c3f48;
+  color: white;
+  padding: 3px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+.button #current-user{
+  border-left: 1px solid #2c3f48;
+  border-right: 1px solid #2c3f48;
+  padding: 0 5px;
+}
+
+/*dashboard page*/
+#welcome-message{
+  width:50%;
+  margin:0 auto;
+  color:#2c3f48;
+  text-align: center;
+}
+.step-header{
+  color:#2c3f48;
+  text-decoration: underline;
+}
+.step-container{
+  width:70%;
+  margin:25px auto;
+  background-color: #cccccc;
+  padding: 15px;
+  box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+.step-container h3{
+  margin-top: 15px;
+}
+#open-gym-step{
+  width:50%;
+  display: inline-block;
+  padding:10px 0px;
+  text-align: center;
+  margin-top: 15px;
+}
+#event-step{
+  width:50%;
+  display: inline-block;
+  float:left;
+  padding: 10px 0px;
+  text-align: center;
+  margin-top: 15px;
+}
+#open-gym-step a h3, #event-step a h3{
+  padding: 5px;
+  display:inline-block;
+  background-color: #2c3f48;
+  color: #cccccc;
+  border-radius: 4px;
 }

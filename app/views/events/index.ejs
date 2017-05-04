@@ -10,12 +10,16 @@
     <div class="main-container">
     <h1>Events</h1>
     <% for(var i =0; i<events.length;i++) { %>
+      <% if (!events[i].in_the_past()) { %>
       <div class="event">
-        <h2><%= events[i]._id %></h2>
-        <h3><%= events[i].title %></h3>
-        <h3><%= events[i].date %></h3>
-      </div>
 
+          <h2><%= events[i]._id %></h2>
+          <h3><%= events[i].title %></h3>
+          <h3><%= events[i].date %></h3>
+          <h3><%= events[i].formatDate() %></h3>
+
+      </div>
+      <% } %>
       <% } %>
     </div>
   </body>

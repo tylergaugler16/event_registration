@@ -6,12 +6,18 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
+
+
     <% include ../layouts/header %>
     <div class="main-container">
+      <% if (message) { %>
+        <h3><%= message %> </h3>
+        <% } %>
       <h2>Yeet</h2>
       <h4><%= event.title%></h4>
       <h4><%= event.date %></h4>
       <h4><%= event.date %></h4>
+      <a href="/events/register/<%= event._id %>">Register</a>
     </div>
 
   </body>

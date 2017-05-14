@@ -7,6 +7,12 @@
   </head>
   <body>
     <% include ../layouts/header %>
+    <% if(message) { %>
+      <div id="message">
+        <h1><%= message %></h1>
+      </div>
+
+    <%  } %>
     <div class="main-container">
     <h1>Events</h1>
     <% for(var i =0; i<events.length;i++) { %>
@@ -17,10 +23,10 @@
           <h3><%= events[i].title %></h3>
           <h3><%= events[i].date %></h3>
           <h3><%= events[i].formatDate() %></h3>
-
+          <a href="/events/<%= events[i]._id %>"  ><h3>More Info</h3></a>
       </div>
       <% } %>
-      <% } %>
+    <% } %>
     </div>
   </body>
 </html>

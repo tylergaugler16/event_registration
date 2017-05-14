@@ -1,14 +1,13 @@
 var mongoose = require( 'mongoose' ),
     Child = mongoose.model('Child', 'childSchema'),
-    User = mongoose.model('User', 'userSchema'),
-    pretend_role = 'parent',
-    ObjectId = require('mongodb').ObjectID;
+    User = mongoose.model('User', 'userSchema');
+
 exports.info = function(req, res){
-  res.send('OPEN GYM INFO');
+  res.render('./open_gym/info');
 }
 
 exports.register = function(req, res){
-  user = (req.session.user)? req.session.user : null ;
+
   if(pretend_role == 'parent'){
     res.render('./open_gym/register', {role: 'parent'});
   }

@@ -7,11 +7,14 @@
   </head>
   <body>
   <% include ../layouts/header %>
+  <div id="message">
+    <% if(message){  %>
+    <h3><%= message %></h3>
+    <% } %>
+  </div>
   <div class="main-container">
 
-      <% if(message){  %>
-      <h3><%= message %></h3>
-      <% } %>
+
 
       <div id="welcome-message">
         <h1>Welcome to Maspeth Bible Church!</h1>

@@ -11,9 +11,15 @@
       <h2>Yeet</h2>
       <h4><%= user.firstname %></h4>
       <h4><%= user._id %></h4>
+
       <% for(var i =0;i<children.length;i++){ %>
         <h4><%= children[i].full_name() %></h4>
       <% } %>
+
+      <% for(var i =0;i<registered_events.length;i++){ %>
+        <h4><%= registered_events[i].title %></h4>
+      <% } %>
+      <!-- <h1><%= user.eventsRegisteredFor %></h1> -->
 
 
     </div>

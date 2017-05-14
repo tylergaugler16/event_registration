@@ -1,7 +1,8 @@
 // var User = require('../models/user.js');
 var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
-    Child = mongoose.model('Child', 'childSchema');
+    Child = mongoose.model('Child', 'childSchema'),
+    Event = mongoose.model('Event');
 
 
 
@@ -9,7 +10,6 @@ exports.list = function(req, res){
   User.find(function(err, users) {
     if(err) console.log(err);
     else{
-      // console.log(users);
       res.render('./users/index',{users: users});
     }
   });
@@ -19,11 +19,16 @@ exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
     else{
-      console.log(user);
-      // var id = user._id;
       Child.find({legal_guardian_id: user._id }, function(err, children){
-        if(err) console.log(err);
-        else res.render('./users/show',{user: user, children: children});
+        if(err) console.log("error finding users childrend");
+        else{
+          Event.find({_id: { $in: user.eventsRegisteredFor }}, function(err, events){
+            if(err) console.log("error finding events for user in findUserById method");
+            else res.render('./users/show',{user: user, children: children, registered_events: events});
+          })
+
+        }
+
       });
     }
   });

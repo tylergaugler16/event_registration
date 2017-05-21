@@ -1,24 +1,19 @@
+var count = 1;
 $(document).ready(function(){
   $(".dtBox").DateTimePicker(
     {
     timepicker:false,
     dateTimeFormat: 'dd-MM-yyyy hh:mm:ss AA'
     });
-
-    // binds form to ajaxForm method
-    $('form').each(function(){
-         $(this).ajaxForm(function(){
-             console.log('yeet');
-         });
-     });
-
 });
 
 $(document).on('click', '#addChild', function(){
+  console.log("yeet");
+  count++;
+  old_count = count-1;
   var legal_guardian_id = $('input[name="legal_guardian_id"]').first().val();
-  console.log(legal_guardian_id);
-    $('.register_children_form').last().after(
-      `<form class="register_children_form" action="/open_gym/register_children" method="post">
+    $('.register_children_form'+old_count).last().after(
+      `<form class="register_children_form`+count+`" action="/open_gym/register_children" method="post">
       <div class="child">
         <label for="firstname">Firstname</label>
         <input type="text" name="firstname" value="" required>
@@ -48,17 +43,21 @@ $(document).on('click', '#addChild', function(){
         <input type="radio" name="media_agreement" value="no">No
       </div>
       </form>`
-    ).ajaxForm(function(){
-      console.log('dynamic yeet');
-    });
+    );
 });
 $(document).on('click', '#submitRegistrationForms', function(e){
-  $('form').each(function(){
-       $(this).submit();
-   });
-
- // url = window.location.origin;
- // window.location.href = url;
-
-
+var dataString = $('form').serialize();
+  $.ajax({
+    method: 'POST',
+    url: 'register_children',
+    data: dataString,
+    success: function(data){
+      window.location= "http://"+window.location.host
+    }
+  });
+  // console.log("hola");
+  //    $('form').each(function(){
+  //         $(this).submit();
+  //     });
+  //   console.log("eyooo");
 });

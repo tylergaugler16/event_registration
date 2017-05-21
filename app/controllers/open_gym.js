@@ -7,8 +7,8 @@ exports.info = function(req, res){
 }
 
 exports.register = function(req, res){
-
-  if(pretend_role == 'parent'){
+  console.log(req.user);
+  if(req.user.status == 'parent'){
     res.render('./open_gym/register', {role: 'parent'});
   }
   else res.send('not working');

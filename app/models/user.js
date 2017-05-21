@@ -60,7 +60,7 @@ userSchema.pre('save', true, function(next, done) {
 
 userSchema.post('save', function(user){
   console.log('trying to add user email');
-  mailchimp(user.email);
+  mailchimp(user);
 });
 
 

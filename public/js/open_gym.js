@@ -1,3 +1,4 @@
+var count = 1;
 $(document).ready(function(){
   $(".dtBox").DateTimePicker(
     {
@@ -11,12 +12,11 @@ $(document).ready(function(){
              console.log('yeet');
          });
      });
-
 });
 
 $(document).on('click', '#addChild', function(){
+  console.log("yeet");
   var legal_guardian_id = $('input[name="legal_guardian_id"]').first().val();
-  console.log(legal_guardian_id);
     $('.register_children_form').last().after(
       `<form class="register_children_form" action="/open_gym/register_children" method="post">
       <div class="child">
@@ -53,12 +53,18 @@ $(document).on('click', '#addChild', function(){
     });
 });
 $(document).on('click', '#submitRegistrationForms', function(e){
-  $('form').each(function(){
-       $(this).submit();
-   });
 
- // url = window.location.origin;
- // window.location.href = url;
+  $.ajax({
+    method: 'POST',
+    url: 'open_gym/register',
+    data: dataString,
+    success: function(data){
 
-
+    }
+  });
+  // console.log("hola");
+  //    $('form').each(function(){
+  //         $(this).submit();
+  //     });
+  //   console.log("eyooo");
 });

@@ -7,7 +7,7 @@ exports.info = function(req, res){
 }
 
 exports.register = function(req, res){
-  console.log(req.user);
+  // console.log(req.user);
   if(req.user.status == 'parent'){
     res.render('./open_gym/register', {role: 'parent'});
   }
@@ -77,8 +77,16 @@ exports.register_children = function(req,res){
     });
     console.log(req.body);
   }
-
-
-
 res.sendStatus(200);
+}
+
+exports.weekly_attendance = function(req,res){
+  res.render('./open_gym/weekly_attendance');
+}
+exports.find_user = function(req, res){
+  Child.find({firstname: new RegExp('^' + req.body.name, "i") },{firstname: 1, lastname: 1, address: 1}, function(err, children){
+    if(err)console.log(err);
+    else console.log("found the children");
+    res.send({children: children});
+  });
 }

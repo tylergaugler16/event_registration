@@ -8,7 +8,6 @@ $(document).ready(function(){
 });
 
 $(document).on('click', '#addChild', function(){
-  console.log("yeet");
   count++;
   old_count = count-1;
   var legal_guardian_id = $('input[name="legal_guardian_id"]').first().val();
@@ -55,9 +54,25 @@ var dataString = $('form').serialize();
       window.location= "http://"+window.location.host
     }
   });
-  // console.log("hola");
-  //    $('form').each(function(){
-  //         $(this).submit();
-  //     });
-  //   console.log("eyooo");
+});
+
+$(document).on('keyup','#search_bar', function(e){
+  $.ajax({
+    url: "find_user",
+    method: "POST",
+    data: {
+      name: $('#search_bar').val()
+    },
+    success: function(data){
+      // console.log(data.length);
+      // console.log(data.children.length);
+      $('#children_container').empty();
+      for(var i = 0; i< data.children.length; i++){
+        console.log(data.children[i].firstname);
+        $('#children_container').append(`<div class="child_container"><h3 class="child_name">`+data.children[i].firstname+ ` `+ data.children[i].lastname+`</h3> <a href="#" class="sign_in_button">Sign In</a></div>`
+      );
+
+      }
+    }
+  })
 });

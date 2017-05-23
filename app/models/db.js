@@ -38,3 +38,4 @@ process.on('SIGINT', function() {
 require('./event');
 require('./child');
 require('./user');
+require('./attendance');

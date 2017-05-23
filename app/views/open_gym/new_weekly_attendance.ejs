@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Open Gym Registration</title>
+    <link rel="stylesheet" href="/css/DateTimePicker.css">
+    <link rel="stylesheet" href="/css/open_gym.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <script src="/js/DateTimePicker.js" charset="utf-8"></script>
+    <script src="/js/open_gym.js" charset="utf-8"></script>
+
+  </head>
+  <body>
+    <% include ../layouts/header %>
+
+    <div class="main-container">
+    <form action="/open_gym/weekly_attendance/create" method="POST">
+      <select class="" name="month">
+        <option value="Jan">Jan</option>
+        <option value="Feb">Feb</option>
+        <option value="Mar">Mar</option>
+        <option value="Apr">Apr</option>
+        <option value="May">May</option>
+        <option value="Jun">Jun</option>
+        <option value="Jul">Jul</option>
+        <option value="Aug">Aug</option>
+        <option value="Sep">Sep</option>
+        <option value="Oct">Oct</option>
+        <option value="Nov">Nov</option>
+        <option value="Dec">Dec</option>
+      </select>
+      <input type="text" name="day">
+      <input type="text" name ="year">
+      <input type="submit" name="" value="Create new weekly attendance sheet">
+    </form>
+    </div>
+
+
+  </body>
+</html>

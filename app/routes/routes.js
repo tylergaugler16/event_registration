@@ -40,12 +40,20 @@ module.exports = function(passport){
   Router.route('/open_gym/info').get(open_gym.info);
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
   Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
-  Router.route('/open_gym/weekly_attendance').get(isAdmin, open_gym.weekly_attendance);
-  Router.route('/open_gym/find_user').post(isAdmin, open_gym.find_user);
+  Router.route('/open_gym/weekly_attendance/new').get(isAdmin, open_gym.new_weekly_attendance);
+  Router.route('/open_gym/weekly_attendance/create').post(isAdmin, open_gym.create_weekly_attendance);
+  Router.route('/open_gym/weekly_attendance/find_user').post(isAdmin, open_gym.find_user);
+  Router.route('/open_gym/weekly_attendance/download/:date').get(isAdmin, spreadsheets.download_weekly_attendance);
+  Router.route('/open_gym/weekly_attendance/view/:date').get(isAdmin, open_gym.weekly_attendance_view);
+  Router.route('/open_gym/weekly_attendance/signin/:date').get(isAdmin, open_gym.signin);
+  Router.route('/open_gym/weekly_attendance/:date').get(isAdmin, open_gym.weekly_attendance);
+
+
 
   Router.route('/admin').get(isAdmin, admin.home)
   Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
   Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);
+  Router.route('/admin/weekly_attendance').get(isAdmin, open_gym.weekly_attendance_for_admin);
 
 
 

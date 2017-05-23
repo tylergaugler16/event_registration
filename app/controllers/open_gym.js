@@ -1,6 +1,7 @@
 var mongoose = require( 'mongoose' ),
     Child = mongoose.model('Child', 'childSchema'),
-    User = mongoose.model('User', 'userSchema');
+    User = mongoose.model('User', 'userSchema'),
+    Attendance = mongoose.model('Attendance', 'attendanceSchema');
 
 exports.info = function(req, res){
   res.render('./open_gym/info');
@@ -80,13 +81,60 @@ exports.register_children = function(req,res){
 res.sendStatus(200);
 }
 
+exports.new_weekly_attendance = function(req, res){
+  res.render('./open_gym/new_weekly_attendance');
+}
+exports.create_weekly_attendance = function(req, res){
+  var date = req.body.month+"-"+req.body.day+"-"+req.body.year;
+  var attendance = new Attendance({date: date});
+  attendance.save(function(err){
+    if(err) consle.log(err);
+    else console.log(attendance);
+    res.redirect('/open_gym/weekly_attendance/'+date);
+  });
+}
+
 exports.weekly_attendance = function(req,res){
+  console.log(req.params.date);
+  res.locals.date = req.params.date;
   res.render('./open_gym/weekly_attendance');
 }
+exports.weekly_attendance_view = function(req,res){
+  Attendance.findOne({date: req.params.date}, function(err, attendance){
+    if(err) console.log(err);
+    else{
+      Child.find({_id: {$in: attendance.children_present} }, function(err, children){
+        if(err) console.log(err);
+        else res.render('./open_gym/weekly_attendance_view',{children: children});
+      });
+    }
+  });
+
+}
 exports.find_user = function(req, res){
+  console.log("yeet");
   Child.find({firstname: new RegExp('^' + req.body.name, "i") },{firstname: 1, lastname: 1, address: 1}, function(err, children){
     if(err)console.log(err);
     else console.log("found the children");
     res.send({children: children});
+  });
+}
+
+exports.signin = function(req, res){
+  console.log("id");
+  console.log(req.query.child_id);
+  Attendance.update({date: req.params.date},{$addToSet: {children_present: req.query.child_id}}, function(err, attendance){
+        if(err) console.log(err);
+        else console.log(attendance);
+    });
+  res.redirect('/open_gym/weekly_attendance/'+req.params.date);
+}
+
+exports.weekly_attendance_for_admin = function(req, res){
+  Attendance.find(function(err, attendance) {
+    if(err) console.log(err);
+    else{
+      res.render('./admin/weekly_attendance',{attendance: attendance});
+    }
   });
 }

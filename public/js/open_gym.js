@@ -66,10 +66,11 @@ $(document).on('keyup','#search_bar', function(e){
     success: function(data){
       // console.log(data.length);
       // console.log(data.children.length);
+      var date = $('#current_date').val();
       $('#children_container').empty();
       for(var i = 0; i< data.children.length; i++){
         console.log(data.children[i].firstname);
-        $('#children_container').append(`<div class="child_container"><h3 class="child_name">`+data.children[i].firstname+ ` `+ data.children[i].lastname+`</h3> <a href="#" class="sign_in_button">Sign In</a></div>`
+        $('#children_container').append(`<div class="child_container"><h3 class="child_name">`+data.children[i].firstname+ ` `+ data.children[i].lastname+`</h3> <a href="/open_gym/weekly_attendance/signin/`+date+`?child_id=`+data.children[i]._id+`" class="sign_in_button">Sign In</a></div>`
       );
 
       }

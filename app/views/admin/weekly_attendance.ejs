@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+  </head>
+  <body>
+    <% include ../layouts/header %>
+      <div class="main-container">
+        <div id="attendance_list_container">
+          <h1><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h1>
+          <% for(var i = 0; i< attendance.length; i++){ %>
+            <div class="attendance_list">
+              <h1><%= attendance[i].date %> </h1>
+              <a href="/open_gym/weekly_attendance/<%= attendance[i].date %>">Add Children</a>
+              <a href="/open_gym/weekly_attendance/view/<%= attendance[i].date %>">View Sheet</a>
+              <a href="/open_gym/weekly_attendance/download/<%= attendance[i].date %>">Download Sheet</a>
+              <a href="">Delete Sheet</a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+  </body>
+</html>

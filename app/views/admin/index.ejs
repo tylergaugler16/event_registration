@@ -4,11 +4,35 @@
     <meta charset="utf-8">
     <title>Admin Home</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
   </head>
   <body>
     <% include ../layouts/header %>
       <div class="main-container">
-        <a href="/spreadsheets"><h3>Download Spreadsheets</h3></a>
+        <div id="admin_actions">
+          <div class="action">
+            <a href="/admin/spreadsheets"><h3>Download Registration Spreadsheets</h3></a>
+          </div>
+          <div class="action">
+            <a href="/admin/weekly_attendance"><h3>Weekly Attendance Sheets</h3></a>
+          </div>
+          <div class="action">
+            <a href="/users"><h3>View Users</h3></a>
+          </div>
+          <div class="action">
+            <a href="#"><h3>View Children Registerd for Open Gym</h3></a>
+          </div>
+          <div class="action">
+            <a href="#"><h3>Create Event</h3></a>
+          </div>
+          <div class="action">
+            <a href="#"><h3>View Events</h3></a>
+          </div>
+
+
+
+        </div>
+
       </div>
 
   </body>

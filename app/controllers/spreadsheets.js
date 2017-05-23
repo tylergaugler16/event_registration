@@ -1,6 +1,7 @@
 var mongoose = require( 'mongoose' ),
     Child = mongoose.model('Child', 'childSchema'),
-    User = mongoose.model('User', 'userSchema');
+    User = mongoose.model('User', 'userSchema'),
+    Attendance = mongoose.model('Attendance', 'attendanceSchema');
 var Excel = require('exceljs');
 
 
@@ -70,4 +71,45 @@ exports.create = function(req, res){
 
 exports.index = function(req, res){
   res.render('./admin/spreadsheets/index')
+}
+
+exports.download_weekly_attendance = function(req, res){
+  var workbook = new Excel.Workbook();
+  var sheet = workbook.addWorksheet("My Sheet",{
+    pageSetup: {showGridLines: true, horizontalCentered: true}
+  });
+  sheet.properties.outlineLevelCol = 5;
+  sheet.properties.defaultRowHeight = 25;
+  sheet.properties.tabColor = 'blue'
+    sheet.columns = [
+        { header: 'First Name', key: 'firstname', width: 10 },
+        { header: 'Last Name', key: 'lastname', width: 20 },
+    ];
+    Attendance.findOne({date: req.params.date}, function(err, attendance){
+      if(err)console.log(err);
+      else{
+        Child.find({_id: {$in: attendance.children_present} }, function(err, children){
+          if(err) console.log(err);
+          else{
+            for(var i = 0;i<children.length;i++){
+              sheet.addRow({
+                firstname: children[i].firstname,
+                lastname: children[i].lastname,
+              });
+            }
+          }
+        })
+      }
+    }); //attendance
+    setTimeout(function(){
+      filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
+       workbook.xlsx.writeFile(filename)
+         .then(function() {
+           console.log("wrote to a file");
+           res.download(filename); // works like expected
+         })
+         .catch(function(err){
+           console.log(err);
+         });
+    }, 1000);
 }

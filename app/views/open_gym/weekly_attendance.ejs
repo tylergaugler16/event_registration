@@ -16,12 +16,24 @@
     <% include ../layouts/header %>
 
     <div class="main-container">
+      <input type="hidden" value="<%= date %>" id="current_date">
+
       <div id="weekly_attendance_container">
+        <div id="attendance_header">
+          <div class="attendance_header_flexbox">
+            <h1><%= date %> </h1>
+          </div>
+          <div class="attendance_header_flexbox">
+            <a href="/open_gym/weekly_attendance/view/<%= date %>"><h3>View Sheet</h3></a>
+          </div>
+
+        </div>
+
         <form action="#" id="find_name_form">
-          <input type="text" id="search_bar" autocomplete="off">
+          <input type="text" id="search_bar" autocomplete="off" placeholder="search...">
         </form>
         <div id="children_container">
-            
+
         </div>
       </div>
     </div>

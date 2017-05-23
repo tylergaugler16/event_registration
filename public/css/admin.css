@@ -1,0 +1,38 @@
+/*index*/
+#admin_actions{
+  width: 70%;
+  margin:0 auto;
+  border-radius: 15px;
+}
+.action{
+  width: 50%;
+  height:150px;
+  background-color: #2c3f48;
+   float:left;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   outline :1px solid #cccccc;
+}
+.action a, .action h1{
+  color: white;
+}
+
+
+/*weekly attendance list*/
+#attendance_list_container{
+  width: 80%;
+  margin:0 auto;
+}
+.attendance_list{
+  width: 100%;
+  margin: 10px auto;
+  background: green;
+}
+.attendance_list h1{
+  display: inline-table!important;
+}
+.attendance_list a{
+  display: inline-table!important;
+  margin: 0 10px;
+}

@@ -40,6 +40,8 @@ module.exports = function(passport){
   Router.route('/open_gym/info').get(open_gym.info);
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
   Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
+  Router.route('/open_gym/registered/children').get(isAdmin, open_gym.registered_index);
+  Router.route('/open_gym/registered/parents').get(isAdmin, open_gym.registered_parents_index);
   Router.route('/open_gym/weekly_attendance/new').get(isAdmin, open_gym.new_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/create').post(isAdmin, open_gym.create_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/find_user').post(isAdmin, open_gym.find_user);

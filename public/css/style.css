@@ -9,6 +9,16 @@ ul,li{list-style:none;margin:0;padding:0;}
 /**{
   border:0.5px solid red;
 }*/
+.church-background{
+  background-image: url("/images/church.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+body{
+  background-image: url("/images/church.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .main-container{
   margin-top: 40px;
 }
@@ -63,13 +73,14 @@ ul,li{list-style:none;margin:0;padding:0;}
   padding: 0 5px;
 }
 #message{
-  
+
 }
 
 /*dashboard page*/
 #welcome-message{
-  width:50%;
-  margin:0 auto;
+  position: absolute;
+  left: 10%;
+  /*width:50%;*/
   color:#2c3f48;
   text-align: center;
 }
@@ -80,9 +91,14 @@ ul,li{list-style:none;margin:0;padding:0;}
 .step-container{
   width:70%;
   margin:25px auto;
-  background-color: #cccccc;
+  background-color: rgba(204, 204, 204, 0.9);
   padding: 15px;
   box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+#extraSpace{
+  width:100%;
+  height: 55px;
+  visibility: hidden;
 }
 .step-container h3{
   margin-top: 15px;

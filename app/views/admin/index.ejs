@@ -5,30 +5,40 @@
     <title>Admin Home</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+
   </head>
   <body>
     <% include ../layouts/header %>
       <div class="main-container">
         <div id="admin_actions">
-          <div class="action">
-            <a href="/admin/spreadsheets"><h3>Download Registration Spreadsheets</h3></a>
-          </div>
-          <div class="action">
-            <a href="/admin/weekly_attendance"><h3>Weekly Attendance Sheets</h3></a>
-          </div>
-          <div class="action">
-            <a href="/users"><h3>View Users</h3></a>
-          </div>
-          <div class="action">
-            <a href="#"><h3>View Children Registerd for Open Gym</h3></a>
-          </div>
-          <div class="action">
-            <a href="#"><h3>Create Event</h3></a>
-          </div>
-          <div class="action">
-            <a href="#"><h3>View Events</h3></a>
-          </div>
 
+            <a href="/admin/spreadsheets">
+              <div class="action"><h3 class="action_headers">Download Registration Spreadsheets</h3></div>
+            </a>
+
+
+            <a href="/admin/weekly_attendance">
+              <div class="action"><h3 class="action_headers">Weekly Attendance Sheets</h3></div>
+            </a>
+            <a href="/users">
+              <div class="action"><h3 class="action_headers">View Users</h3></div>
+            </a>
+            <a href="/open_gym/registered/children">
+              <div class="action"><h3 class="action_headers">View Children Registerd for Open Gym</h3></div>
+            </a>
+            <a href="/open_gym/registered/parents">
+              <div class="action"><h3 class="action_headers">View Parents Registerd for Open Gym</h3></div>
+            </a>
+            <a href="/events/new">
+              <div class="action"><h3 class="action_headers">Create Event</h3></div>
+            </a>
+            <a href="/events">
+              <div class="action"><h3 class="action_headers">View Events</h3></div>
+            </a>
+            <a href="#">
+              <div class="action"><h3 class="action_headers">Message Board</h3></div>
+            </a>
 
 
         </div>

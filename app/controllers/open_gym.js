@@ -12,6 +12,9 @@ exports.register = function(req, res){
   if(req.user.status == 'parent'){
     res.render('./open_gym/register', {role: 'parent'});
   }
+  else if(req.user.status == 'admin'){
+    res.render('./open_gym/register', {role: 'admin'});
+  }
   else res.send('not working');
 }
 
@@ -79,6 +82,38 @@ exports.register_children = function(req,res){
     console.log(req.body);
   }
 res.sendStatus(200);
+}
+
+exports.registered_index = function(req, res){
+
+
+  Child.find(function(err, children){
+    if(err) console.log(err);
+    else{
+      var legal_guardian_ids = children.map(function(a) {return a.legal_guardian_id[0];});
+      var parent_hash = {};
+      console.log(legal_guardian_ids);
+      User.find({_id: {$in: legal_guardian_ids}}, function(err, parents){
+        if(err) console.log(err);
+        else{
+          for(var i=0;i<parents.length;i++){
+            parent_hash[parents[i]._id] = parents[i].full_name();
+          }
+          res.render('./open_gym/registered_index',{children: children, parent_hash: parent_hash});
+        }
+      });
+    }
+  });
+  // console.log(child_array);
+  // res.send(parents);
+}
+exports.registered_parents_index = function(req, res){
+  User.find({status: "parent"}, function(err, parents){
+    if(err) console.log(err);
+    else{
+      res.render('./open_gym/registered_parents_index', {parents: parents});
+    }
+  })
 }
 
 exports.new_weekly_attendance = function(req, res){

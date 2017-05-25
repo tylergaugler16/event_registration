@@ -13,9 +13,16 @@
    justify-content: center;
    align-items: center;
    outline :1px solid #cccccc;
+   cursor: pointer;
 }
-.action a, .action h1{
+.action_headers{
   color: white;
+}
+.action:hover{
+  background-color: #cccccc;
+}
+.action:hover .action_headers{
+    color:#2c3f48 !important;
 }
 
 
@@ -27,7 +34,7 @@
 .attendance_list{
   width: 100%;
   margin: 10px auto;
-  background: green;
+  background: #59824F;
 }
 .attendance_list h1{
   display: inline-table!important;

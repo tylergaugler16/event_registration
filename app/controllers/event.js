@@ -12,7 +12,7 @@ exports.list = function(req, res){
     else{
       res.render('./events/index',{events: events, message: req.flash('message')});
     }
-  });
+  }).sort( {date: 1});
 };
 
 exports.findEventById = function(req, res){

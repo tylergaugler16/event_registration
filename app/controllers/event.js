@@ -7,7 +7,8 @@ exports.list = function(req, res){
 
   Event.find(function(err, events) {
     if(err){
-      console.log(err)
+      req.flash('message', 'Error MESSAGE');
+      res.render('./dashboard/dashboard')
     }
     else{
       res.render('./events/index',{events: events, message: req.flash('message')});
@@ -17,7 +18,10 @@ exports.list = function(req, res){
 
 exports.findEventById = function(req, res){
   Event.find({_id: req.params.id}, function(err, event){
-    if(err) res.send('could not find event with that id');
+    if(err){
+      req.flash('message', 'Could not find Event');
+      res.redirect('/');
+    }
     else{
       res.render('./events/show', {event: event[0], message: req.flash('message')});
     }
@@ -39,29 +43,33 @@ exports.create = function(req,res){
   var event = new Event(req.body);
   event.save(function(err){
     // if(err) res.redirect('/events/new');
-    if(err) res.send(err);
+    if(err) {
+      req.flash('message', 'Error saving Event!');
+      res.redirect('/');
+    }
     else {
-      console.log('saved event!');
       res.redirect('/events/'+event._id);
     }
   });
 }
 
 exports.register = function(req, res){
-  console.log("heeree");
-  // User.find(function(err, users){
-  //   console.log(users);
-  // });
 
   Event.findOne({_id: req.params.id}, function(err, event){
-    if(err) res.redirect('/');
-    console.log(req.user._id);
-    User.update({_id: req.user._id}, {$addToSet: { eventsRegisteredFor: event } }, function(err, user){
-      if(err)console.log(err);
-      else console.log(user);
-      req.flash('message', 'Registered for '+ event.title);
-      res.redirect('/events')
-    });
+    if(err) {
+      req.flash('message', 'Could not find event with id: '+req.params.id);
+      res.redirect('/');
+    }
+    else{
+      console.log(req.user._id);
+      User.update({_id: req.user._id}, {$addToSet: { eventsRegisteredFor: event } }, function(err, user){
+        if(err)console.log(err);
+        else console.log(user);
+        req.flash('message', 'Registered for '+ event.title);
+        res.redirect('/events')
+      });
+    }
+
 
   });
 

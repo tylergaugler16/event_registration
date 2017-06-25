@@ -13,7 +13,7 @@ exports.register = function(req, res){
     res.render('./open_gym/register', {role: 'parent'});
   }
   else if(req.user.status == 'admin'){
-    res.render('./open_gym/register', {role: 'admin'});
+    res.render('./open_gym/register', {role: 'parent'});
   }
   else res.send('not working');
 }
@@ -37,10 +37,13 @@ exports.register_children = function(req,res){
         permission_to_walk: (req.body.permission_to_walk[i] == 'yes')? true : false,
         media_agreement: (req.body.media_agreement[i] == 'yes')? true : false
       });
-      console.log(child);
-      child.save(function(err){
-        console.log("trying to save");
-        if(err) console.log(err);
+      child.save(function(err,resp){
+        console.log(err);
+        if(err) {
+          console.log("ERRORR");
+          req.flash('message', 'Unable to register child!!!');
+          res.redirect('/events')
+        }
         else{
           console.log('child registered');
           console.log(child);
@@ -59,6 +62,7 @@ exports.register_children = function(req,res){
     var child = new Child({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
+      fullname: req.body.firstname + " "+req.body.lastname,
       legal_guardian_id: req.body.legal_guardian_id,
       address: req.body.address,
       zip_code: req.body.zip_code,
@@ -147,17 +151,12 @@ exports.weekly_attendance_view = function(req,res){
 
 }
 exports.find_user = function(req, res){
-  console.log("yeet");
-  Child.find({firstname: new RegExp('^' + req.body.name, "i") },{firstname: 1, lastname: 1, address: 1}, function(err, children){
-    if(err)console.log(err);
-    else console.log("found the children");
+  Child.find( {fullname: new RegExp('^' + req.body.name, "i") },{firstname: 1, lastname: 1, address: 1}, function(err, children){
     res.send({children: children});
   });
 }
 
 exports.signin = function(req, res){
-  console.log("id");
-  console.log(req.query.child_id);
   Attendance.update({date: req.params.date},{$addToSet: {children_present: req.query.child_id}}, function(err, attendance){
         if(err) console.log(err);
         else console.log(attendance);

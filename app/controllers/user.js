@@ -33,12 +33,24 @@ exports.findUserById = function(req, res){
   });
 };
 exports.create = function(req, res){
+  console.log(req.body)
+  req.body.address = req.body.address +" " +req.body.city+", NY";
+  if(req.body.phone_number.length == 10 && /^\d+$/.test(req.body.phone_number)){
+    req.body.phone_number = req.body.phone_number.substr(0,3)+"-"+req.body.phone_number.substr(3,3)+"-"+req.body.phone_number.substr(6,4);
+  }
+  else if(req.body.phone_number.length == 11 && /^\d+$/.test(req.body.phone_number)){
+     req.body.phone_number = req.body.phone_number.substr(0,4)+"-"+req.body.phone_number.substr(4,3)+"-"+req.body.phone_number.substr(7,4);
+   }
+  console.log(req.body.address);
   var user = new User(req.body);
   console.log(user);
   console.log(req.body);
   user.save(function(err){
     console.log(err);
-    if(err) res.redirect('/users/signup');
+    if(err) {
+      req.flash('message', err.message);
+      res.redirect('/');
+    }
     else res.redirect('/users/login');
   });
 }

@@ -8,34 +8,61 @@
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
-      <h1>Signup Page</h1>
-      <form class="" action="/users/signup" method="post">
-          <label for="firstname">First Name</label>
-          <input type="text" name="firstname" value="" required>
-          <label for="lastname">Last Name</label>
-          <input type="text" name="lastname" value="" required>
-          <label for="email">Email</label>
-          <input type="text" name="email" value="" required>
-          <label for="password">Password</label>
-          <input type="password" name="password" value="" required>
-          <label for="church">Church</label>
-          <input type="text" name="church" value="">
-          <br>
-          <label for="address">Address</label>
-          <input type="text" name="address" value="">
-          <label for="zip_code">Zip Code</label>
-          <input type="text" name="zip_code" value="">
-          <label for="phone_number">Phone Number</label>
-          <input type="text" name="phone_number" value="">
-          <label for="satus">Status</label>
-          <select name="status">
-            <option value="parent">Parent</option>
-            <option value="child">Child</option>
-            <option value="helper">Helper</option>
-            <option value="admin">Admin</option>
-          </select>
-          <input type="submit" name="" value="Create New User">
-      </form>
+
+      <div id="signup-container">
+        <h1>Signup!</h1>
+        <form class="" action="/users/signup" method="post">
+          <div class="signup-input-container">
+            <label for="firstname">First Name</label>
+            <input type="text" name="firstname" value="" required>
+            <label for="lastname">Last Name</label>
+            <input type="text" name="lastname" value="" required>
+          </div>
+          <div class="signup-input-container">
+
+          </div>
+          <div class="signup-input-container">
+            <label for="email">Email</label>
+            <input type="text" name="email" value="" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" value="" required>
+          </div>
+          <div class="signup-input-container">
+
+          </div>
+          <div class="signup-input-container">
+            <label for="church">Church/Place of Worship You Attend(Optional)</label>
+            <input type="text" name="church" value="">
+          </div>
+          <div class="signup-input-container">
+            <label for="address">Address</label>
+            <input type="text" name="address" value="" required>
+            <label for="city">City</label required>
+            <input type="text" name="city" value="" required>
+            <label for="zip_code">Zip Code</label>
+            <input type="text" name="zip_code" value="" required>
+          </div>
+          <div class="signup-input-container">
+
+          </div>
+          <div class="signup-input-container">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name="phone_number" value="" required>
+          </div>
+          <div class="signup-input-container">
+            <label for="satus">Status</label>
+            <select name="status">
+              <option value="parent">Parent</option>
+              <option value="helper">Staff</option>
+            </select>
+
+          </div>
+          <div class="signup-input-container">
+            <input type="submit" name="" value="Create New User" id="submit_button">
+          </div>
+        </form>
+      </div>
+
 
 
 

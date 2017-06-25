@@ -6,10 +6,12 @@ var Schema = mongoose.Schema;
 var childSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
+  fullname: {type: String, required: true, unique: false},
   address: {type: String, required: true, unique: false},
   zip_code: {type: String, required: true},
   emergency_contact_name: {type: String, required: true},
   emergency_contact_phone: {type: String, required: true},
+  medical_notes: {type: String},
   birthday: {type: Date, required: true},
   permission_to_walk: {type: Boolean, default: false},
   media_agreement: {type: Boolean, default: false},

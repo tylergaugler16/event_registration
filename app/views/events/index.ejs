@@ -19,9 +19,7 @@
       <% if (!events[i].in_the_past()) { %>
       <div class="event">
 
-          <h2><%= events[i]._id %></h2>
-          <h3><%= events[i].title %></h3>
-          <h3><%= events[i].date %></h3>
+          <h2><%= events[i].title %></h2>
           <h3><%= events[i].formatDate() %></h3>
           <a href="/events/<%= events[i]._id %>"  ><h3>More Info</h3></a>
       </div>

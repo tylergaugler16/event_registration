@@ -72,8 +72,8 @@ body{
   border-right: 1px solid #2c3f48;
   padding: 0 5px;
 }
-#message{
-
+#message_container{
+  color: red;
 }
 
 /*dashboard page*/
@@ -136,4 +136,29 @@ body{
   background-color: rgba(204,204,204,0.7);
   padding: 20px;
   text-align: center;
+}
+/*signup page*/
+#signup-container{
+  width: 60%;
+  margin: 0 auto;
+  background-color: #cccccc;
+  padding: 20px;
+}
+.signup-input-container{
+  width:100%;
+  margin-top: 10px;
+}
+#signup-container input{
+  outline:none;
+  border: 1px black;
+  width: 200px;
+  padding: 1px;
+}
+#submit_button{
+  background-color: #2c3f48;
+  color: white;
+  padding: 3px!important;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
 }

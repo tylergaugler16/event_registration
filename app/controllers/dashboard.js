@@ -1,3 +1,4 @@
 exports.home = function(req, res){
-res.render('./dashboard/dashboard', {message: req.flash('message')});
+  message = req.flash('message');
+  res.render('./dashboard/dashboard', {message: message});
 }

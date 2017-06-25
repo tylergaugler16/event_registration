@@ -4,21 +4,34 @@
     <meta charset="utf-8">
     <title>Event</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/user.css">
   </head>
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
-      <h2>Yeet</h2>
-      <h4><%= user.firstname %></h4>
-      <h4><%= user._id %></h4>
+      <div id="user_info" class="user_container">
+        <h1 class="user_page_header">Info</h1>
+        <h2><%= user.full_name() %></h4>
+        <h4><%= user.address + " " + user.zip_code %></h4>
+        <h4><%= user.phone_number %></h4>
+      </div>
+      <div id="children_container" class="user_container">
+        <h1 class="user_page_header">Chilren Registered For Open Gym</h1>
+        <% for(var i =0;i<children.length;i++){ %>
+          <h4><%= children[i].full_name() %></h4>
+        <% } %>
+      </div>
+      <div id="event_container" class="user_container">
+        <h1 class="user_page_header">Events Registered For</h1>
+        <% for(var i =0;i<registered_events.length;i++){ %>
+          <h4><%= registered_events[i].title %></h4>
+        <% } %>
+      </div>
 
-      <% for(var i =0;i<children.length;i++){ %>
-        <h4><%= children[i].full_name() %></h4>
-      <% } %>
 
-      <% for(var i =0;i<registered_events.length;i++){ %>
-        <h4><%= registered_events[i].title %></h4>
-      <% } %>
+
+
+
       <!-- <h1><%= user.eventsRegisteredFor %></h1> -->
 
 

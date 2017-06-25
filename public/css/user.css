@@ -1,0 +1,10 @@
+/*show page*/
+
+.user_container{
+  display: block;
+  width: 50%;
+  margin: 25px;
+}
+.user_page_header{
+  text-decoration: underline;
+}

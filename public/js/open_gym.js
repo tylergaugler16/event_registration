@@ -14,6 +14,7 @@ $(document).on('click', '#addChild', function(){
     $('.register_children_form'+old_count).last().after(
       `<form class="register_children_form`+count+`" action="/open_gym/register_children" method="post">
       <div class="child">
+        <a href="#" id="close">X</a>
         <label for="firstname">Firstname</label>
         <input type="text" name="firstname" value="" required>
         <label for="lastname">Lastname</label>
@@ -76,4 +77,7 @@ $(document).on('keyup','#search_bar', function(e){
       }
     }
   })
+});
+$(document).on('click',"#close",function(e){
+  $(this).parent().remove();
 });

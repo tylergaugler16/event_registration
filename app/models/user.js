@@ -11,12 +11,12 @@ var userSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
   email: { type: String, required: true, unique: true },
-  phone_number: [{type: String, required: false, unique: true}],
+  phone_number: [{type: String, required: true, unique: true}],
   password: {type: String, required: true},
   church: {type: String, required:false },
-  address: {type: String, required: false},
-  zip_code: {type: String, required: false},
-  status: {type: String, required: false, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
+  address: {type: String, required: true},
+  zip_code: {type: String, required: true},
+  status: {type: String, required: true, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
   eventsRegisteredFor: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
@@ -43,9 +43,14 @@ userSchema.pre('save', true, function(next, done) {
 //VALIDATE EMAIL
   var email_regex =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   if(!email_regex.test(this.email)){
-    var err = new Error('WRONG EMAIL FORMAT');
+    var err = new Error('Incorrect Email Format');
     next(err);
   }
+  var phone_regex =/((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/
+  if(!phone_regex.test(this.phone_number)){
+    var err = new Error('Incorrect Phone Number');
+    next(err);
+  };
 
 // only hash password if it has been modified
   if (!this.isModified('password')) return next();

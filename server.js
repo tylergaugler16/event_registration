@@ -34,6 +34,10 @@ app.use(passport.session());
 app.use(function(req, res, next){
   if(req.user) res.locals.current_user = req.user;
   else res.locals.current_user = null;
+  error_messages = {
+    event_not_found: 'Event could not be found!',
+    user_not_found: 'User could not be found!'
+  };
   next();
 });
 

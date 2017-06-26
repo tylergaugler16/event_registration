@@ -4,20 +4,27 @@
     <meta charset="utf-8">
     <title>Event</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/event.css">
   </head>
   <body>
 
 
     <% include ../layouts/header %>
+    <% if (message) { %>
+      <h3><%= message %> </h3>
+      <% } %>
     <div class="main-container">
-      <% if (message) { %>
-        <h3><%= message %> </h3>
-        <% } %>
-      <h2>Yeet</h2>
-      <h4><%= event.title%></h4>
-      <h4><%= event.date %></h4>
-      <h4><%= event.date %></h4>
-      <a href="/events/register/<%= event._id %>">Register</a>
+    <div class="event-container">
+      <h1><%= event.title%></h1>
+      <h2>Date: <%= event.formatDate() %></h2>
+      <h2>Location: <%=event.location%></h2>
+      <h4>Description: <%=event.description  %> </h4>
+      <div id="register_button_container">
+        <a href="/events/register/<%= event._id %>" id="register_event_button">Register</a>
+      </div>
+
+    </div>
+
     </div>
 
   </body>

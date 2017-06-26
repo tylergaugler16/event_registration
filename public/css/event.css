@@ -26,3 +26,25 @@ textarea{
 #new-event-button:hover{
   color:#cccccc;
 }
+
+.event-container{
+  width: 80%;
+  margin: 0 auto;
+}
+#register_button_container{
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 50px;
+}
+#register_event_button{
+  background-color: #2c3f48;
+  color: #cccccc;
+  padding: 5px 80px;
+  border-radius: 5px;
+}
+#register_event_button:hover{
+  background-color: #cccccc;
+  color: #2c3f48;
+  font-weight: bold;
+}

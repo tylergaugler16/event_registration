@@ -11,7 +11,7 @@ var childSchema = new Schema({
   zip_code: {type: String, required: true},
   emergency_contact_name: {type: String, required: true},
   emergency_contact_phone: {type: String, required: true},
-  medical_notes: {type: String},
+  medical_notes: {type: String, default: 'none'},
   birthday: {type: Date, required: true},
   permission_to_walk: {type: Boolean, default: false},
   media_agreement: {type: Boolean, default: false},

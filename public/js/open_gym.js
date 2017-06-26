@@ -34,6 +34,10 @@ $(document).on('click', '#addChild', function(){
         <label for="birthday">Birthday</label>
         <input type="text" data-field="date" name="birthday" readonly>
         <br>
+        <label for="medical_notes">Medical Notes:</label>
+        <br>
+        <textarea name="medical_notes" rows="8" cols="50"></textarea>
+        <br>
         <label for="permission_to_walk">Permission To Walk</label>
         <input type="radio" name="permission_to_walk" value="yes">Yes
         <input type="radio" name="permission_to_walk" value="no">No

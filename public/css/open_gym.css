@@ -5,7 +5,7 @@
   background-color: #2c3f48;
   color: #cccccc;
 }
-.child input{
+.child input, .child textarea{
   margin: 10px;
 }
 #register_button_container{
@@ -24,6 +24,10 @@
 #register_button_container a:hover{
   background-color:#cccccc ;
   color: #2c3f48;
+}
+#close{
+  float: right;
+  color:#cccccc;
 }
 #overlay{
   height:100%;

@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var childSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
-  fullname: {type: String, required: true, unique: false},
+  fullname: {type: String, unique: false},
   address: {type: String, required: true, unique: false},
   zip_code: {type: String, required: true},
   emergency_contact_name: {type: String, required: true},
@@ -27,6 +27,7 @@ var childSchema = new Schema({
 // on every save, add the date
 childSchema.pre('save', function(next) {
 
+  this.fullname = this.full_name();
   var currentDate = new Date();
   this.updated_at = currentDate;
 

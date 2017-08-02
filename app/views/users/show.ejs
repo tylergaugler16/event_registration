@@ -14,11 +14,15 @@
         <h2><%= user.full_name() %></h4>
         <h4><%= user.address + " " + user.zip_code %></h4>
         <h4><%= user.phone_number %></h4>
+        <h4><%= user.church %></h4>
+
       </div>
       <div id="children_container" class="user_container">
         <h1 class="user_page_header">Chilren Registered For Open Gym</h1>
         <% for(var i =0;i<children.length;i++){ %>
-          <h4><%= children[i].full_name() %></h4>
+          <h3><%= children[i].full_name() %></h3>
+          <h4><%= children[i].birthday %></h4>
+          <h4>Medical Notes: <%=children[i].medical_notes %></h4>
         <% } %>
       </div>
       <div id="event_container" class="user_container">

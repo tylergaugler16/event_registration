@@ -116,3 +116,9 @@
   float: right;
   margin-right: 25px;
 }
+
+/*info page*/
+#register-link{
+  text-decoration: underline;
+  color: red;
+}

@@ -18,11 +18,12 @@
 
       </div>
       <div id="children_container" class="user_container">
-        <h1 class="user_page_header">Chilren Registered For Open Gym</h1>
+        <h1 class="user_page_header">Children Registered For Open Gym</h1>
         <% for(var i =0;i<children.length;i++){ %>
           <h3><%= children[i].full_name() %></h3>
-          <h4><%= children[i].birthday %></h4>
+          <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
           <h4>Medical Notes: <%=children[i].medical_notes %></h4>
+          <br>
         <% } %>
       </div>
       <div id="event_container" class="user_container">

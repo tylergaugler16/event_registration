@@ -33,7 +33,7 @@ exports.findUserById = function(req, res){
   });
 };
 exports.create = function(req, res){
-  console.log(req.body)
+  req.body.email = req.body.email.toLowerCase();
   req.body.address = req.body.address +" " +req.body.city+", NY";
   if(req.body.phone_number.length == 10 && /^\d+$/.test(req.body.phone_number)){
     req.body.phone_number = req.body.phone_number.substr(0,3)+"-"+req.body.phone_number.substr(3,3)+"-"+req.body.phone_number.substr(6,4);

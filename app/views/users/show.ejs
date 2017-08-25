@@ -9,6 +9,15 @@
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
+      <div class="links_container">
+        <div id="event-register">
+          <a href="/events"><h3>Register for Upcoming Event</h3></a>
+        </div>
+        <div id="open-gym-register">
+          <a href="/open_gym/register"><h3>Register for Open Gym</h3></a>
+        </div>
+      </div>
+
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
         <h2><%= user.full_name() %></h4>
@@ -32,7 +41,6 @@
           <h4><%= registered_events[i].title %></h4>
         <% } %>
       </div>
-
 
 
 

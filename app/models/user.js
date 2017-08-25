@@ -23,12 +23,6 @@ var userSchema = new Schema({
   updated_at: Date
 });
 
-userSchema.methods.dudify = function() {
-  // add some stuff to the users name
-  this.firstname = this.firstname + '-dude';
-
-  return this.firstname;
-};
 
 // on every save, add the date
 userSchema.pre('save', true, function(next, done) {

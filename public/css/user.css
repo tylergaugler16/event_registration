@@ -1,6 +1,31 @@
 /*show page*/
-
+.links_container{
+  width: 90%;
+  margin:0 auto;
+  display: block;
+  /*padding-bottom: 10px;*/
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+#event-register, #open-gym-register{
+  width:50%;
+  padding:0;
+  margin:0;
+  display: inline-block;
+  text-align: center;
+  float:left;
+}
+#event-register h3, #open-gym-register h3{
+  background-color: #13709c; !important;
+  color: white; !important;
+  width: 50%;
+  padding: 5px 10px;
+  display:inline-block;
+  margin:0 auto;
+  border-radius: 5px;
+}
 .user_container{
+  clear:both;
   display: block;
   width: 50%;
   margin: 25px;

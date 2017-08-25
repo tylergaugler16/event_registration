@@ -10,6 +10,7 @@ module.exports = function(passport){
             passReqToCallback : true
         },
         function(req, email, password, done) {
+          email = email.toLowerCase();
             // check in mongo if a user with username exists or not
             User.findOne({ 'email' :  email },
                 function(err, user) {

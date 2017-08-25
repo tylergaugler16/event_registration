@@ -71,9 +71,22 @@ body{
   border-left: 1px solid #2c3f48;
   border-right: 1px solid #2c3f48;
   padding: 0 5px;
+
 }
+#current-user a{
+  background-color: #13709c; !important
+}
+/*#message_container{
+  position: absolute;
+  height: 200px;
+  width: 200px;
+  background-color: blue;
+  right: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}*/
 #message_container{
-  color: red;
+  color:red;
 }
 
 /*dashboard page*/

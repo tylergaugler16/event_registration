@@ -9,6 +9,7 @@
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
+      <% if (user.email == current_user.email){  %>
       <div class="links_container">
         <div id="event-register">
           <a href="/events"><h3>Register for Upcoming Event</h3></a>
@@ -17,10 +18,12 @@
           <a href="/open_gym/register"><h3>Register for Open Gym</h3></a>
         </div>
       </div>
+      <% } %>
 
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
-        <h2><%= user.full_name() %></h4>
+        <h2><%= user.full_name() %></h2>
+        <h4><%= user.email %></h4>
         <h4><%= user.address + " " + user.zip_code %></h4>
         <h4><%= user.phone_number %></h4>
         <h4><%= user.church %></h4>
@@ -32,6 +35,7 @@
           <h3><%= children[i].full_name() %></h3>
           <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
           <h4>Medical Notes: <%=children[i].medical_notes %></h4>
+          <h4><%= children[i].address +" "+ children[i].zip_code%></h4>
           <br>
         <% } %>
       </div>

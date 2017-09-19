@@ -50,7 +50,7 @@ var writeRows = function(done){
     });
 
   });
-setTimeout( function(){ done(workbook) }, 1000 );
+setTimeout( function(){ done(workbook) }, 3000 );
 }
 
 exports.create = function(req, res){

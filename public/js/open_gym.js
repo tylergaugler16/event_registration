@@ -51,7 +51,7 @@ $(document).on('click', '#addChild', function(){
 });
 $(document).on('click', '#submitRegistrationForms', function(e){
 var dataString = $('form').serialize();
-  dataString.
+
   $.ajax({
     method: 'POST',
     url: 'register_children',

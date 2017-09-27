@@ -63,7 +63,7 @@ exports.login = function(req, res){
 }
 
 exports.signin = function(req, res){
-  req.flash('message', 'You are logged in!');
+  // req.flash('message', 'You are logged in!');
   res.redirect('/users/'+req.user._id);
   // User.findOne({email: req.body.email}, function(err, user){
   //   if(err) res.render('./users/login',{error: 'Incorrect Email'});

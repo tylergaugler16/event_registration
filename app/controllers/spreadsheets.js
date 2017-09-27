@@ -16,6 +16,7 @@ var writeRows = function(done){
     sheet.columns = [
         { header: 'First Name', key: 'firstname', width: 10 },
         { header: 'Last Name', key: 'lastname', width: 20 },
+        { header: 'Full Name', key: 'full_name', width: 20 },
         { header: 'D.O.B.', key: 'birthday', width: 20, style: { alignment: {horizontal: 'left'} } },
         { header: 'Address', key: 'address', width: 20 },
         { header: 'Parent Name', key: 'parent_name', width: 20 },
@@ -24,6 +25,7 @@ var writeRows = function(done){
         { header: 'Parent Address', key: 'parent_address', width: 20 },
         { header: 'Emergency Contact Name', key: 'emergency_contact_name', width: 25 },
         { header: 'Emergency Contact Number', key: 'emergency_contact_phone', width: 25 },
+        { header: 'Medical Notes', key: 'medical_notes', width: 35 },
         { header: 'Permission to Walk', key: 'permission_to_walk', width: 10 },
         { header: 'On Waiting List', key: 'on_waiting_list', width: 10 }
     ];
@@ -35,6 +37,7 @@ var writeRows = function(done){
         sheet.addRow({
           firstname: item.firstname,
           lastname: item.lastname,
+          full_name: item.fullname,
           birthday: item.birthday,
           address: item.address,
           parent_name: parent.full_name(),
@@ -43,6 +46,7 @@ var writeRows = function(done){
           parent_address: parent.address + " " + parent.zip_code,
           emergency_contact_name: item.emergency_contact_name,
           emergency_contact_phone: item.emergency_contact_phone,
+          medical_notes: item.medical_notes,
           permission_to_walk: (item.permission_to_walk)? 'yes' : 'no',
           on_waiting_list: (item.on_waiting_list)? 'yes' : 'no'
         });
@@ -57,7 +61,7 @@ exports.create = function(req, res){
   writeRows(function(workbook){
     console.log('DONE');
     d = new Date().toDateString().split(' ').join('_');
-   filename = './public/spreadsheets/registration'+d+'.xlsx';
+   filename = '../public/spreadsheets/registration'+d+'.xlsx';
     workbook.xlsx.writeFile(filename)
       .then(function() {
         console.log("wrote to a file");

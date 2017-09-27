@@ -61,7 +61,7 @@ exports.create = function(req, res){
   writeRows(function(workbook){
     console.log('DONE');
     d = new Date().toDateString().split(' ').join('_');
-   filename = '../public/spreadsheets/registration'+d+'.xlsx';
+   filename = __dirname +'public/spreadsheets/registration'+d+'.xlsx';
     workbook.xlsx.writeFile(filename)
       .then(function() {
         console.log("wrote to a file");

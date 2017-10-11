@@ -3,7 +3,7 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Attendance = mongoose.model('Attendance', 'attendanceSchema');
 var Excel = require('exceljs');
-
+// var fs = require('fs');
 
 var writeRows = function(done){
   var workbook = new Excel.Workbook();
@@ -54,14 +54,15 @@ var writeRows = function(done){
     });
 
   });
-setTimeout( function(){ done(workbook) }, 3000 );
+setTimeout( function(){ done(workbook) }, 5000 );
 }
 
 exports.create = function(req, res){
   writeRows(function(workbook){
     console.log('DONE');
     d = new Date().toDateString().split(' ').join('_');
-   filename = __dirname +'/public/spreadsheets/registration'+d+'.xlsx';
+   filename = './public/spreadsheets/registration'+d+'.xlsx';
+  //  var fd = fs.openSync(filename, 'w');
     workbook.xlsx.writeFile(filename)
       .then(function() {
         console.log("wrote to a file");

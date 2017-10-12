@@ -4,4 +4,3 @@ helper.txt
 /node_modules
 npm-debug.log
 /*.env
-/public/spreadsheets/*

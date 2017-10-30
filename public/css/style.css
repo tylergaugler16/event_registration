@@ -17,6 +17,38 @@ ul,li{list-style:none;margin:0;padding:0;}
 .green-background{
   background-color: #2c3f48;;
 }
+
+.user-circle{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: inline-block;
+  line-height: 30px;
+  font-size: 12px;
+   font-weight: 900;
+   letter-spacing: 0.4px;
+   color: #ffffff;
+   text-align: center;
+   margin-right: 10px;
+}
+.user-color-1{
+  background-color: #ed526c;
+}
+.user-color-2{
+  background-color: #4a90e2;
+}
+.user-color-3{
+   background-color: #94e986;
+}
+.user-color-4{
+  background-color: #f8e71c;
+}
+.user-color-5{
+   background-color: #a789ff;
+}
+.user-color-6{
+   background-color: #ffc667;
+}
 body{
   /*background-image: url("/images/church.jpg");
   background-repeat: no-repeat;

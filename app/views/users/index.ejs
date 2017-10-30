@@ -4,21 +4,37 @@
     <meta charset="utf-8">
     <title>Users</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/user.css">
   </head>
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
       <h1>Users</h1>
-      <% for(var i =0; i<users.length;i++) { %>
-        <div class="user <%= (users[i].is_admin())? 'admin' : '' %> ">
-          <a href="/users/<%= users[i]._id %>"> <h2><%= users[i].full_name() %></h2> </a>
-          <h3><%= users[i].email %></h3>
-          <h3><%= users[i].status %></h3>
-          <!-- <h3><%= users[i]._id %></h3> -->
-        </div>
+      <table class="users-table">
+        <thead>
+          <td>Name</td>
+          <td>Email</td>
+          <td>Status</td>
+        </thead>
+        <tbody>
+          <% for(var i =0; i<users.length;i++) { %>
+            <tr>
+              <td>
+                <div class="user-circle user-color-<%= Math.floor((Math.random() * 6)) + 1 %>"><%= users[i].initials() %></div>
+                <a href="/users/<%= users[i]._id %>"> <%= users[i].full_name() %></a>
+              </td>
+              <td>
+                <%= users[i].email %>
+              </td>
+              <td>
+                <%= users[i].status %>
+              </td>
+            </tr>
 
-        <% } %>
 
+            <% } %>
+        </tbody>
+      </table>
     </div>
   </body>
 </html>

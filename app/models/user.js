@@ -68,6 +68,9 @@ userSchema.post('save', function(user){
 userSchema.methods.full_name = function(){
   return this.firstname + " " + this.lastname;
 }
+userSchema.methods.initials = function(){
+  return this.firstname.charAt(0) +" " + this.lastname.charAt(0);
+}
 
 userSchema.methods.is_admin = function(){
   return this.status == 'admin'

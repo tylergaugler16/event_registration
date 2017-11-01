@@ -7,7 +7,7 @@
 .action{
   width: 50%;
   height:150px;
-  background-color: #2c3f48;
+  background-color: #1f3052;
    float:left;
    display: flex;
    justify-content: center;
@@ -16,13 +16,14 @@
    cursor: pointer;
 }
 .action_headers{
-  color: white;
+  color: #f7faff;
 }
 .action:hover{
-  background-color: #cccccc;
+  /*background-color: #cccccc;*/
+  background-color: #263b65;
 }
 .action:hover .action_headers{
-    color:#2c3f48 !important;
+    /*color:#2c3f48 !important;*/
 }
 
 

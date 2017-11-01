@@ -13,12 +13,28 @@
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
-    <% for(var i=0;i < parents.length;i++){ %>
-      <div class="parent">
-        <a href="/users/<%= parents[i]._id %>"><h3><%= parents[i].full_name() %></h3></a>
 
-      </div>
-    <% } %>
+      <table class="users-table">
+        <thead>
+          <td>Parent Name</td>
+          <td>Email</td>
+          <td>Number of Children Registered</td>
+        </thead>
+        <tbody>
+          <% for(var i=0;i < parents.length;i++){ %>
+            <tr>
+              <td><a href="/users/<%= parents[i]._id %>"><%= parents[i].full_name() %></a></td>
+              <td><%= parents[i].email %></td>
+              <td>
+                  <%= parents[i].children.length %>
+              </td>
+            </tr>
+
+          <% } %>
+
+        </tbody>
+      </table>
+
 
 
     </div>

@@ -1,3 +1,4 @@
+
 /*show page*/
 .links_container{
   width: 90%;
@@ -15,7 +16,7 @@
   text-align: center;
   float:left;
 }
-#event-register h3, #open-gym-register h3{
+#event-register a, #open-gym-register a{
   background-color: #13709c; !important;
   color: white; !important;
   width: 50%;
@@ -35,26 +36,3 @@
 }
 
 /*index page*/
-
-.users-table{
-  width: 90%;
-  margin: 0 auto;
-  font-family: 'Avenir';
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  color: #1f3052;
-}
-.users-table tr{
-  height: 50px;
-}
-.users-table td{
-  border-bottom: 1px solid  rgba(97, 97, 97, 0.1);
-}
-.users-table thead td{
-  font-weight: 900;
-  font-size: 16px;
-}
-.users-table tbody td{
-  font-weight: 500;
-}

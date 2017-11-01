@@ -34,6 +34,7 @@ exports.register_children = function(req,res){
         emergency_contact_name: req.body.emergency_contact_name[i],
         emergency_contact_phone: req.body.emergency_contact_phone[i],
         birthday: Date.UTC(d[2], d[1], d[0]),
+        registered_for_og: true,
         permission_to_walk: (req.body.permission_to_walk[i] == 'yes')? true : false,
         media_agreement: (req.body.media_agreement[i] == 'yes')? true : false
       });
@@ -69,6 +70,7 @@ exports.register_children = function(req,res){
       emergency_contact_name: req.body.emergency_contact_name,
       emergency_contact_phone: req.body.emergency_contact_phone,
       birthday: Date.UTC(d[2], d[1], d[0]),
+      registered_for_og: true,
       permission_to_walk: (req.body.permission_to_walk == 'yes')? true : false,
       media_agreement: (req.body.media_agreement == 'yes')? true : false
     });

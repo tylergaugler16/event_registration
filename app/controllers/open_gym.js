@@ -21,6 +21,7 @@ exports.register = function(req, res){
 exports.register_children = function(req,res){
   console.log(req.body.firstname);
   console.log(req.body.firstname.length);
+  var successfully_added_kids= [];
   if(req.body.firstname instanceof Array){
     console.log("heree");
     for(var i = 0;i < req.body.firstname.length;i++){
@@ -47,6 +48,7 @@ exports.register_children = function(req,res){
         }
         else{
           console.log('child registered');
+          successfully_added_kids.push(child.fullname);
           console.log(child);
           User.update({_id: req.body.legal_guardian_id},{$addToSet: {children: child}}, function(err, user){
                 if(err) console.log(err);
@@ -78,6 +80,8 @@ exports.register_children = function(req,res){
       if(err) console.log(err);
       else{
         console.log('child registered');
+        successfully_added_kids.push(child.fullname);
+
         console.log(child);
         User.update({_id: req.body.legal_guardian_id},{$addToSet: {children: child}}, function(err, user){
               if(err) console.log(err);
@@ -85,9 +89,12 @@ exports.register_children = function(req,res){
             });
       }
     });
+
     console.log(req.body);
   }
-res.sendStatus(200);
+  console.log(successfully_added_kids[0]);
+  req.flash('message', 'Successfully registered'+ successfully_added_kids.join(", "));
+  res.sendStatus(200);
 }
 
 exports.registered_index = function(req, res){
@@ -121,6 +128,45 @@ exports.registered_parents_index = function(req, res){
     }
   })
 }
+
+exports.edit_child = function(req, res){
+  Child.findOne({ _id: req.params.id }, function(err, child){
+    if(err) res.send('could not find child with that id');
+    else{
+      if( (res.locals.current_user._id.toString() == child.get_gaurdian().toString()) || res.locals.current_user.status == 'admin'){
+        res.render('./open_gym/edit_child', {child: child});
+      }
+      else{
+        res.send("You don't have permission to edit this child ");
+      }
+    }
+  });
+}
+exports.update_child = function(req, res){
+  var new_data = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    address: req.body.address,
+    city: req.body.city,
+    zip_code: req.body.zip_code,
+    emergency_contact_name: req.body.emergency_contact_name,
+    emergency_contact_phone: req.body.emergency_contact_phone,
+    medical_notes: req.body.medical_notes,
+    permission_to_walk: (req.body.permission_to_walk.toString() == 'yes')? true : false,
+    media_agreement: (req.body.media_agreement == 'yes')? true : false
+  }
+  Child.findOneAndUpdate({_id: req.body.id}, {$set: new_data}, function(err, child){
+    if(err){
+      console.log("error");
+    }
+    else{
+      console.log(child);
+      res.redirect('/users/'+child.get_gaurdian().toString());
+
+    }
+  });
+}
+
 
 exports.new_weekly_attendance = function(req, res){
   res.render('./open_gym/new_weekly_attendance');

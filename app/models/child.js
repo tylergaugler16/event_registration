@@ -8,6 +8,7 @@ var childSchema = new Schema({
   lastname: { type: String, required: true, unique: false },
   fullname: {type: String, unique: false},
   address: {type: String, required: true, unique: false},
+  city: {type: String, required: true},
   zip_code: {type: String, required: true},
   emergency_contact_name: {type: String, required: true},
   emergency_contact_phone: {type: String, required: true},

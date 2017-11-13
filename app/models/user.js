@@ -15,6 +15,7 @@ var userSchema = new Schema({
   password: {type: String, required: true},
   church: {type: String, required:false },
   address: {type: String, required: true},
+  city: {type: String, required: true},
   zip_code: {type: String, required: true},
   status: {type: String, required: true, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
@@ -70,6 +71,9 @@ userSchema.methods.full_name = function(){
 }
 userSchema.methods.initials = function(){
   return this.firstname.charAt(0) +" " + this.lastname.charAt(0);
+}
+userSchema.methods.full_address = function(){
+  return this.address +" "+ this.city +" NY, "+ this.zip_code;
 }
 
 userSchema.methods.is_admin = function(){

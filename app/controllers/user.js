@@ -18,6 +18,7 @@ exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
     else{
+      console.log(user);
       Child.find({legal_guardian_id: user._id }, function(err, children){
         if(err) console.log("error finding users childrend");
         else{
@@ -34,7 +35,7 @@ exports.findUserById = function(req, res){
 };
 exports.create = function(req, res){
   req.body.email = req.body.email.toLowerCase();
-  req.body.address = req.body.address +" " +req.body.city+", NY";
+  // req.body.address = req.body.address +" " +req.body.city+", NY";
   if(req.body.phone_number.length == 10 && /^\d+$/.test(req.body.phone_number)){
     req.body.phone_number = req.body.phone_number.substr(0,3)+"-"+req.body.phone_number.substr(3,3)+"-"+req.body.phone_number.substr(6,4);
   }
@@ -65,19 +66,43 @@ exports.login = function(req, res){
 exports.signin = function(req, res){
   // req.flash('message', 'You are logged in!');
   res.redirect('/users/'+req.user._id);
-  // User.findOne({email: req.body.email}, function(err, user){
-  //   if(err) res.render('./users/login',{error: 'Incorrect Email'});
-  //   else{
-  //     user.comparePassword(req.body.password, function(err, isMatch){
-  //       console.log(isMatch);
-  //       if(err || !isMatch) res.render('./users/login',{error: 'Incorrect Password'});
-  //       else {
-  //         req.session.user = user;
-  //         res.redirect('/users/'+user._id);
-  //       }
-  //     });
-  //   }
-  // });
+}
+exports.edit = function(req, res){
+  User.findOne({ _id: req.params.id }, function(err, user){
+    if(err) res.send('could not find user with that id');
+    else{
+      if( (res.locals.current_user._id.toString() == user._id.toString()) || res.locals.current_user.status == 'admin'){
+        res.render('./users/edit', {user: user});
+      }
+      else{
+        res.send("You don't have permission to edit this user " + user._id+" " + res.locals.current_user._id);
+      }
+    }
+  });
+}
+exports.update = function(req, res){
+  var new_data = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    church: req.body.church,
+    address: req.body.address,
+    city: req.body.city,
+    zip_code: req.body.zip_code,
+    phone_number: req.body.phone_number
+  }
+  User.findOneAndUpdate({_id: req.body.id}, {$set: new_data}, function(err, user){
+    if(err){
+      console.log("error");
+    }
+    else{
+      console.log(user);
+      res.redirect('/users/'+req.body.id);
+
+    }
+  });
+}
+exports.delete = function(req, res){
+
 }
 
 exports.logout = function(req, res){

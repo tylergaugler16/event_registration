@@ -2,11 +2,21 @@
   padding:10px;
   width:60%;
   margin:50px auto;
-  background-color: #2c3f48;
-  color: #cccccc;
+}
+.child label{
+  font-weight: 900;
+  font-size: 16px;
 }
 .child input, .child textarea{
   margin: 10px;
+  background-color: #f7faff;
+    border: solid 1px #eaf0fb;
+    color: #1f3052;
+    line-height: 18px;
+    font-size: 14px;
+}
+.child textarea{
+  width:100%;
 }
 #register_button_container{
   width: 50%;
@@ -16,18 +26,20 @@
 #register_button_container a{
   display: inline-block;
   margin: 5px 25px;
-  background-color: #2c3f48;
-  color: #cccccc;
+  background-color: #1f3052;
+  color: #ffffff;
   padding: 8px 30px;
   border-radius: 4px;
 }
 #register_button_container a:hover{
-  background-color:#cccccc ;
-  color: #2c3f48;
+  background-color:#263b65 ;
+  color: #ffffff;
+  font-weight: 500;
 }
 #close{
   float: right;
-  color:#cccccc;
+  color:#ed526c;
+  font-weight: 900;
 }
 #overlay{
   height:100%;

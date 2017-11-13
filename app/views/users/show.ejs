@@ -25,10 +25,10 @@
         <h1 class="user_page_header">Info</h1>
         <h2><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
-        <h4><%= user.address + " " + user.zip_code %></h4>
+        <h4><%= user.full_address() %></h4>
         <h4><%= user.phone_number %></h4>
         <h4><%= user.church %></h4>
-
+      <a href="/users/<%=user._id%>/edit">Edit</a>
       </div>
       <div id="children_container" class="user_container">
         <h1 class="user_page_header">Children Registered For Open Gym</h1>
@@ -37,6 +37,7 @@
           <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
           <h4>Medical Notes: <%=children[i].medical_notes %></h4>
           <h4><%= children[i].address +" "+ children[i].zip_code%></h4>
+          <a href="/open_gym/registered/children/<%=children[i]._id%>/edit">Edit</a>
           <br>
         <% } %>
       </div>

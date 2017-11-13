@@ -21,12 +21,15 @@ var isAdmin = function(req, res, next){
   res.redirect('/');
 }
 
+
 module.exports = function(passport){
   Router.route('/users').get(isAdmin, users.list);
   Router.route('/users/signup').get(users.signup);
   Router.route('/users/signup').post(users.create);
   Router.route('/users/login').get(users.login);
   Router.route('/users/login').post(passport.authenticate('login',{failureRedirect: '/', failureFlash : true}), users.signin);
+  Router.route('/users/:id/edit').get(users.edit);
+  Router.route('/users/:id/update').post(users.update);
   Router.route('/users/logout').get(users.logout);
   Router.route('/users/:id').get(isAuthenticated, users.findUserById); // should probably be last users/ route
 
@@ -42,6 +45,8 @@ module.exports = function(passport){
   Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
   Router.route('/open_gym/registered/children').get(isAdmin, open_gym.registered_index);
   Router.route('/open_gym/registered/parents').get(isAdmin, open_gym.registered_parents_index);
+  Router.route('/open_gym/registered/children/:id/edit').get(open_gym.edit_child);
+  Router.route('/open_gym/registered/children/:id/update').post(open_gym.update_child);
   Router.route('/open_gym/weekly_attendance/new').get(isAdmin, open_gym.new_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/create').post(isAdmin, open_gym.create_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/find_user').post(isAdmin, open_gym.find_user);
@@ -49,6 +54,7 @@ module.exports = function(passport){
   Router.route('/open_gym/weekly_attendance/view/:date').get(isAdmin, open_gym.weekly_attendance_view);
   Router.route('/open_gym/weekly_attendance/signin/:date').get(isAdmin, open_gym.signin);
   Router.route('/open_gym/weekly_attendance/:date').get(isAdmin, open_gym.weekly_attendance);
+
 
 
 

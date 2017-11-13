@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Edit <%= child.firstname %></title>
+    <link rel="stylesheet" href="/css/open_gym.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <!-- <script src="/js/open_gym.js" charset="utf-8"></script> -->
+
+  </head>
+  <body>
+    <% include ../layouts/header %>
+    <div class="main-container">
+
+      <h3>Edit</h3>
+      <form action="/open_gym/registered/children/<%=child._id%>/update" method="post">
+      <div class="child">
+        <label for="firstname">Firstname</label>
+        <input type="text" name="firstname" value="<%= child.firstname%>" required="">
+        <label for="lastname">Lastname</label>
+        <input type="text" name="lastname" value="<%= child.lastname%>" required="">
+        <input type="hidden" name="id" value="<%= child._id%>">
+        <br>
+        <label for="address">Address</label>
+        <input type="text" name="address" value="<%= child.address%>" required="">
+        <label for="city">City</label>
+        <input type="text" name="city" value="<%= child.city %>" required="">
+        <label for="zip_code">Zip Code</label>
+        <input type="text" name="zip_code" value="<%= child.zip_code %>" required="">
+
+        <br>
+        <label for="emergency_contact_name">Emergency Contact Name</label>
+        <input type="text" name="emergency_contact_name" value="<%= child.emergency_contact_name %>"> <br>
+        <label for="emergency_contact_phone">Emergency Contact Phone Number</label>
+        <input type="text" name="emergency_contact_phone" value="<%= child.emergency_contact_phone %>">
+        <br>
+        <label for="medical_notes">Medical Notes:</label>
+        <br>
+        <textarea name="medical_notes" rows="8" cols="50" ><%= child.medical_notes %></textarea>
+        <br>
+        <label for="permission_to_walk">Permission To Walk</label>
+        <input type="radio" name="permission_to_walk" value="yes" <%=(child.permission_to_walk)? checked ='checked' : '' %> >Yes
+        <input type="radio" name="permission_to_walk" value="no" <%=(!child.permission_to_walk)? checked ='checked' : '' %> >No
+        <br>
+        <label for="media_agreement">Media Agreement</label>
+        <input type="radio" name="media_agreement" value="yes" <%=(child.media_agreement)? checked ='checked' : '' %>>Yes
+        <input type="radio" name="media_agreement" value="no" <%=(!child.media_agreement)? checked ='checked' : '' %>>No
+      </div>
+      <!-- <input type="submit" name="" value="Submit"> -->
+      <div id="register_button_container">
+        <input type="submit" value="Update">
+        <!-- <a href="#" id="submitEditChild">Update</a> -->
+      </div>
+
+      </form>
+
+
+
+
+    </div>
+
+
+  </body>
+</html>

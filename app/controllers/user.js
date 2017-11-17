@@ -3,6 +3,7 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Child = mongoose.model('Child', 'childSchema'),
     Event = mongoose.model('Event');
+   fs = require('fs');
 
 
 
@@ -100,6 +101,23 @@ exports.update = function(req, res){
 
     }
   });
+}
+
+exports.upload_photo = function(req, res){
+  console.log("uploading photo!");
+  console.log(req.body);
+  console.log(req.file); // this displays the userPhoto's properties
+  if(!req.file) res.send('no file upload');
+    // fs.readFile(req.file.path, function (err, data) {
+    //     // do something with the file data
+    //     data.filename = 'yeet';
+    // });
+    fs.rename(req.file.path, "public/user_images/"+req.body.id+".png", function(err){
+      if(err) console.log(err);
+      else res.redirect('/users/'+req.body.id);
+    });
+
+
 }
 exports.delete = function(req, res){
 

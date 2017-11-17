@@ -22,16 +22,20 @@ var isAdmin = function(req, res, next){
 }
 
 
-module.exports = function(passport){
+module.exports = function(passport, upload){
   Router.route('/users').get(isAdmin, users.list);
   Router.route('/users/signup').get(users.signup);
   Router.route('/users/signup').post(users.create);
   Router.route('/users/login').get(users.login);
   Router.route('/users/login').post(passport.authenticate('login',{failureRedirect: '/', failureFlash : true}), users.signin);
+  Router.route('/users/upload_photo').post(isAuthenticated, upload.single('user_photo'), users.upload_photo);
+  Router.route('/users/logout').get(users.logout);
   Router.route('/users/:id/edit').get(users.edit);
   Router.route('/users/:id/update').post(users.update);
-  Router.route('/users/logout').get(users.logout);
+
+
   Router.route('/users/:id').get(isAuthenticated, users.findUserById); // should probably be last users/ route
+
 
 
   Router.route('/events/new').get(isAdmin, events.new);

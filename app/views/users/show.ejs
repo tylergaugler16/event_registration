@@ -23,16 +23,23 @@
 
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
+        <img src="/user_images/<%= user._id%>.png" alt="" style="height:300px;width:300px;">
         <h2><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
         <h4><%= user.full_address() %></h4>
         <h4><%= user.phone_number %></h4>
         <h4><%= user.church %></h4>
       <a href="/users/<%=user._id%>/edit">Edit</a>
+      <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<%= user._id %>">
+        <input type="file" name="user_photo">
+        <input type="submit" value="submit">
+      </form>
       </div>
       <div id="children_container" class="user_container">
         <h1 class="user_page_header">Children Registered For Open Gym</h1>
         <% for(var i =0;i<children.length;i++){ %>
+
           <h3><%= children[i].full_name() %></h3>
           <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
           <h4>Medical Notes: <%=children[i].medical_notes %></h4>

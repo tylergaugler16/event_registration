@@ -5,9 +5,10 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('client-sessions');
-
 const flash = require('connect-flash');
 
+const multer = require('multer');
+const upload = multer({dest: 'public/user_images/'});
 const env = process.env.NODE_ENV || 'dev';
 
 const mongoose = require( 'mongoose' ),
@@ -41,9 +42,10 @@ app.use(function(req, res, next){
   next();
 });
 
+
 const initPassport = require('./passport/init');
 initPassport(passport);
-const routes = require('./app/routes/routes.js')(passport);
+const routes = require('./app/routes/routes.js')(passport,upload);
 app.use('/',routes);
 
 

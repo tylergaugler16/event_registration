@@ -9,6 +9,11 @@
   <body>
     <% include ../layouts/header %>
     <div class="main-container">
+      <div id="message_container">
+        <% if (typeof message != 'undefined' && message){ %>
+          <h3><%= message %></h3>
+        <% } %>
+      </div>
       <% if (user.email == current_user.email){  %>
       <div class="links_container">
         <div id="event-register">
@@ -23,7 +28,7 @@
 
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
-        <img src="/user_images/<%= user._id%>.png" alt="" style="height:300px;width:300px;">
+        <img src="/user_images/<%= user._id%>/profile_pic.png" alt="" style="height:300px;width:300px;">
         <h2><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
         <h4><%= user.full_address() %></h4>
@@ -32,7 +37,8 @@
       <a href="/users/<%=user._id%>/edit">Edit</a>
       <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<%= user._id %>">
-        <input type="file" name="user_photo">
+        <input type="hidden" name="profile_pic" value=true>
+        <input type="file" name="user_photo" accept="image/*">
         <input type="submit" value="submit">
       </form>
       </div>

@@ -104,16 +104,22 @@ exports.update = function(req, res){
 }
 
 exports.upload_photo = function(req, res){
-  console.log("uploading photo!");
-  console.log(req.body);
-  console.log(req.file); // this displays the userPhoto's properties
-  if(!req.file) res.send('no file upload');
-    // fs.readFile(req.file.path, function (err, data) {
-    //     // do something with the file data
-    //     data.filename = 'yeet';
-    // });
-    fs.rename(req.file.path, "public/user_images/"+req.body.id+".png", function(err){
-      if(err) console.log(err);
+  if(!req.file){
+    req.flash('message', 'Could not upload image');
+    res.redirect('/users/'+req.body.id);
+  }
+  var dir = "public/user_images/"+req.body.id
+
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
+  var path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
+
+    fs.rename(req.file.path, path , function(err){
+      if(err){
+        req.flash('message', 'Could not upload image');
+        res.redirect('/users/'+req.body.id);
+      }
       else res.redirect('/users/'+req.body.id);
     });
 

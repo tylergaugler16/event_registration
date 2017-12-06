@@ -8,7 +8,7 @@ const express = require('express');
 const Router = express.Router();
 
 function isLoggedIn(req,res,next){
-  if(req.session.user) return next();
+  if(req.session.passport.user) return next();
   else res.redirect('/users/login');
 }
 
@@ -42,7 +42,7 @@ module.exports = function(passport, upload){
   Router.route('/events/create').post(isAdmin, events.create);
   Router.route('/events/register/:id').get(isAuthenticated, events.register);
   Router.route('/events').get(events.list);
-  Router.route('/events/:id').get(events.findEventById); // should probably be the last events/ route
+  Router.route('/events/:id').get(isLoggedIn, events.findEventById); // should probably be the last events/ route
 
   Router.route('/open_gym/info').get(open_gym.info);
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);

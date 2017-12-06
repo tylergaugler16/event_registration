@@ -17,7 +17,6 @@ exports.list = function(req, res){
 };
 
 exports.findEventById = function(req, res){
-  if((req.session.user)){
     Event.findOne({_id: req.params.id}, function(err, event){
       if(err){
         req.flash('message', 'Could not find Event');
@@ -43,11 +42,8 @@ exports.findEventById = function(req, res){
 
       }
     });
-  }
-  else{
-    req.flash('message', 'Please Log in to view MBC Event details');
-    res.redirect('/');
-  }
+
+
 
 };
 

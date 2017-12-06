@@ -16,7 +16,7 @@ eventSchema.methods.in_the_past = function(){
 }
 eventSchema.methods.formatDate = function(){
   var ampm = (this.date.getHours() >= 12) ? "PM" : "AM";
-  return this.date.toDateString() + " " + this.date.toLocaleTimeString()+ ' '+ampm;
+  return this.date.toDateString() + " " + this.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})+ ' '+ampm;
 }
 
 

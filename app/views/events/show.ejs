@@ -19,11 +19,27 @@
       <h2>Date: <%= event.formatDate() %></h2>
       <h2>Location: <%=event.location%></h2>
       <h4>Description: <%=event.description  %> </h4>
-      <div id="register_button_container">
-        <a href="/events/register/<%= event._id %>" id="register_event_button">Register</a>
-      </div>
 
+      <% if (registered){  %>
+        <br><br>
+          <h1>You're already Registred!</h1>
+      <% } else { %>
+        <div id="register_button_container">
+          <a href="/events/register/<%= event._id %>" id="register_event_button">Register</a>
+        </div>
+        <% } %>
     </div>
+
+      <%  if(current_user.is_admin()){ %>
+        <div class="user-list">
+          <ul class="users-registered">
+            <% for(var i=0; i < user_list.length; i++){ %>
+              <li> <%= user_list[i].full_name() %> </li>
+            <% } %>
+          </ul>
+        </div>
+
+        <% } %>
 
     </div>
 

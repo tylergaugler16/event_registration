@@ -17,13 +17,29 @@ exports.list = function(req, res){
 };
 
 exports.findEventById = function(req, res){
-  Event.find({_id: req.params.id}, function(err, event){
+  Event.findOne({_id: req.params.id}, function(err, event){
     if(err){
       req.flash('message', 'Could not find Event');
       res.redirect('/');
     }
     else{
-      res.render('./events/show', {event: event[0], message: req.flash('message')});
+      User.find({eventsRegisteredFor: event.id}, function(err, users){
+        if(err) console.log("ERROR");
+        else {
+          var registered = false;
+          for(var i =0 ;i< res.locals.current_user.eventsRegisteredFor.length; i++){
+            console.log(res.locals.current_user.eventsRegisteredFor[i] );
+            if((res.locals.current_user.eventsRegisteredFor[i]) && event._id.toString() == res.locals.current_user.eventsRegisteredFor[i].toString() ){
+               registered = true;
+            }
+          }
+          res.render('./events/show', {event: event, registered: registered, user_list: users, message: req.flash('message')});
+
+        }
+      });
+
+
+
     }
   });
 };

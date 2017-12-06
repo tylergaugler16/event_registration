@@ -8,14 +8,15 @@ var eventSchema = new Schema({
   title: { type: String, required: true, unique: false },
   description: { type: String, required: true, unique: false },
   location: {type: String, required: true, unique: false},
-  date: { type: Date, required: true, unique: false },
+  date: { type: Date, required: true, unique: false }
 });
 
 eventSchema.methods.in_the_past = function(){
   return (new Date(this.date) < new Date());
 }
 eventSchema.methods.formatDate = function(){
-  return this.date.toDateString() + " " + this.date.toLocaleTimeString();
+  var ampm = (this.date.getHours() >= 12) ? "PM" : "AM";
+  return this.date.toDateString() + " " + this.date.toLocaleTimeString()+ ' ';
 }
 
 

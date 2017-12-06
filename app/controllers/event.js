@@ -17,31 +17,38 @@ exports.list = function(req, res){
 };
 
 exports.findEventById = function(req, res){
-  Event.findOne({_id: req.params.id}, function(err, event){
-    if(err){
-      req.flash('message', 'Could not find Event');
-      res.redirect('/');
-    }
-    else{
-      User.find({eventsRegisteredFor: event.id}, function(err, users){
-        if(err) console.log("ERROR");
-        else {
-          var registered = false;
-          for(var i =0 ;i< res.locals.current_user.eventsRegisteredFor.length; i++){
-            console.log(res.locals.current_user.eventsRegisteredFor[i] );
-            if((res.locals.current_user.eventsRegisteredFor[i]) && event._id.toString() == res.locals.current_user.eventsRegisteredFor[i].toString() ){
-               registered = true;
+  if((req.session.user)){
+    Event.findOne({_id: req.params.id}, function(err, event){
+      if(err){
+        req.flash('message', 'Could not find Event');
+        res.redirect('/');
+      }
+      else{
+        User.find({eventsRegisteredFor: event.id}, function(err, users){
+          if(err) console.log("ERROR");
+          else {
+            var registered = false;
+            for(var i =0 ;i< res.locals.current_user.eventsRegisteredFor.length; i++){
+              console.log(res.locals.current_user.eventsRegisteredFor[i] );
+              if((res.locals.current_user.eventsRegisteredFor[i]) && event._id.toString() == res.locals.current_user.eventsRegisteredFor[i].toString() ){
+                 registered = true;
+              }
             }
+            res.render('./events/show', {event: event, registered: registered, user_list: users, message: req.flash('message')});
+
           }
-          res.render('./events/show', {event: event, registered: registered, user_list: users, message: req.flash('message')});
-
-        }
-      });
+        });
 
 
 
-    }
-  });
+      }
+    });
+  }
+  else{
+    req.flash('message', 'Please Log in to view MBC Event details');
+    res.redirect('/');
+  }
+
 };
 
 exports.new = function(req, res){

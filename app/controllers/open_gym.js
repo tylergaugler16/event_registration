@@ -31,6 +31,7 @@ exports.register_children = function(req,res){
         lastname: req.body.lastname[i],
         legal_guardian_id: req.body.legal_guardian_id[i],
         address: req.body.address[i],
+        city: req.body.city[i],
         zip_code: req.body.zip_code[i],
         emergency_contact_name: req.body.emergency_contact_name[i],
         emergency_contact_phone: req.body.emergency_contact_phone[i],
@@ -44,7 +45,7 @@ exports.register_children = function(req,res){
         if(err) {
           console.log("ERRORR");
           req.flash('message', 'Unable to register child!!!');
-          res.redirect('/events')
+          res.redirect('/')
         }
         else{
           console.log('child registered');
@@ -68,6 +69,7 @@ exports.register_children = function(req,res){
       fullname: req.body.firstname + " "+req.body.lastname,
       legal_guardian_id: req.body.legal_guardian_id,
       address: req.body.address,
+      city: req.body.city,
       zip_code: req.body.zip_code,
       emergency_contact_name: req.body.emergency_contact_name,
       emergency_contact_phone: req.body.emergency_contact_phone,

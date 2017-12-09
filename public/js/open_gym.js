@@ -25,6 +25,8 @@ $(document).on('click', '#addChild', function(){
           <input type="hidden" name="legal_guardian_id" value=`+legal_guardian_id+` >
           <label for="address">Address</label>
           <input type="text" name="address" value="">
+          <input type="text" name="city" value="" required="">
+          <br>
           <label for="zip_code">Zip Code</label>
           <input type="text" name="zip_code" value="">
           <br>

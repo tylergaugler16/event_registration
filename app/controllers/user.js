@@ -5,7 +5,33 @@ var mongoose = require( 'mongoose' ),
     Event = mongoose.model('Event');
    fs = require('fs');
 
+var async = require('async');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+var mg = require('nodemailer-mailgun-transport');
 
+var smtpTransport = nodemailer.createTransport( {
+  service: 'SendGrid',
+  host: "smtp.sendgrid.net",
+  port: '587',
+  auth: {
+    user: process.env.SENDGRID_USERNAME,
+    pass: process.env.SENDGRID_PASSWORD
+  }
+});
+
+exports.fix = function(req, res){
+  console.log("fix");
+  User.findOne({ email: 'tylergaugler16@gmail.com' }, function(err, user) {
+    console.log(user);
+    user.password = 'foobar1234';
+
+    user.save(function(err) {
+      if(err) console.log(err);
+    });
+    res.send('yeet');
+  });
+}
 
 exports.list = function(req, res){
   User.find(function(err, users) {
@@ -68,6 +94,12 @@ exports.signin = function(req, res){
   // req.flash('message', 'You are logged in!');
   res.redirect('/users/'+req.user._id);
 }
+
+exports.logout = function(req, res){
+  req.logout();
+  res.redirect('/');
+}
+
 exports.edit = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err) res.send('could not find user with that id');
@@ -129,7 +161,118 @@ exports.delete = function(req, res){
 
 }
 
-exports.logout = function(req, res){
-  req.logout();
-  res.redirect('/');
+
+exports.forgot_password = function(req, res){
+
+  User.findOne({_id: req.params.id}, function(err, user){
+    if(err) {
+      console.log("could not find user with that id")
+      res.redirect('/');
+    }
+    else{
+      res.render('./users/forgot_password', {user: user});
+    }
+  });
+
 }
+
+exports.create_password_token = function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function(token, done) {
+      User.findOne({ email: req.body.email }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'No account with that email address exists.');
+          return res.redirect('/users/forgot_password');
+        }
+
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        user.save(function(err) {
+          done(err, token, user);
+        });
+      });
+    },
+    function(token, user, done) {
+
+      var mailOptions = {
+        to: user.email,
+        from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
+        subject: 'Password Reset',
+        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/users/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err, info) {
+        if(err)console.log(err);
+        req.flash('message', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+        done(err, 'done');
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/');
+  });
+};
+
+
+
+exports.reset_password = function(req, res){
+  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+    if (!user) {
+      req.flash('message', 'Password reset token is invalid or has expired.');
+      return res.redirect('/');
+    }
+    res.render('./users/reset_password', { user: req.user, token: req.params.token });
+  });
+}
+
+exports.reset_password_post = function(req, res) {
+  async.waterfall([
+    function(done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('message', 'Password reset token is invalid or has expired.');
+          return res.redirect('/');
+        }
+
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        user.save(function(err) {
+          if(err){
+            req.flash('message', 'Your password was not changed. Please try again.');
+            res.redirect('/');
+          }
+          done(err, user);
+
+        });
+      });
+    },
+    function(user, done) {
+
+      var mailOptions = {
+        to: user.email,
+        from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
+        subject: 'Your password has been changed',
+        text: 'Hello,\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        req.flash('success', 'Success! Your password has been changed.');
+        done(err);
+      });
+    }
+  ], function(err) {
+    if(err)console.log(err);
+    res.redirect('/users/login');
+  });
+
+};

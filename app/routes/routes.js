@@ -11,7 +11,11 @@ function isLoggedIn(req,res,next){
   if(req.session.passport.user) return next();
   else res.redirect('/users/login');
 }
-
+//only for login. will log users out who try and go to login.
+function isNotLoggedIn(req,res,next){
+  if(!req.session.passport.user) return next();
+  else res.redirect('/users/logout');
+}
 var isAuthenticated = function (req, res, next) {
 	if (req.isAuthenticated()) return next();
 	res.redirect('/');
@@ -23,17 +27,20 @@ var isAdmin = function(req, res, next){
 
 
 module.exports = function(passport, upload){
+  Router.route('/fix').get(users.fix);
   Router.route('/users').get(isAdmin, users.list);
   Router.route('/users/signup').get(users.signup);
   Router.route('/users/signup').post(users.create);
-  Router.route('/users/login').get(users.login);
-  Router.route('/users/login').post(passport.authenticate('login',{failureRedirect: '/', failureFlash : true}), users.signin);
+  Router.route('/users/login').get(isNotLoggedIn, users.login);
+  Router.route('/users/login').post(isNotLoggedIn, passport.authenticate('login',{failureRedirect: '/', failureFlash : true}), users.signin);
   Router.route('/users/upload_photo').post(isAuthenticated, upload.single('user_photo'), users.upload_photo);
   Router.route('/users/logout').get(users.logout);
+  Router.route('/users/create_password_token').post(users.create_password_token);
+  Router.route('/users/forgot_password').get( users.forgot_password);
+  Router.route('/users/reset/:token').get(users.reset_password);
+  Router.route('/users/reset/:token').post(users.reset_password_post);
   Router.route('/users/:id/edit').get(users.edit);
   Router.route('/users/:id/update').post(users.update);
-
-
   Router.route('/users/:id').get(isAuthenticated, users.findUserById); // should probably be last users/ route
 
 

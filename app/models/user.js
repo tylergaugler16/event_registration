@@ -13,6 +13,8 @@ var userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   phone_number: [{type: String, required: true, unique: true}],
   password: {type: String, required: true},
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   church: {type: String, required:false },
   address: {type: String, required: true},
   city: {type: String, required: true},
@@ -46,12 +48,14 @@ userSchema.pre('save', true, function(next, done) {
     var err = new Error('Incorrect Phone Number');
     next(err);
   };
-
-// only hash password if it has been modified
-  if (!this.isModified('password')) return next();
+// only hash password if it has been modified.
+// since done() is called here, make sure only the bycrpt hash is below this
+  if (!this.isModified('password')) done();
     // hash the password along with our new salt
+
     bcrypt.hash(user.password, salt, function(err, hash) {
         if (err) return next(err);
+
         user.password = hash;
         next();
     });
@@ -85,6 +89,19 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
         cb(null, isMatch);
     });
 }
+userSchema.methods.updatePassword = function(new_password, next){
+  // this.password = bcrypt.hashSync(new_password , 10);
+  // this.save(function(err){
+  //   if(err) console.log(err);
+  //   else next();
+  // })
+
+  // bcrypt.hash(new_password, salt, function(err, hash) {
+  //     if (err) return next(err);
+  //     user.password = hash;
+  //     next();
+  // });
+}
 
 // Statics
 
@@ -95,6 +112,7 @@ userSchema.statics.findParent = function(parent_id, next){
   });
 
 }
+
 
 // the schema is useless so far
 // we need to create a model using it

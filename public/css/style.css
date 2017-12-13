@@ -23,6 +23,21 @@ ul,li{list-style:none;margin:0;padding:0;}
 .link-blue{
   color: #3b7adb !important;
 }
+.width-60{
+  width:60%;
+}
+.center-div{
+  margin: 0 auto;
+}
+.center-text{
+  text-align: center;
+}
+
+.padding-vertical-20{
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
 
 .user-circle{
   width: 30px;

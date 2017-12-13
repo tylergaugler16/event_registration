@@ -20,17 +20,33 @@ var smtpTransport = nodemailer.createTransport( {
   }
 });
 
-exports.fix = function(req, res){
-  console.log("fix");
+exports.fixOne = function(req, res){
   User.findOne({ email: 'tylergaugler16@gmail.com' }, function(err, user) {
     console.log(user);
     user.password = 'foobar1234';
 
     user.save(function(err) {
-      if(err) console.log(err);
+      if(err) res.send("failed");
+      else res.send('success');
     });
-    res.send('yeet');
+
   });
+}
+exports.fixAll = function(req, res){
+  User.updateMany({}, {$set: {
+    resetPasswordToken: null ,
+    resetPasswordExpires: null
+    }
+  }, {$unset: false}, function(err){
+    if(err) res.send("failed");
+    else res.send("success");
+  })
+
+  // User.find(function(err, users){
+  //   for(var i = 0; i < users.length; i++){
+  //     console.log(users[i].resetPasswordToken);
+  //   }
+  // });
 }
 
 exports.list = function(req, res){
@@ -158,6 +174,11 @@ exports.upload_photo = function(req, res){
 
 }
 exports.delete = function(req, res){
+  // req.body
+  User.remove({_id: req.body.id}, function(err, results){
+    if (err) res.status(400);
+    else res.status(200);
+  });
 
 }
 

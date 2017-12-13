@@ -13,6 +13,13 @@ $(document).on('click', '#addChild', function(){
     count++;
     old_count = count-1;
     var legal_guardian_id = $('input[name="legal_guardian_id"]').first().val();
+
+    var address = $(".register_children_form1").find($('input[name="address"]')).val();
+    var city = $(".register_children_form1").find($('input[name="city"]')).val();
+    var zip_code = $(".register_children_form1").find($('input[name="zip_code"]')).val();
+    var emergency_contact_name = $(".register_children_form1").find($('input[name="emergency_contact_name"]')).val();
+    var emergency_contact_phone = $(".register_children_form1").find($('input[name="emergency_contact_phone"]')).val();
+
       $('.register_children_form'+old_count).last().after(
         `<form class="register_children_form`+count+`" action="/open_gym/register_children" method="post">
         <div class="child" style="border-top: 1px solid #1f3052">
@@ -24,16 +31,17 @@ $(document).on('click', '#addChild', function(){
           <br>
           <input type="hidden" name="legal_guardian_id" value=`+legal_guardian_id+` >
           <label for="address">Address</label>
-          <input type="text" name="address" value="">
-          <input type="text" name="city" value="" required="">
+          <input type="text" name="address" value=`+address+`>
+          <label for="city">City</label>
+          <input type="text" name="city" value=`+city+` required="">
           <br>
           <label for="zip_code">Zip Code</label>
-          <input type="text" name="zip_code" value="">
+          <input type="text" name="zip_code" value=`+zip_code+` required>
           <br>
           <label for="emergency_contact_name">Emergency Contact Name</label>
-          <input type="text" name="emergency_contact_name" value=""><br>
+          <input type="text" name="emergency_contact_name" value=`+emergency_contact_name+`><br>
           <label for="emergency_contact_phone">Emergency Contact Phone Number</label>
-          <input type="text" name="emergency_contact_phone" value="">
+          <input type="text" name="emergency_contact_phone" value=`+emergency_contact_phone+`>
           <br>
           <label for="birthday">Birthday</label>
           <input type="text" data-field="date" name="birthday" readonly>
@@ -52,7 +60,11 @@ $(document).on('click', '#addChild', function(){
         </div>
         </form>`
       );
+      var address = $('input[name="address"]');
+    $(".register_children_form"+old_count).find(address).val();
+
   }
+
 
 });
 $(document).on('click', '#submitRegistrationForms', function(e){

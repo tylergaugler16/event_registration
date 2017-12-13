@@ -20,6 +20,9 @@ ul,li{list-style:none;margin:0;padding:0;}
 .blue-background{
   background-color: #1f3052;
 }
+.link-blue{
+  color: #3b7adb !important;
+}
 
 .user-circle{
   width: 30px;

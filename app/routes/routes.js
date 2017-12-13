@@ -13,7 +13,7 @@ function isLoggedIn(req,res,next){
 }
 //only for login. will log users out who try and go to login.
 function isNotLoggedIn(req,res,next){
-  if(!req.session.passport.user) return next();
+  if( !req.isAuthenticated() ) return next();
   else res.redirect('/users/logout');
 }
 var isAuthenticated = function (req, res, next) {

@@ -17,7 +17,7 @@
               <a href="/open_gym/weekly_attendance/<%= attendance[i].date %>">Add Children</a>
               <a href="/open_gym/weekly_attendance/view/<%= attendance[i].date %>">View Sheet</a>
               <a href="/open_gym/weekly_attendance/download/<%= attendance[i].date %>">Download Sheet</a>
-              <a href="">Delete Sheet</a>
+              <a href="/open_gym/weekly_attendance/delete/<%= attendance[i]._id %>">Delete Sheet</a>
             </div>
           <% } %>
         </div>

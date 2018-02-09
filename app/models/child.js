@@ -55,6 +55,9 @@ childSchema.methods.full_name = function(){
 childSchema.methods.get_gaurdian = function(){
   return this.legal_guardian_id[0];
 }
+childSchema.methods.initials = function(){
+  return this.firstname.charAt(0) +" " + this.lastname.charAt(0);
+}
 
 
 // the schema is useless so far

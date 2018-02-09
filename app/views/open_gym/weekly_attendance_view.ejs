@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Open Gym Registration</title>
+    <title><%= attendance.date %> Attendance</title>
     <link rel="stylesheet" href="/css/open_gym.css">
     <link rel="stylesheet" href="/css/style.css">
 
@@ -14,11 +14,75 @@
     <% include ../layouts/header %>
 
     <div class="main-container">
-      <% for(var i = 0; i< children.length; i++){ %>
-        <h1><%= children[i].full_name() %> </h1>
-      <% } %>
+      <div class="attendance-action-button-container">
+        <a href="/open_gym/weekly_attendance/<%=attendance.date %>">
+          <div class="attendance-action-button">Add Children</div>
+        </a>
+        <a href="/admin/weekly_attendance">
+          <div class="attendance-action-button">View All Attendance Sheets</div>
+        </a>
+
+      </div>
+      <table class="users-table">
+        <thead>
+          <td>Name</td>
+          <td>Signed In Time</td>
+          <td>Signed Out Time</td>
+          <td>Sign Out</td>
+        </thead>
+        <tbody>
+          <% for(var i =0; i < children.length; i++) { %>
+
+            <tr class="<%= children[i].id %>">
+              <td>
+                <div class="user-circle <%=(children[i].signed_out)? 'signed-out-color' : 'not-signed-out-color' %>"><%= children[i].firstname %></div>
+                <%= children[i].fullname %>
+              </td>
+              <td class="sign_in_time_row">
+                <%= children[i].sign_in_time %>
+              </td>
+
+              <% if (children[i].signed_out) { %>
+                  <td class="signed_out_time_row"><%= children[i].signed_out_time %></td>
+                  <td class="sign_out_button_row"> - </td>
+                <% } else{  %>
+                    <td class="signed_out_time_row"> - </td>
+                    <td class="sign_out_button_row">
+                      <a href="#" class="sign_out" id="<%= children[i].id %>">Sign Out</a>
+                    </td>
+                <% } %>
+            </tr>
+
+            <%  } %>
+        </tbody>
+      </table>
     </div>
 
 
   </body>
+
 </html>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click', '.sign_out', function(e){
+      var child_id = this.id;
+      e.preventDefault();
+      $.ajax({
+        method: 'POST',
+        url: '/open_gym/weekly_attendance/signout/<%= attendance.date%>',
+        data: {
+          child_id: child_id,
+        },
+        success: function(data){
+          console.log("SIGNED OUT");
+          id_string = 'tr.'+child_id;
+          $current_row = $($('tr.'+child_id)[0]);
+          $($(id_string+ ' .user-circle')[0]).removeClass("not-signed-out-color");
+          $($(id_string+ ' .user-circle')[0]).addClass("signed-out-color")
+          $($(id_string+ ' .signed_out_time_row')[0]).html(data.signed_out_time);
+          $($(id_string+ ' .sign_out_button_row')[0]).html("-");
+        }
+      });
+    })
+  })
+</script>

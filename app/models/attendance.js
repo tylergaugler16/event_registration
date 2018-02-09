@@ -6,7 +6,12 @@ var Schema = mongoose.Schema;
 // create a schema
 var attendanceSchema = new Schema({
   date: { type: String, required: true, unique: true },
-  children_present: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}]
+  children: [{
+    child_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Child', unique: true},
+    sign_in_time: { type: String, required: true },
+    signed_out: {type: Boolean, default: false },
+    signed_out_time: { type: String }
+  }]
 });
 
 // eventSchema.methods.in_the_past = function(){

@@ -1,3 +1,21 @@
+/* global classes */
+
+.attendance-action-button-container{
+  width: 90%;
+  padding: 30px;
+}
+.attendance-action-button{
+  height: 40px;
+  padding: 5px 10px;
+  background-color: #1f3052;
+  color: #ffffff;
+  display: inline-block;
+  font-weight:900;
+  font-family: 'Avenir';
+  line-height: 40px;
+  border-radius: 20px;
+}
+
 .child{
   padding:10px;
   width:60%;
@@ -127,6 +145,15 @@
   display: inline-table;
   float: right;
   margin-right: 25px;
+}
+
+/* attendance weekly view page */
+
+.signed-out-color{
+  background-color: #e87058;
+}
+.not-signed-out-color{
+  background-color: #58e870;
 }
 
 /*info page*/

@@ -61,10 +61,12 @@ module.exports = function(passport, upload){
   Router.route('/open_gym/registered/children/:id/update').post(open_gym.update_child);
   Router.route('/open_gym/weekly_attendance/new').get(isAdmin, open_gym.new_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/create').post(isAdmin, open_gym.create_weekly_attendance);
+  Router.route('/open_gym/weekly_attendance/delete/:id').get(isAdmin, open_gym.delete_attendance);
   Router.route('/open_gym/weekly_attendance/find_user').post(isAdmin, open_gym.find_user);
   Router.route('/open_gym/weekly_attendance/download/:date').get(isAdmin, spreadsheets.download_weekly_attendance);
   Router.route('/open_gym/weekly_attendance/view/:date').get(isAdmin, open_gym.weekly_attendance_view);
   Router.route('/open_gym/weekly_attendance/signin/:date').get(isAdmin, open_gym.signin);
+  Router.route('/open_gym/weekly_attendance/signout/:date').post(isAdmin, open_gym.signout);
   Router.route('/open_gym/weekly_attendance/:date').get(isAdmin, open_gym.weekly_attendance);
 
 

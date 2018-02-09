@@ -192,9 +192,42 @@ exports.weekly_attendance_view = function(req,res){
   Attendance.findOne({date: req.params.date}, function(err, attendance){
     if(err) console.log(err);
     else{
-      Child.find({_id: {$in: attendance.children_present} }, function(err, children){
+      var children_array = [];
+      var ids = {}
+      for(var i = 0 ; i < attendance.children.length; i++){
+        id = attendance.children[i].child_id ;
+        if( ids[id.toString()] != true){
+          children_array.push( {
+            id: attendance.children[i].child_id,
+            sign_in_time: attendance.children[i].sign_in_time,
+            signed_out: attendance.children[i].signed_out,
+            signed_out_time: attendance.children[i].signed_out_time,
+            fullname: null
+          });
+          ids[id.toString()] = true;
+        }
+      }
+      Child.find({_id: {$in: children_array.map(x => x.id) } }, function(err, children){
         if(err) console.log(err);
-        else res.render('./open_gym/weekly_attendance_view',{children: children});
+        else{
+          for(var i = 0; i < children.length; i++){
+            for(var n = 0; n < children_array.length; n++){
+              if(children[i]._id.toString() == children_array[n].id.toString()){
+                children_array[n].fullname = children[i].fullname;
+                break;
+              }
+            }
+          }
+          // alphabatize children array
+          children_array.sort( function(a,b) {
+                    if (a.fullname < b.fullname)
+                      return -1;
+                    if (a.fullname > b.fullname)
+                      return 1;
+                    return 0;
+                  });
+          res.render('./open_gym/weekly_attendance_view',{children: children_array, attendance: attendance});
+        }
       });
     }
   });
@@ -207,13 +240,55 @@ exports.find_user = function(req, res){
 }
 
 exports.signin = function(req, res){
-  Attendance.update({date: req.params.date},{$addToSet: {children_present: req.query.child_id}}, function(err, attendance){
+  var time = new Date().toLocaleTimeString('en-US', { hour12: true, hour: "numeric", minute: "numeric"});
+  Attendance.update({date: req.params.date }, { $addToSet: {children: {child_id: req.query.child_id, sign_in_time: time, signed_out: false} }},{upsert: true}, function(err, attendance){
         if(err) console.log(err);
         else console.log(attendance);
     });
   res.redirect('/open_gym/weekly_attendance/'+req.params.date);
 }
 
+exports.signout = function(req, res){
+  var time = new Date().toLocaleTimeString('en-US', { hour12: true, hour: "numeric", minute: "numeric"});
+    Attendance.findOne({ date: req.params.date} , function(err, attendance){
+      for (var i=0; i < attendance.children.length; i++) {
+       if (attendance.children[i].child_id.toString() === req.body.child_id) {
+           attendance.children[i].signed_out = true;
+           attendance.children[i].signed_out_time = time;
+           // console.log(attendance);
+           attendance.save(function(err, resp){
+             if(err) res.json({ status : 400 });
+             else res.json({ status : 200, signed_out_time: time});
+           });
+       }
+     }
+  });
+
+  //   console.log("yerr");
+  //   Attendance.findOneAndUpdate({
+  //   query: { date: req.params.date , children: { $elemMatch: { child_id: req.params.child_id } } },
+  //   update: { $set: { "children.$.signed_out_time": true, "children.$.signed_out_time" : time } }
+  //   }, function(err){
+  //     console.log("here");
+  //   if(err) console.log(err);
+  //   else res.json({ status : 200, signed_out_time: time});
+  // });
+  //   Attendance.findOne( { date: req.params.date , children: { $elemMatch: { child_id: req.params.child_id } } }
+  // , function(err, attendance){
+  //     console.log(attendance);
+  //   if(err) console.log(err);
+  //   else
+  // });
+}
+
+exports.delete_attendance = function(req, res){
+  console.log(req.params.id);
+  Attendance.deleteOne({_id: req.params.id}, function(err, results){
+    if (err) res.redirect('/');
+    else res.redirect('/admin/weekly_attendance');
+  });
+
+}
 exports.weekly_attendance_for_admin = function(req, res){
   Attendance.find(function(err, attendance) {
     if(err) console.log(err);

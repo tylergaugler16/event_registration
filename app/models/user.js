@@ -29,6 +29,7 @@ var userSchema = new Schema({
 
 // on every save, add the date
 userSchema.pre('save', true, function(next, done) {
+    console.log("hereee");
   var user = this;
   var currentDate = new Date();
   this.updated_at = currentDate;
@@ -48,6 +49,7 @@ userSchema.pre('save', true, function(next, done) {
     var err = new Error('Incorrect Phone Number');
     next(err);
   };
+
 // only hash password if it has been modified.
 // since done() is called here, make sure only the bycrpt hash is below this
   if (!this.isModified('password')) done();

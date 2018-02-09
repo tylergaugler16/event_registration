@@ -21,12 +21,12 @@ var smtpTransport = nodemailer.createTransport( {
 });
 
 exports.fixOne = function(req, res){
-  User.findOne({ email: 'tylergaugler16@gmail.com' }, function(err, user) {
+  User.findOne({ email: req.params.email }, function(err, user) {
     console.log(user);
-    user.password = 'foobar1234';
-
+    user.password = user.firstname.toLowerCase() + "1234";
+    console.log(user.password);
     user.save(function(err) {
-      if(err) res.send("failed");
+      if(err) res.send(err);
       else res.send('success');
     });
 

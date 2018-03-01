@@ -95,7 +95,10 @@ exports.create = function(req, res){
       req.flash('message', err.message);
       res.redirect('/');
     }
-    else res.redirect('/users/login');
+    else {
+      sendWelcomeEmail(user, req.headers.host );
+      res.redirect('/users/login');
+    }
   });
 }
 exports.signup = function(req, res){
@@ -278,7 +281,6 @@ exports.reset_password_post = function(req, res) {
       });
     },
     function(user, done) {
-
       var mailOptions = {
         to: user.email,
         from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
@@ -295,5 +297,22 @@ exports.reset_password_post = function(req, res) {
     if(err)console.log(err);
     res.redirect('/users/login');
   });
-
 };
+
+
+function sendWelcomeEmail(user, hostname){
+
+  var mailOptions = {
+    to: user.email,
+    from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
+    subject: 'Thank you for registering at register.maspethbiblechurch.com',
+    text: 'You are receiving this because you have created an account at register.maspethbiblechurch.com. If you did not create an account, but are registered for Open Gym, we may have created an account for you with the email you submitted on our paper registration sheet. Your password is your first name followed by "1234". If your child is part of our open gym program, please log in and press the "Register your children for Open Gym button" on your profile page(this is the page that you are redirected to after logging in) to compelete the registration process.\n\n' +
+      'To sign in, click on the following link:\n\n' +
+      'http://' + hostname+ '/users/signin/\n\n'
+  };
+  smtpTransport.sendMail(mailOptions, function(err, info) {
+    if(err)console.log(err);
+    done(err, 'done');
+  });
+
+}

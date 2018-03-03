@@ -50,12 +50,12 @@ exports.fixAll = function(req, res){
 }
 
 exports.list = function(req, res){
-  User.find(function(err, users) {
+  User.find({},function(err, users) {
     if(err) console.log(err);
     else{
-      res.render('./users/index',{users: users});
+      res.render('./users/index',{users: users });
     }
-  });
+  }).sort({lastname: 1});
 };
 exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
@@ -177,12 +177,26 @@ exports.upload_photo = function(req, res){
 
 }
 exports.delete = function(req, res){
-  // req.body
-  User.remove({_id: req.body.id}, function(err, results){
-    if (err) res.status(400);
-    else res.status(200);
+  deleted_accounts = [];
+  User.remove({_id: req.params.id}, function(err, results){
+    if (err) res.send('no');
+    else{
+      console.log(results);
+      deleted_accounts.push('Parent');
+      Child.find({legal_guardian_id: req.params.id }, function(err, children){
+        if(err) res.send('');
+        else{
+          for(var i =0; i< children.length; i++){
+            Child.remove({_id: children[i]._id}, function(err, results){
+              if(err) res.send('no')
+              else deleted_accounts.push('child');
+            });
+          }
+        }
+        res.send(deleted_accounts); // does not wait for deleted_accounts.push('child'); need to refactor
+      });
+    }
   });
-
 }
 
 

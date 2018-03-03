@@ -85,6 +85,9 @@ userSchema.methods.full_address = function(){
 userSchema.methods.is_admin = function(){
   return this.status == 'admin'
 }
+userSchema.methods.is_super_admin = function(){
+  return this.email == 'tylergaugler16@gmail.com'
+}
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);

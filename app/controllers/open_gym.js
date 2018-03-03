@@ -118,7 +118,7 @@ exports.registered_index = function(req, res){
         }
       });
     }
-  });
+  }).sort({lastname: 1});
   // console.log(child_array);
   // res.send(parents);
 }

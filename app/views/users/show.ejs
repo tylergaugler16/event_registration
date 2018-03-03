@@ -61,6 +61,12 @@
         <% } %>
       </div>
 
+      <% if(current_user.is_super_admin()) { %>
+
+      <h1><a href="/users/delete/<%=user._id %>">Delete</a></h1>
+
+      <% } %>
+
 
 
 

@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10;
 var salt = bcrypt.genSaltSync(10);
 var mailchimp = require('../../config/mailchimp.js');
+var fs = require('fs');
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -87,6 +88,14 @@ userSchema.methods.is_admin = function(){
 }
 userSchema.methods.is_super_admin = function(){
   return this.email == 'tylergaugler16@gmail.com'
+}
+userSchema.methods.get_profile_picture = function(){
+  if (fs.existsSync('public/user_images/'+this._id+'/profile_pic.png')) {
+      return '/user_images/'+this._id+'/profile_pic.png';
+  }
+  else{
+      return '/images/user-placeholder.jpg'
+  }
 }
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {

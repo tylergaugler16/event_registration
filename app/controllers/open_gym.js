@@ -199,6 +199,7 @@ exports.weekly_attendance_view = function(req,res){
         if( ids[id.toString()] != true){
           children_array.push( {
             id: attendance.children[i].child_id,
+            parent_id: null,
             sign_in_time: attendance.children[i].sign_in_time,
             signed_out: attendance.children[i].signed_out,
             signed_out_time: attendance.children[i].signed_out_time,
@@ -213,7 +214,9 @@ exports.weekly_attendance_view = function(req,res){
           for(var i = 0; i < children.length; i++){
             for(var n = 0; n < children_array.length; n++){
               if(children[i]._id.toString() == children_array[n].id.toString()){
+
                 children_array[n].fullname = children[i].fullname;
+                children_array[n].parent_id = children[i].get_gaurdian();
                 break;
               }
             }

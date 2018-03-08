@@ -41,6 +41,7 @@ module.exports = function(passport, upload){
   Router.route('/users/forgot_password').get( users.forgot_password);
   Router.route('/users/reset/:token').get(users.reset_password);
   Router.route('/users/reset/:token').post(users.reset_password_post);
+  Router.route('/users/get_profile_picture').post(users.get_profile_picture);
   Router.route('/users/:id/edit').get(users.edit);
   Router.route('/users/:id/update').post(users.update);
   Router.route('/users/:id').get(isAuthenticated, users.findUserById); // should probably be last users/ route

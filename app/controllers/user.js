@@ -9,6 +9,7 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var mg = require('nodemailer-mailgun-transport');
+var ApplicationHelper = require('../helpers/application_helper.js');
 
 var smtpTransport = nodemailer.createTransport( {
   service: 'SendGrid',
@@ -59,7 +60,7 @@ exports.list = function(req, res){
 };
 exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
-    if(err) res.send('could not find user with that id');
+    if(err || (user == null)) res.send('could not find user with that id');
     else{
       console.log(user);
       Child.find({legal_guardian_id: user._id }, function(err, children){
@@ -312,6 +313,13 @@ exports.reset_password_post = function(req, res) {
     res.redirect('/users/login');
   });
 };
+
+
+  exports.get_profile_picture = function(req, res){
+    file = ApplicationHelper.get_profile_picture_file(req.body.id);
+    var bitmap = fs.readFileSync(file);
+    res.send(bitmap.toString('base64'));
+  }
 
 
 function sendWelcomeEmail(user, hostname){

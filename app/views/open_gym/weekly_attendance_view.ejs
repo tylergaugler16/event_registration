@@ -36,7 +36,8 @@
             <tr class="<%= children[i].id %>">
               <td>
                 <div class="user-circle <%=(children[i].signed_out)? 'signed-out-color' : 'not-signed-out-color' %>"><%= children[i].firstname %></div>
-                <%= children[i].fullname %>
+                <a href="#" class="child-name" parent_id="<%= children[i].parent_id %>"><%= children[i].fullname %></a>
+
               </td>
               <td class="sign_in_time_row">
                 <%= children[i].sign_in_time %>
@@ -58,6 +59,10 @@
       </table>
     </div>
 
+    <div id="image-modal" style="display:none;">
+      <img src="#" alt="parent image" id="parent-image">
+    </div>
+    <div id="overlay" style="display:none;"></div>
 
   </body>
 
@@ -83,6 +88,29 @@
           $($(id_string+ ' .sign_out_button_row')[0]).html("-");
         }
       });
-    })
+    });
+    $(document).on('click', '.child-name', function(e){
+      e.preventDefault();
+      var parent_id = $(this).attr('parent_id');
+      $.ajax({
+        method: 'POST',
+        url: '/users/get_profile_picture',
+        data: {
+          id: parent_id
+        },
+         success: function(rawImageData){
+            $("#parent-image").attr("src","data:image/gif;base64," + rawImageData);
+            $('#overlay').css('display','block');
+            $('#image-modal').css('display','block');
+          }
+      });
+    });
+
+    $(document).on('click', '#overlay', function(){
+      $('#overlay').css('display','none');
+      $('#image-modal').css('display','none');
+    });
+
+
   })
 </script>

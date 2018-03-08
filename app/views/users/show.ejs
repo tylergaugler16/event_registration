@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -28,7 +28,7 @@
 
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
-        <img src="/user_images/<%= user._id%>/profile_pic.png" alt="" style="height:300px;width:300px;">
+        <img src="<%= user.get_profile_picture(); %>" alt="" style="height:300px;width:300px;">
         <h2><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
         <h4><%= user.full_address() %></h4>
@@ -50,6 +50,7 @@
           <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
           <h4>Medical Notes: <%=children[i].medical_notes %></h4>
           <h4><%= children[i].address +" "+ children[i].zip_code%></h4>
+          <h4><%=children[i].get_gaurdian() %></h4>
           <a href="/open_gym/registered/children/<%=children[i]._id%>/edit">Edit</a>
           <br>
         <% } %>

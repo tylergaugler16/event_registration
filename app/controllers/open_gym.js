@@ -263,7 +263,7 @@ exports.signout = function(req, res){
              if(err) res.json({ status : 400 });
              else res.json({ status : 200, signed_out_time: time});
            });
-       }
+       } 
      }
   });
 

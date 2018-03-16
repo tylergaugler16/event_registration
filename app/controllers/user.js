@@ -160,19 +160,27 @@ exports.upload_photo = function(req, res){
     req.flash('message', 'Could not upload image');
     res.redirect('/users/'+req.body.id);
   }
+
   var dir = "public/user_images/"+req.body.id
 
   if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
-}
-  var path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
-
+  }
+  let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
+  console.log(req.file);
     fs.rename(req.file.path, path , function(err){
       if(err){
         req.flash('message', 'Could not upload image');
         res.redirect('/users/'+req.body.id);
       }
-      else res.redirect('/users/'+req.body.id);
+      else{
+        fs.unlink(path, function() {
+            if (err) throw err;
+            else res.redirect('/users/'+req.body.id);
+        });
+      }
+
+
     });
 
 

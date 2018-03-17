@@ -10,6 +10,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var mg = require('nodemailer-mailgun-transport');
 var ApplicationHelper = require('../helpers/application_helper.js');
+var mkdirp = require('mkdirp');
 
 var smtpTransport = nodemailer.createTransport( {
   service: 'SendGrid',
@@ -166,6 +167,10 @@ exports.upload_photo = function(req, res){
     console.log("MAKING DIRECTORY: "+dir);
     fs.mkdirSync(dir);
   }
+  mkdirp(dir, function(err) {
+    if(err) console.log(err);
+  });
+
   let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
   console.log(path);
 

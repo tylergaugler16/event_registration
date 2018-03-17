@@ -165,29 +165,20 @@ exports.upload_photo = function(req, res){
 
   mkdirp(dir, function(err) {
     if(err) console.log(err);
-    else console.log("yippie!");
+    else {
+      let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
+      fs.rename(req.file.path, path , function(err){
+        if(err){
+          console.log(err);
+          req.flash('message', 'Could not upload image');
+          res.redirect('/users/'+req.body.id);
+        }
+        else{
+          res.redirect('/users/'+req.body.id);
+        }
+      });
+    }
   });
-
-  let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
-  console.log(path);
-
-    fs.rename(req.file.path, path , function(err){
-      if(err){
-        console.log(err);
-        req.flash('message', 'Could not upload image');
-        res.redirect('/users/'+req.body.id);
-      }
-      else{
-        res.redirect('/users/'+req.body.id);
-        // fs.unlink(path, function() {
-        //     if (err) throw err;
-        //     else res.redirect('/users/'+req.body.id);
-        // });
-      }
-
-
-    });
-
 
 }
 exports.delete = function(req, res){

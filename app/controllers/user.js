@@ -168,10 +168,12 @@ exports.upload_photo = function(req, res){
   }
   let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
   console.log(path);
+  console.log(dir);
   console.log(req.file.path);
   console.log(req.file);
     fs.rename(req.file.path, path , function(err){
       if(err){
+        console.log(err);
         req.flash('message', 'Could not upload image');
         res.redirect('/users/'+req.body.id);
       }

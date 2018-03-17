@@ -163,12 +163,9 @@ exports.upload_photo = function(req, res){
 
   var dir = process.env.MBC_PROJECT_DIRECTORY + "/public/user_images/"+req.body.id
 
-  if (!fs.existsSync(dir)){
-    console.log("MAKING DIRECTORY: "+dir);
-    fs.mkdirSync(dir);
-  }
   mkdirp(dir, function(err) {
     if(err) console.log(err);
+    else console.log("yippie!");
   });
 
   let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;

@@ -62,9 +62,8 @@ exports.findUserById = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user){
     if(err || (user == null)) res.send('could not find user with that id');
     else{
-      console.log(user);
       Child.find({legal_guardian_id: user._id }, function(err, children){
-        if(err) console.log("error finding users childrend");
+        if(err) console.log("error finding users children");
         else{
           Event.find({_id: { $in: user.eventsRegisteredFor }}, function(err, events){
             if(err) console.log("error finding events for user in findUserById method");
@@ -164,13 +163,12 @@ exports.upload_photo = function(req, res){
   var dir = process.env.MBC_PROJECT_DIRECTORY + "/public/user_images/"+req.body.id
 
   if (!fs.existsSync(dir)){
+    console.log("MAKING DIRECTORY: "+dir);
     fs.mkdirSync(dir);
   }
   let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
   console.log(path);
-  console.log(dir);
-  console.log(req.file.path);
-  console.log(req.file);
+
     fs.rename(req.file.path, path , function(err){
       if(err){
         console.log(err);

@@ -160,12 +160,11 @@ exports.upload_photo = function(req, res){
     req.flash('message', 'Could not upload image');
     res.redirect('/users/'+req.body.id);
   }
-
   var dir = process.env.MBC_PROJECT_DIRECTORY + "/public/user_images/"+req.body.id
-
   mkdirp(dir, function(err) {
     if(err) console.log(err);
     else {
+      console.log("made dir: "+dir);
       let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
       fs.rename(req.file.path, path , function(err){
         if(err){

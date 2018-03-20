@@ -39,19 +39,12 @@ exports.fixOne = function(req, res){
   });
 }
 exports.fixAll = function(req, res){
-  // User.updateMany({}, {$set: {
-  //   resetPasswordToken: null ,
-  //   resetPasswordExpires: null
-  //   }
-  // }, {$unset: false}, function(err){
-  //   if(err) res.send("failed");
-  //   else res.send("success");
-  // })
-  User.updateMany({},{
-    profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
-    function(err){
-      if(err) console.log(err);
+  User.updateMany({}, {$set: {
+      profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
     }
+  }, {$unset: false}, function(err){
+    if(err) res.send("failed");
+    else res.send("success");
   })
 
   // User.find(function(err, users){

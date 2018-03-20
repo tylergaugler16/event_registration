@@ -14,6 +14,7 @@ var userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   phone_number: [{type: String, required: true, unique: true}],
   password: {type: String, required: true},
+  profile_url: {type: String, required: false, default: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg' },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   church: {type: String, required:false },

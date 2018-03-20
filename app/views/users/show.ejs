@@ -28,7 +28,7 @@
 
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
-        <img src="<%= user.get_profile_picture(); %>" alt="" style="height:300px;width:300px;">
+        <img src="<%= user.profile_url %>" alt="" style="height:300px;width:300px;">
         <h2><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
         <h4><%= user.full_address() %></h4>

@@ -9,8 +9,12 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var mg = require('nodemailer-mailgun-transport');
-var ApplicationHelper = require('../helpers/application_helper.js');
+// var ApplicationHelper = require('../helpers/application_helper.js');
 var mkdirp = require('mkdirp');
+var AWS = require('aws-sdk');
+var myBucket = 'maspethbiblechurch-images';
+var s3Bucket = new AWS.S3( { params: {Bucket: myBucket } } )
+
 
 var smtpTransport = nodemailer.createTransport( {
   service: 'SendGrid',
@@ -35,13 +39,19 @@ exports.fixOne = function(req, res){
   });
 }
 exports.fixAll = function(req, res){
-  User.updateMany({}, {$set: {
-    resetPasswordToken: null ,
-    resetPasswordExpires: null
+  // User.updateMany({}, {$set: {
+  //   resetPasswordToken: null ,
+  //   resetPasswordExpires: null
+  //   }
+  // }, {$unset: false}, function(err){
+  //   if(err) res.send("failed");
+  //   else res.send("success");
+  // })
+  User.updateMany({},{
+    profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
+    function(err){
+      if(err) console.log(err);
     }
-  }, {$unset: false}, function(err){
-    if(err) res.send("failed");
-    else res.send("success");
   })
 
   // User.find(function(err, users){
@@ -70,9 +80,7 @@ exports.findUserById = function(req, res){
             if(err) console.log("error finding events for user in findUserById method");
             else res.render('./users/show',{user: user, children: children, registered_events: events});
           })
-
         }
-
       });
     }
   });
@@ -155,30 +163,31 @@ exports.update = function(req, res){
   });
 }
 
+
+// my s3 bucket will only last 12 months. On March 19th, 2019, I will need to
+// transfer all uploaded images from this current bucket to a bucket on another account.
 exports.upload_photo = function(req, res){
   if(!req.file){
     req.flash('message', 'Could not upload image');
     res.redirect('/users/'+req.body.id);
   }
-  var dir = process.env.MBC_PROJECT_DIRECTORY + "/public/user_images/"+req.body.id
-  mkdirp(dir, function(err) {
-    if(err) console.log(err);
-    else {
-      console.log("made dir: "+dir);
-      let path = (req.body.profile_pic)? dir + "/profile_pic.png" : dir +"/"+req.file.originalname;
-      fs.rename(req.file.path, path , function(err){
-        if(err){
-          console.log(err);
-          req.flash('message', 'Could not upload image');
-          res.redirect('/users/'+req.body.id);
-        }
-        else{
-          res.redirect('/users/'+req.body.id);
-        }
-      });
+
+  var stream = fs.createReadStream(req.file.path)
+  var params = {
+    Bucket: myBucket,
+    Key: req.body.id,
+    Body: stream,
+    ContentType: req.file.mimetype
+  }
+  s3Bucket.putObject(params, function(err, data){
+  if (err) { req.flash('message', 'Could not upload image');
+      res.redirect('/users/'+req.body.id);
+    } else {
+       req.flash('message', 'Uploaded image');
+       saveProfilePictureUrl(req.body.id);
+       res.redirect('/users/'+req.body.id);
     }
   });
-
 }
 exports.delete = function(req, res){
   deleted_accounts = [];
@@ -318,11 +327,22 @@ exports.reset_password_post = function(req, res) {
 };
 
 
-  exports.get_profile_picture = function(req, res){
-    file = ApplicationHelper.get_profile_picture_file(req.body.id);
-    var bitmap = fs.readFileSync(file);
-    res.send(bitmap.toString('base64'));
+function saveProfilePictureUrl(id){
+  var params = {
+    Bucket: myBucket,
+    Key: id.toString(),
   }
+  s3Bucket.getSignedUrl('getObject', params, function(err, url){
+    if(err) console.log(err);
+    else{
+      User.findOneAndUpdate({_id: id}, { profile_url: url }, function(err, user){
+        if(err) console.log(err);
+        else console.log(url);
+      });
+    }
+  });
+
+}
 
 
 function sendWelcomeEmail(user, hostname){

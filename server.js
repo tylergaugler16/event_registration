@@ -49,8 +49,6 @@ const routes = require('./app/routes/routes.js')(passport,upload);
 app.use('/',routes);
 
 
-
-
 app.listen(process.env.PORT || 3000, function(){
   console.log("listening on port 3000");
 });

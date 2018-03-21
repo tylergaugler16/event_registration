@@ -168,9 +168,10 @@ exports.upload_photo = function(req, res){
   var stream = fs.createReadStream(req.file.path)
   var params = {
     Bucket: myBucket,
-    Key: req.body.id,
+    Key: 'profile_pictures/'+req.body.id,
     Body: stream,
-    ContentType: req.file.mimetype
+    ContentType: req.file.mimetype,
+    ACL: 'public-read'
   }
   s3Bucket.putObject(params, function(err, data){
   if (err) { req.flash('message', 'Could not upload image');
@@ -321,20 +322,11 @@ exports.reset_password_post = function(req, res) {
 
 
 function saveProfilePictureUrl(id){
-  var params = {
-    Bucket: myBucket,
-    Key: id.toString(),
-  }
-  s3Bucket.getSignedUrl('getObject', params, function(err, url){
+  var url = 'https://s3.amazonaws.com/maspethbiblechurch-images/profile_pictures/'+id;
+  User.findOneAndUpdate({_id: id}, { profile_url: url }, function(err, user){
     if(err) console.log(err);
-    else{
-      User.findOneAndUpdate({_id: id}, { profile_url: url }, function(err, user){
-        if(err) console.log(err);
-        else console.log(url);
-      });
-    }
+    else console.log(url);
   });
-
 }
 
 

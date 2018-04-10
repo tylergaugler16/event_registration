@@ -53,6 +53,17 @@ exports.fixAll = function(req, res){
   //   }
   // });
 }
+exports.send_all_email = function(req, res){
+  User.find({},function(err, users) {
+    if(err) console.log(err);
+    else{
+      for(var i = 0; i< users.length; i++){
+        console.log("sent to "+users.email);
+        send_initial_email(users[i], req.headers.host);
+      }
+    }
+  });
+}
 
 exports.list = function(req, res){
   User.find({},function(err, users) {
@@ -144,12 +155,14 @@ exports.update = function(req, res){
     zip_code: req.body.zip_code,
     phone_number: req.body.phone_number
   }
+  if(res.locals.current_user.is_admin && req.body.email != null){
+    new_data["email"] = req.body.email;
+  }
   User.findOneAndUpdate({_id: req.body.id}, {$set: new_data}, function(err, user){
     if(err){
-      console.log("error");
+      console.log("error trying to update"+user.firstname+" "+user.lastname);
     }
     else{
-      console.log(user);
       res.redirect('/users/'+req.body.id);
 
     }
@@ -321,6 +334,7 @@ exports.reset_password_post = function(req, res) {
 };
 
 
+
 function saveProfilePictureUrl(id){
   var url = 'https://s3.amazonaws.com/maspethbiblechurch-images/profile_pictures/'+id;
   User.findOneAndUpdate({_id: id}, { profile_url: url }, function(err, user){
@@ -329,13 +343,11 @@ function saveProfilePictureUrl(id){
   });
 }
 
-
 function sendWelcomeEmail(user, hostname){
-
   var mailOptions = {
     to: user.email,
     from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
-    subject: 'Thank you for registering at register.maspethbiblechurch.com',
+    subject: 'Thank you for registering for Open Gym at Maspeth Bible Church',
     text: 'You are receiving this because you have created an account at register.maspethbiblechurch.com. If you did not create an account, but are registered for Open Gym, we may have created an account for you with the email you submitted on our paper registration sheet. Your password is your first name followed by "1234". If your child is part of our open gym program, please log in and press the "Register your children for Open Gym button" on your profile page(this is the page that you are redirected to after logging in) to compelete the registration process.\n\n' +
       'To sign in, click on the following link:\n\n' +
       'http://' + hostname+ '/users/login\n\n'
@@ -344,5 +356,21 @@ function sendWelcomeEmail(user, hostname){
     if(err)console.log(err);
     done(err, 'done');
   });
+}
 
+function send_initial_email(user, hostname){
+  var mailOptions = {
+    to: user.email,
+    from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
+    subject: 'Thank you for registering for Open Gym at Maspeth Bible Church',
+    text: 'You are receiving this because you have created an account at register.maspethbiblechurch.com. If you did not create an account, but are registered for Open Gym, we may have created an account for you with the email you submitted on our paper registration sheet. Your password is your first name followed by "1234". If you would like to change your password, go to http://'+hostname+'/users/forgot_password\n\n'+
+    'If your child is part of our open gym program, please log in and press the "Register your children for Open Gym" button on your profile page(this is the page that you are redirected to after logging in) to compelete the registration process.\n\n' +
+    'To help us out, please upload a profile picture of yourself along with your child. At this moment you can only upload one picture, so if you have multiple children please use a photo with everyone. This is for our sign out process, so we have a face of who is picking up the children. To do this, go to your profile page (this is the page that you are redirected to after logging in) and click "choose file" and after selecting one, make sure to click "submit".\n\n' +
+      'To sign in, click on the following link:\n\n' +
+      'http://' + hostname+ '/users/login\n\n'
+  };
+  smtpTransport.sendMail(mailOptions, function(err, info) {
+    if(err)console.log(err);
+    done(err, 'done');
+  });
 }

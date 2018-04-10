@@ -29,18 +29,19 @@
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
         <img src="<%= user.profile_url %>" alt="" style="height:300px;width:300px;">
-        <h2><%= user.full_name() %></h2>
+        <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="id" value="<%= user._id %>">
+          <input type="hidden" name="profile_pic" value=true>
+          <input type="file" name="user_photo" accept="image/*" value="Choose Profile Picture">
+          <input type="submit" value="Submit Profile Pciture">
+        </form>
+        <h2 class="username-header"><%= user.full_name() %></h2>
         <h4><%= user.email %></h4>
         <h4><%= user.full_address() %></h4>
         <h4><%= user.phone_number %></h4>
         <h4><%= user.church %></h4>
       <a href="/users/<%=user._id%>/edit">Edit</a>
-      <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<%= user._id %>">
-        <input type="hidden" name="profile_pic" value=true>
-        <input type="file" name="user_photo" accept="image/*">
-        <input type="submit" value="submit">
-      </form>
+
       </div>
       <div id="children_container" class="user_container">
         <h1 class="user_page_header">Children Registered For Open Gym</h1>

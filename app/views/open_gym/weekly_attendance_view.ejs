@@ -92,18 +92,23 @@
     $(document).on('click', '.child-name', function(e){
       e.preventDefault();
       var parent_id = $(this).attr('parent_id');
-      $.ajax({
-        method: 'POST',
-        url: '/users/get_profile_picture',
-        data: {
-          id: parent_id
-        },
-         success: function(rawImageData){
-            $("#parent-image").attr("src","data:image/gif;base64," + rawImageData);
-            $('#overlay').css('display','block');
-            $('#image-modal').css('display','block');
-          }
-      });
+      var url = 'https://s3.amazonaws.com/maspethbiblechurch-images/profile_pictures/'+parent_id;
+      // $("#parent-image").attr("src","data:image/gif;base64," + rawImageData);
+      $("#parent-image").attr("src",url);
+           $('#overlay').css('display','block');
+           $('#image-modal').css('display','block');
+      // $.ajax({
+      //   method: 'POST',
+      //   url: '/users/get_profile_picture',
+      //   data: {
+      //     id: parent_id
+      //   },
+      //    success: function(rawImageData){
+      //       $("#parent-image").attr("src","data:image/gif;base64," + rawImageData);
+      //       $('#overlay').css('display','block');
+      //       $('#image-modal').css('display','block');
+      //     }
+      // });
     });
 
     $(document).on('click', '#overlay', function(){

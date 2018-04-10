@@ -57,8 +57,9 @@ exports.send_all_email = function(req, res){
   User.find({},function(err, users) {
     if(err) console.log(err);
     else{
+      console.log(users.length);
       for(var i = 0; i< users.length; i++){
-        console.log("sent to "+users.email);
+        console.log("sent to "+users[i].email);
         send_initial_email(users[i], req.headers.host);
       }
     }

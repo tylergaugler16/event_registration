@@ -74,9 +74,11 @@ var writeToFile = function(workbook, filename, cb){
   // filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
    workbook.xlsx.writeFile(filename)
      .then(function() {
+       console.log("wrote to file "+filename);
        cb();
      })
      .catch(function(err){
+       console.log("could not write to file");
        console.log(err);
      });
 }

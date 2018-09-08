@@ -3,6 +3,19 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Attendance = mongoose.model('Attendance', 'attendanceSchema');
 var Excel = require('exceljs');
+var nodemailer = require('nodemailer');
+
+var smtpTransport = nodemailer.createTransport( {
+  service: 'SendGrid',
+  host: "smtp.sendgrid.net",
+  port: '587',
+  auth: {
+    user: process.env.SENDGRID_USERNAME,
+    pass: process.env.SENDGRID_PASSWORD
+  }
+});
+
+
 // var fs = require('fs');
 
 var writeRows = function(done){
@@ -184,7 +197,16 @@ exports.download_weekly_attendance = function(req, res){
     }, 1000);
 }
 
-exports.download_all_weekly_attendance  = function(req, res){
+
+exports.download_all_weekly_attendance = function(req, res){
+  writeToFileAndEmailAllWeeklyAttendance();
+  res.send("trying to download email");
+}
+
+
+
+var writeToFileAndEmailAllWeeklyAttendance  = function(){
+  console.log("yooyoy");
   var workbook = new Excel.Workbook();
   var sheet = workbook.addWorksheet("My Sheet",{
     pageSetup: {showGridLines: true, horizontalCentered: true}
@@ -216,8 +238,8 @@ exports.download_all_weekly_attendance  = function(req, res){
             const newRow = { child_name: children[row].firstname};
             for(var col = 0; col < attendance_array.length; col++){
               const childrenWhoAttended = attendance_array[col].children.map(x => x.child_id.toString());
-              console.log(childrenWhoAttended);
-              console.log(id);
+              // console.log(childrenWhoAttended);
+              // console.log(id);
               if(childrenWhoAttended.indexOf(id) > -1){
                 console.log("heerree");
                 newRow["attendance"+col] = "X"
@@ -231,21 +253,37 @@ exports.download_all_weekly_attendance  = function(req, res){
 
             sheet.addRow(newRow);
             if(row === children.length -1){
-              const filename = './public/spreadsheets/weekly/all.xlsx';
-              writeToFile(workbook, filename, function(){
-                res.download(filename);
+              const path = './public/spreadsheets/weekly/all.xlsx';
+              writeToFile(workbook, path, function(){
+                // res.download(path);
+                send_spreasheet_via_email('tylergaugler16@gmail.com', "downloadAllWeeklyAttendanceSheets.xlsx",path,)
               });
             }
           }
 
-
-          // for(var i = 0; i< attendance_array.length; i++){
-          //   var id = attendance_array[i].children.child_id;
-          //   if( childHash[id] )
-          // }
         }
       });
 
     }
+  });
+}
+
+function send_spreasheet_via_email(email,filename, path){
+  // res.locals.current_user
+  var mailOptions = {
+    to: email,
+    from: 'Maspeth Bible Church <support@maspethbiblechurch.com>',
+    subject: 'Download of '+filename,
+    text: "",
+    attachments: [
+      {
+        filename: filename,
+      path: path
+    }
+    ]
+  };
+  smtpTransport.sendMail(mailOptions, function(err, info) {
+    if(err)console.log(err);
+    done(err, 'done');
   });
 }

@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var attendanceSchema = new Schema({
   date: { type: String, required: true, unique: true },
   children: [{
-    child_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Child', unique: true},
+    child_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Child'},
     sign_in_time: { type: String, required: true },
     signed_out: {type: Boolean, default: false },
     signed_out_time: { type: String }

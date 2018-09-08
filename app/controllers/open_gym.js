@@ -179,7 +179,7 @@ exports.create_weekly_attendance = function(req, res){
   var date = req.body.month+"-"+req.body.day+"-"+req.body.year;
   var attendance = new Attendance({date: date});
   attendance.save(function(err){
-    if(err) consle.log(err);
+    if(err) console.log(err);
     else console.log(attendance);
     res.redirect('/open_gym/weekly_attendance/'+date);
   });

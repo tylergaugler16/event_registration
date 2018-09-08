@@ -189,9 +189,11 @@ exports.weekly_attendance = function(req,res){
   res.render('./open_gym/weekly_attendance');
 }
 exports.weekly_attendance_view = function(req,res){
+
   Attendance.findOne({date: req.params.date}, function(err, attendance){
     if(err) console.log(err);
     else{
+      console.log(attendance);
       var children_array = [];
       var ids = {}
       for(var i = 0 ; i < attendance.children.length; i++){
@@ -244,10 +246,23 @@ exports.find_user = function(req, res){
 
 exports.signin = function(req, res){
   var time = new Date().toLocaleTimeString('en-US', { hour12: true, hour: "numeric", minute: "numeric"});
-  Attendance.update({date: req.params.date }, { $addToSet: {children: {child_id: req.query.child_id, sign_in_time: time, signed_out: false} }},{upsert: true}, function(err, attendance){
-        if(err) console.log(err);
-        else console.log(attendance);
-    });
+  console.log(req.query.child_id);
+  Attendance.findOne({date: req.params.date }, function(err, attendance){
+    if(err) console.log(err);
+    else{
+      const childIds = attendance.children.map(x => x.child_id.toString());
+      if(childIds.includes(req.query.child_id.toString())){
+        console.log("ALREADY SIGNED IN!!");
+      }
+      else{
+        Attendance.update({date: req.params.date }, { $addToSet: {children: {child_id: req.query.child_id, sign_in_time: time, signed_out: false} }},{upsert: true}, function(err, attendance){
+              if(err) console.log(err);
+              else console.log(attendance);
+          });
+      }
+    }
+  });
+
   res.redirect('/open_gym/weekly_attendance/'+req.params.date);
 }
 
@@ -263,7 +278,7 @@ exports.signout = function(req, res){
              if(err) res.json({ status : 400 });
              else res.json({ status : 200, signed_out_time: time});
            });
-       } 
+       }
      }
   });
 

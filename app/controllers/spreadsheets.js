@@ -57,6 +57,16 @@ var writeRows = function(done){
 setTimeout( function(){ done(workbook) }, 5000 );
 }
 
+var writeToFile = function(workbook, filename, cb){
+  // filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
+   workbook.xlsx.writeFile(filename)
+     .then(function() {
+       cb();
+     })
+     .catch(function(err){
+       console.log(err);
+     });
+}
 exports.create = function(req, res){
   writeRows(function(workbook){
     console.log('DONE');
@@ -79,42 +89,163 @@ exports.index = function(req, res){
 }
 
 exports.download_weekly_attendance = function(req, res){
+  Child.find(function(err, children){
+    if(!err) console.log(children.length);
+  });
   var workbook = new Excel.Workbook();
   var sheet = workbook.addWorksheet("My Sheet",{
     pageSetup: {showGridLines: true, horizontalCentered: true}
   });
+
   sheet.properties.outlineLevelCol = 5;
   sheet.properties.defaultRowHeight = 25;
   sheet.properties.tabColor = 'blue'
     sheet.columns = [
         { header: 'First Name', key: 'firstname', width: 10 },
         { header: 'Last Name', key: 'lastname', width: 20 },
+        { header: 'Sign In Time', key: 'sign_in_time', width: 20 },
+        { header: 'Sign Out Time', key: 'signed_out_time', width: 20 },
     ];
     Attendance.findOne({date: req.params.date}, function(err, attendance){
       if(err)console.log(err);
       else{
-        Child.find({_id: {$in: attendance.children_present} }, function(err, children){
+        var children_array = [];
+        var ids = {}
+        for(var i = 0 ; i < attendance.children.length; i++){
+          id = attendance.children[i].child_id ;
+          if( ids[id.toString()] != true){
+            children_array.push( {
+              id: attendance.children[i].child_id,
+              parent_id: null,
+              sign_in_time: attendance.children[i].sign_in_time,
+              signed_out: attendance.children[i].signed_out,
+              signed_out_time: attendance.children[i].signed_out_time,
+              fullname: null
+            });
+            ids[id.toString()] = true;
+          }
+        }
+
+
+        // const children_array = children_array.map(x => x.id);
+
+        Child.find({ _id: {$in: children_array.map(x => x.id) } }, function(err, children){
           if(err) console.log(err);
           else{
+            for(var i = 0; i < children.length; i++){
+              for(var n = 0; n < children_array.length; n++){
+                if(children[i]._id.toString() == children_array[n].id.toString()){
+
+                  children_array[n].fullname = children[i].fullname;
+                  children_array[n].parent_id = children[i].get_gaurdian();
+                  break;
+                }
+              }
+            }
+            console.log(children_array);
+
+
             for(var i = 0;i<children.length;i++){
+
               sheet.addRow({
                 firstname: children[i].firstname,
                 lastname: children[i].lastname,
+                sign_in_time: children[i].sign_in_time || "",
+                signed_out_time: children[i].sign_in_time || "5:00pm",
               });
+              if(i === children.length - 1){
+                const filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
+                writeToFile(workbook, filename, function(){
+                  res.download(filename);
+                });
+              }
             }
+
           }
         })
       }
     }); //attendance
+
+
+    //
+    //  workbook.xlsx.writeFile(filename)
+    //    .then(function() {
+    //      console.log("wrote to a file");
+    //      if(fs.existsSync(path)) {
+    //          res.download(filename); // works like expected
+    //     }
+    //
+    //    })
+    //    .catch(function(err){
+    //      console.log(err);
+    //    });
     setTimeout(function(){
-      filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
-       workbook.xlsx.writeFile(filename)
-         .then(function() {
-           console.log("wrote to a file");
-           res.download(filename); // works like expected
-         })
-         .catch(function(err){
-           console.log(err);
-         });
+
     }, 1000);
+}
+
+exports.download_all_weekly_attendance  = function(req, res){
+  var workbook = new Excel.Workbook();
+  var sheet = workbook.addWorksheet("My Sheet",{
+    pageSetup: {showGridLines: true, horizontalCentered: true}
+  });
+
+  Child.find( {}, function(err, children){
+    if(err) console.log(err);
+    else{
+      childrenHash = {};
+      for(var i = 0; i < children.length; i++){
+        childrenHash[children[i]._id] = {
+          first_name: children[i].firstname,
+          last_name: children[i].lastname,
+          full_name: children[i].full_name(),
+        }
+      }
+      Attendance.find({}, function(err, attendance_array){
+        if(err) console.log(err);
+        else{
+
+          var columns = [{header: "", key: "child_name", width: 20}];
+          // childrenWhoAttended = attendance_array.map(x => x.child_id);
+          for(var i = 0; i< attendance_array.length; i++){
+            columns.push({header: attendance_array[i].date, key: 'attendance' + i, width: 20})
+          }
+          sheet.columns = columns;
+          for(var row = 0; row < children.length; row++){
+            const id= children[row]._id.toString() ;
+            const newRow = { child_name: children[row].firstname};
+            for(var col = 0; col < attendance_array.length; col++){
+              const childrenWhoAttended = attendance_array[col].children.map(x => x.child_id.toString());
+              console.log(childrenWhoAttended);
+              console.log(id);
+              if(childrenWhoAttended.indexOf(id) > -1){
+                console.log("heerree");
+                newRow["attendance"+col] = "X"
+              }
+
+              else{
+                newRow["attendance"+col] = ""
+              }
+
+            }
+
+            sheet.addRow(newRow);
+            if(row === children.length -1){
+              const filename = './public/spreadsheets/weekly/all.xlsx';
+              writeToFile(workbook, filename, function(){
+                res.download(filename);
+              });
+            }
+          }
+
+
+          // for(var i = 0; i< attendance_array.length; i++){
+          //   var id = attendance_array[i].children.child_id;
+          //   if( childHash[id] )
+          // }
+        }
+      });
+
+    }
+  });
 }

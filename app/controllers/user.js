@@ -39,13 +39,40 @@ exports.fixOne = function(req, res){
   });
 }
 exports.fixAll = function(req, res){
-  User.updateMany({}, {$set: {
-      profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
+  // User.updateMany({}, {$set: {
+  //     profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
+  //   }
+  // }, {$unset: false}, function(err){
+  //   if(err) res.send("failed");
+  //   else res.send("success");
+  // })
+
+  Child.find({}, function(err, children){
+    if(err) res.send("error");
+    else{
+      for(var i =0; i<children.length; i++){
+        if(!children[i].fullname){
+          const fullName = children[i].firstname + " "+ children[i].lastname;
+
+          Child.findOneAndUpdate({_id: children[i]._id }, {$set: {fullname: fullName}} , function(err, child){
+            if(err){
+              console.log("error");
+            }
+            else{
+              console.log(child.fullname);
+
+            }
+          }
+        );
+
+      }// if
+        if(i == children.length -1){
+          res.send("success");
+        }
+      }
+
     }
-  }, {$unset: false}, function(err){
-    if(err) res.send("failed");
-    else res.send("success");
-  })
+  });
 
   // User.find(function(err, users){
   //   for(var i = 0; i < users.length; i++){
@@ -75,9 +102,12 @@ exports.list = function(req, res){
   }).sort({lastname: 1});
 };
 exports.findUserById = function(req, res){
+  console.log("yooo");
   User.findOne({ _id: req.params.id }, function(err, user){
+
     if(err || (user == null)) res.send('could not find user with that id');
     else{
+      console.log(user);
       Child.find({legal_guardian_id: user._id }, function(err, children){
         if(err) console.log("error finding users children");
         else{

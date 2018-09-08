@@ -255,7 +255,7 @@ var writeToFileAndEmailAllWeeklyAttendance  = function(){
 
             sheet.addRow(newRow);
             if(row === children.length -1){
-              const path = './public/spreadsheets/weekly/all.xlsx';
+              const path = './public/spreadsheets/all.xlsx';
               writeToFile(workbook, path, function(){
                 // res.download(path);
                 send_spreasheet_via_email('tylergaugler16@gmail.com', "downloadAllWeeklyAttendanceSheets.xlsx",path,)

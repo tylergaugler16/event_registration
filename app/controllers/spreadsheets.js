@@ -157,9 +157,7 @@ exports.download_weekly_attendance = function(req, res){
                 }
               }
             }
-            console.log(children_array);
-
-
+  
             for(var i = 0;i<children.length;i++){
 
               sheet.addRow({
@@ -169,7 +167,7 @@ exports.download_weekly_attendance = function(req, res){
                 signed_out_time: children[i].sign_in_time || "5:00pm",
               });
               if(i === children.length - 1){
-                const filename = './public/spreadsheets/weekly/'+req.params.date+'.xlsx';
+                const filename = './public/spreadsheets/'+req.params.date+'.xlsx';
                 writeToFile(workbook, filename, function(){
                   res.download(filename);
                 });

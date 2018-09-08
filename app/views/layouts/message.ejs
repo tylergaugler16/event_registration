@@ -1,1 +1,9 @@
 
+
+  <div id="message_container">
+    <% if (messages){ %>
+      <%for (var message in messages){%>
+      <div class="<%= message %>"><%=messages[message]%> </div>
+      <%}%>
+    <% } %>
+  </div>

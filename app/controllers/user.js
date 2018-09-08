@@ -102,7 +102,7 @@ exports.list = function(req, res){
   }).sort({lastname: 1});
 };
 exports.findUserById = function(req, res){
-  console.log("yooo");
+  console.log("In User show");
   User.findOne({ _id: req.params.id }, function(err, user){
 
     if(err || (user == null)) res.send('could not find user with that id');
@@ -205,7 +205,7 @@ exports.update = function(req, res){
 // transfer all uploaded images from this current bucket to a bucket on another account.
 exports.upload_photo = function(req, res){
   if(!req.file){
-    req.flash('message', 'Could not upload image');
+    req.flash('error_message', 'Could not upload image');
     res.redirect('/users/'+req.body.id);
   }
 
@@ -218,10 +218,10 @@ exports.upload_photo = function(req, res){
     ACL: 'public-read'
   }
   s3Bucket.putObject(params, function(err, data){
-  if (err) { req.flash('message', 'Could not upload image');
+  if (err) { req.flash('error_message', 'Could not upload image');
       res.redirect('/users/'+req.body.id);
     } else {
-       req.flash('message', 'Uploaded image');
+       req.flash('error_message', 'Uploaded image');
        saveProfilePictureUrl(req.body.id);
        res.redirect('/users/'+req.body.id);
     }
@@ -276,7 +276,7 @@ exports.create_password_token = function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email }, function(err, user) {
         if (!user) {
-          req.flash('error', 'No account with that email address exists.');
+          req.flash('error_message', 'No account with that email address exists.');
           return res.redirect('/users/forgot_password');
         }
 
@@ -300,7 +300,7 @@ exports.create_password_token = function(req, res, next) {
       };
       smtpTransport.sendMail(mailOptions, function(err, info) {
         if(err)console.log(err);
-        req.flash('message', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+        req.flash('success_message', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
         done(err, 'done');
       });
     }
@@ -315,7 +315,7 @@ exports.create_password_token = function(req, res, next) {
 exports.reset_password = function(req, res){
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      req.flash('message', 'Password reset token is invalid or has expired.');
+      req.flash('error_message', 'Password reset token is invalid or has expired.');
       return res.redirect('/');
     }
     res.render('./users/reset_password', { user: req.user, token: req.params.token });
@@ -327,7 +327,7 @@ exports.reset_password_post = function(req, res) {
     function(done) {
       User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
-          req.flash('message', 'Password reset token is invalid or has expired.');
+          req.flash('error_message', 'Password reset token is invalid or has expired.');
           return res.redirect('/');
         }
 
@@ -337,7 +337,7 @@ exports.reset_password_post = function(req, res) {
 
         user.save(function(err) {
           if(err){
-            req.flash('message', 'Your password was not changed. Please try again.');
+            req.flash('error_message', 'Your password was not changed. Please try again.');
             res.redirect('/');
           }
           done(err, user);
@@ -354,7 +354,7 @@ exports.reset_password_post = function(req, res) {
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Success! Your password has been changed.');
+        req.flash('success_message', 'Success! Your password has been changed.');
         done(err);
       });
     }

@@ -7,7 +7,7 @@ exports.list = function(req, res){
 
   Event.find(function(err, events) {
     if(err){
-      req.flash('message', 'Error MESSAGE');
+      req.flash('error_message', 'Error MESSAGE');
       res.render('./dashboard/dashboard')
     }
     else{
@@ -19,7 +19,7 @@ exports.list = function(req, res){
 exports.findEventById = function(req, res){
     Event.findOne({_id: req.params.id}, function(err, event){
       if(err){
-        req.flash('message', 'Could not find Event');
+        req.flash('error_message', 'Could not find Event');
         res.redirect('/');
       }
       else{
@@ -33,7 +33,7 @@ exports.findEventById = function(req, res){
                  registered = true;
               }
             }
-            res.render('./events/show', {event: event, registered: registered, user_list: users, message: req.flash('message')});
+            res.render('./events/show', {event: event, registered: registered, user_list: users, });
 
           }
         });
@@ -63,7 +63,7 @@ exports.create = function(req,res){
   event.save(function(err){
     // if(err) res.redirect('/events/new');
     if(err) {
-      req.flash('message', 'Error saving Event!');
+      req.flash('error_message', 'Error saving Event!');
       res.redirect('/');
     }
     else {

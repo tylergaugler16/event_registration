@@ -44,7 +44,7 @@ exports.register_children = function(req,res){
         console.log(err);
         if(err) {
           console.log("ERRORR");
-          req.flash('message', 'Unable to register child!!!');
+          req.flash('error_message', 'Unable to register child!!!');
           res.redirect('/')
         }
         else{
@@ -95,7 +95,9 @@ exports.register_children = function(req,res){
     console.log(req.body);
   }
   console.log(successfully_added_kids[0]);
-  req.flash('message', 'Successfully registered'+ successfully_added_kids.join(", "));
+  if(successfully_added_kids.length > 0){
+    req.flash('success_message', 'Successfully registered'+ successfully_added_kids.join(", "));
+  }
   res.sendStatus(200);
 }
 
@@ -313,5 +315,5 @@ exports.weekly_attendance_for_admin = function(req, res){
     else{
       res.render('./admin/weekly_attendance',{attendance: attendance});
     }
-  });
+  }).sort({date: -1}) ;
 }

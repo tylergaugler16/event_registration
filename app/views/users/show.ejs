@@ -8,12 +8,9 @@
   </head>
   <body>
     <% include ../layouts/header %>
-    <div class="main-container">
-      <div id="message_container">
-        <% if (typeof message != 'undefined' && message){ %>
-          <h3><%= message %></h3>
-        <% } %>
-      </div>
+    <% include ../layouts/message %>
+<div class="main-container">
+
       <% if (user.email == current_user.email){  %>
       <div class="links_container">
         <div id="event-register">

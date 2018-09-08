@@ -20,6 +20,28 @@ ul,li{list-style:none;margin:0;padding:0;}
 .blue-background{
   background-color: #1f3052;
 }
+#message_container{
+  display: block;
+  width: 100vw;
+  /* padding: 5px; */
+  height: auto;
+  color: #ffffff;
+  font-size: 18px;
+}
+.success_message{
+  padding: 5px;
+  width: 100%;
+  min-height: 30px;
+  line-height: 30px;
+  background-color: #4BB543;
+}
+.error_message{
+  padding: 5px;
+  width: 100%;
+  min-height: 30px;
+  line-height: 30px;
+  background-color: #cc0000;
+}
 .link-blue{
   color: #3b7adb !important;
 }
@@ -181,9 +203,7 @@ body{
   left: 50%;
   transform: translate(-50%,-50%);
 }*/
-#message_container{
-  color:red;
-}
+
 
 /*dashboard page*/
 #welcome-message{

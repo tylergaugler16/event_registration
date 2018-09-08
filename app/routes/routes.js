@@ -35,7 +35,7 @@ module.exports = function(passport, upload){
   Router.route('/users/signup').post(users.create);
   Router.route('/users/delete/:id').get(users.delete);
   Router.route('/users/login').get(isNotLoggedIn, users.login);
-  Router.route('/users/login').post(isNotLoggedIn, passport.authenticate('login',{failureRedirect: '/', failureFlash : true}), users.signin);
+  Router.route('/users/login').post(isNotLoggedIn, passport.authenticate('login',{failureRedirect: '/users/login', failureFlash : true}), users.signin);
   Router.route('/users/upload_photo').post(isAuthenticated, upload.single('user_photo'), users.upload_photo);
   Router.route('/users/logout').get(users.logout);
   Router.route('/users/create_password_token').post(users.create_password_token);

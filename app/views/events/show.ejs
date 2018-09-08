@@ -10,9 +10,7 @@
 
 
     <% include ../layouts/header %>
-    <% if (message) { %>
-      <h3><%= message %> </h3>
-      <% } %>
+    <% include ../layouts/message %>
     <div class="main-container">
     <div class="event-container">
       <h1><%= event.title%></h1>

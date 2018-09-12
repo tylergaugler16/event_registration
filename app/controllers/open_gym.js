@@ -177,7 +177,7 @@ exports.new_weekly_attendance = function(req, res){
 }
 exports.create_weekly_attendance = function(req, res){
   var date = req.body.month+"-"+req.body.day+"-"+req.body.year;
-  var attendance = new Attendance({date: date});
+  var attendance = new Attendance({dateStamp: date, date: date});
   attendance.save(function(err){
     if(err) console.log(err);
     else console.log(attendance);
@@ -194,6 +194,7 @@ exports.weekly_attendance_view = function(req,res){
 
   Attendance.findOne({date: req.params.date}, function(err, attendance){
     if(err) console.log(err);
+    else if(!attendance) console.log("error finding attendance");
     else{
       console.log(attendance);
       var children_array = [];
@@ -312,8 +313,12 @@ exports.delete_attendance = function(req, res){
 exports.weekly_attendance_for_admin = function(req, res){
   Attendance.find(function(err, attendance) {
     if(err) console.log(err);
+
     else{
+      for(var i =0;i< attendance.length; i++){
+        console.log(attendance[i].dateStamp);
+      }
       res.render('./admin/weekly_attendance',{attendance: attendance});
     }
-  }).sort({date: -1}) ;
+  }).sort({dateStamp: -1}) ;
 }

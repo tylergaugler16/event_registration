@@ -5,6 +5,7 @@
     <title>Admin Home</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.29.0/date_fns.js"></script>
   </head>
   <body>
     <% include ../layouts/header %>
@@ -14,7 +15,9 @@
           <h1><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h1>
           <% for(var i = 0; i< attendance.length; i++){ %>
             <div class="attendance_list">
-              <h1><%= attendance[i].date %> </h1>
+              <% var dateString = "MMM D, YYYY" %>
+              <h1><%=formatDate(attendance[i].date, [format=dateString]) %></h1>
+
               <a href="/open_gym/weekly_attendance/<%= attendance[i].date %>">Add Children</a>
               <a href="/open_gym/weekly_attendance/view/<%= attendance[i].date %>">View Sheet</a>
               <a href="/open_gym/weekly_attendance/download/<%= attendance[i].date %>">Download Sheet</a>

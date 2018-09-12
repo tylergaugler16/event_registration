@@ -18,6 +18,7 @@
     "client-sessions": "^0.7.0",
     "connect-flash": "^0.1.1",
     "crypto": "^1.0.1",
+    "date-fns": "^1.29.0",
     "datetimepicker": "^0.1.38",
     "ejs": "^2.5.6",
     "exceljs": "^0.4.4",

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('client-sessions');
 const flash = require('connect-flash');
+const dateFns = require('date-fns');
 
 const multer = require('multer');
 const upload = multer({dest: 'public/user_images/'});
@@ -49,6 +50,10 @@ app.use(function(req, res, next){
   };
   next();
 });
+
+
+app.locals.formatDate = dateFns.format;
+console.log(app.locals.formatDate);
 
 
 const initPassport = require('./passport/init');

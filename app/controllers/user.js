@@ -4,6 +4,7 @@ var mongoose = require( 'mongoose' ),
     Child = mongoose.model('Child', 'childSchema'),
     Event = mongoose.model('Event');
    fs = require('fs');
+  var Attendance = mongoose.model('Attendance','attendanceSchema');
 
 var async = require('async');
 var crypto = require('crypto');
@@ -47,26 +48,51 @@ exports.fixAll = function(req, res){
   //   else res.send("success");
   // })
 
-  Child.find({}, function(err, children){
+  // Child.find({}, function(err, children){
+  //   if(err) res.send("error");
+  //   else{
+  //     for(var i =0; i<children.length; i++){
+  //       if(!children[i].fullname){
+  //         const fullName = children[i].firstname + " "+ children[i].lastname;
+  //
+  //         Child.findOneAndUpdate({_id: children[i]._id }, {$set: {fullname: fullName}} , function(err, child){
+  //           if(err){
+  //             console.log("error");
+  //           }
+  //           else{
+  //             console.log(child.fullname);
+  //
+  //           }
+  //         }
+  //       );
+  //
+  //     }// if
+  //       if(i == children.length -1){
+  //         res.send("success");
+  //       }
+  //     }
+  //
+  //   }
+  // });
+  Attendance.find({}, function(err, attendances){
     if(err) res.send("error");
     else{
-      for(var i =0; i<children.length; i++){
-        if(!children[i].fullname){
-          const fullName = children[i].firstname + " "+ children[i].lastname;
+      for(var i =0; i<attendances.length; i++){
+        currect_date = new Date(attendances[i].date)
 
-          Child.findOneAndUpdate({_id: children[i]._id }, {$set: {fullname: fullName}} , function(err, child){
+          console.log(currect_date);
+          Attendance.findOneAndUpdate({_id: attendances[i]._id }, {$set: {dateStamp: currect_date}} , function(err, attendance){
             if(err){
               console.log("error");
             }
             else{
-              console.log(child.fullname);
-
+              console.log(attendance.date);
             }
           }
         );
 
-      }// if
-        if(i == children.length -1){
+
+        if(i == attendances.length -1){
           res.send("success");
         }
       }

@@ -5,9 +5,10 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var attendanceSchema = new Schema({
-  date: { type: String, required: true, unique: true },
+  date: { type: String, unique: true }, // needto change this to actual date to sort
+  dateStamp: {type: Date, require: true, unique: true},
   children: [{
-    child_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Child'},
+    child_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Child'}, // do not make this unique!
     sign_in_time: { type: String, required: true },
     signed_out: {type: Boolean, default: false },
     signed_out_time: { type: String }

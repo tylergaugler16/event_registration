@@ -209,7 +209,8 @@ exports.update = function(req, res){
     address: req.body.address,
     city: req.body.city,
     zip_code: req.body.zip_code,
-    phone_number: req.body.phone_number
+    phone_number: req.body.phone_number,
+    updated_at: new Date(),
   }
   if(res.locals.current_user.is_admin && req.body.email != null){
     new_data["email"] = req.body.email;

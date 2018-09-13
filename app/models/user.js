@@ -85,7 +85,7 @@ userSchema.methods.full_address = function(){
 }
 
 userSchema.methods.needsToBeUpdatedForFall = function(){
-  if(new Date("9-14-2018") > this.updated_at){
+  if(new Date("9-1-2018") > this.updated_at){
     return true;
   }
   else return false;

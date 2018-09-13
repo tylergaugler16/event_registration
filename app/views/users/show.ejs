@@ -11,7 +11,7 @@
     <% include ../layouts/message %>
 <div class="main-container">
 
-  <% if(user.needsToBeUpdatedForFall()){  %>
+  <% if(user.needsToBeUpdatedForFall() && !user.is_admin){  %>
       <h1 class="need-to-update-account">NEED TO UPDATE ACCOUNT FOR FALL</h1>
   <%  } %>
 

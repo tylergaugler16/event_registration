@@ -161,7 +161,7 @@ exports.create = function(req, res){
   user.save(function(err){
     console.log(err);
     if(err) {
-      req.flash('message', err.message);
+      req.flash('error_message', err.message);
       res.redirect('/');
     }
     else {
@@ -220,6 +220,7 @@ exports.update = function(req, res){
       console.log("error trying to update"+user.firstname+" "+user.lastname);
     }
     else{
+      req.flash('success_message', 'Succesfully updated');
       res.redirect('/users/'+req.body.id);
 
     }

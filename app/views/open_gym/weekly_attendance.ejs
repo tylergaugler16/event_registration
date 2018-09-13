@@ -22,7 +22,9 @@
       <div id="weekly_attendance_container">
         <div id="attendance_header">
           <div class="attendance_header_flexbox">
-            <h1><%= date %> </h1>
+            <% var dateString = "MMM D, YYYY" %>
+            <h1><%=formatDate(date, [format=dateString]) %></h1>
+          
           </div>
           <div class="attendance_header_flexbox">
             <a href="/open_gym/weekly_attendance/view/<%= date %>"><h3>View Sheet</h3></a>

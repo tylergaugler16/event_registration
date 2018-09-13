@@ -11,6 +11,10 @@
     <% include ../layouts/message %>
 <div class="main-container">
 
+  <% if(user.needsToBeUpdatedForFall()){  %>
+      <h1 class="need-to-update-account">NEED TO UPDATE ACCOUNT FOR FALL</h1>
+  <%  } %>
+
       <% if (user.email == current_user.email){  %>
       <div class="links_container">
         <div id="event-register">
@@ -21,8 +25,13 @@
           <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
         </div>
       </div>
-      <% } %>
+      <% } else if(current_user.is_admin){ %>
+        <div id="open-gym-register">
+          <a href="/open_gym/register?parent_id=<%= user._id %>" class="avenir-900">Register <%= user.full_name() %>  children for Open Gym</a>
+        </div>
+      <% } else{  %>
 
+        <% } %>
       <div id="user_info" class="user_container">
         <h1 class="user_page_header">Info</h1>
         <img src="<%= user.profile_url %>" alt="" style="height:300px;width:300px;">

@@ -84,6 +84,13 @@ userSchema.methods.full_address = function(){
   return this.address +" "+ this.city +" NY, "+ this.zip_code;
 }
 
+userSchema.methods.needsToBeUpdatedForFall = function(){
+  if(new Date("9-1-2018") > this.updated_at){
+    return true;
+  }
+  else return false;
+}
+
 userSchema.methods.is_admin = function(){
   return this.status == 'admin'
 }

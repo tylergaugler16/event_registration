@@ -9,21 +9,25 @@ exports.info = function(req, res){
 
 exports.register = function(req, res){
   // console.log(req.user);
+  console.log(req.query.parent_id);
   if(req.user.status == 'parent'){
-    res.render('./open_gym/register', {role: 'parent'});
+    res.render('./open_gym/register', {role: 'parent', legal_guardian_id: req.user._id});
   }
   else if(req.user.status == 'admin'){
-    res.render('./open_gym/register', {role: 'parent'});
+    if(req.query.parent_id){
+      res.render('./open_gym/register', {role: 'parent', legal_guardian_id: req.query.parent_id});
+    }
+    else{
+      res.render('./open_gym/register', {role: 'parent', legal_guardian_id: req.user._id});
+    }
+
   }
   else res.send('not working');
 }
 
 exports.register_children = function(req,res){
-  console.log(req.body.firstname);
-  console.log(req.body.firstname.length);
   var successfully_added_kids= [];
   if(req.body.firstname instanceof Array){
-    console.log("heree");
     for(var i = 0;i < req.body.firstname.length;i++){
       var d = req.body.birthday[i].split('-');
       var child = new Child({
@@ -83,8 +87,6 @@ exports.register_children = function(req,res){
       else{
         console.log('child registered');
         successfully_added_kids.push(child.fullname);
-
-        console.log(child);
         User.update({_id: req.body.legal_guardian_id},{$addToSet: {children: child}}, function(err, user){
               if(err) console.log(err);
               else console.log(user);
@@ -92,12 +94,13 @@ exports.register_children = function(req,res){
       }
     });
 
-    console.log(req.body);
   }
   console.log(successfully_added_kids[0]);
   if(successfully_added_kids.length > 0){
     req.flash('success_message', 'Successfully registered'+ successfully_added_kids.join(", "));
+    res.redirect('/users/'+req.user._id);
   }
+  req.flash('success_message', 'Successfully registered');
   res.sendStatus(200);
 }
 

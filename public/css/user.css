@@ -37,6 +37,13 @@
 .user_page_header{
   text-decoration: underline;
 }
+.need-to-update-account{
+  font-size: 28px;
+  color: #cc0000;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 
 /*index page*/

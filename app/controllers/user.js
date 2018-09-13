@@ -128,12 +128,11 @@ exports.list = function(req, res){
   }).sort({lastname: 1});
 };
 exports.findUserById = function(req, res){
-  console.log("In User show");
   User.findOne({ _id: req.params.id }, function(err, user){
 
     if(err || (user == null)) res.send('could not find user with that id');
     else{
-      console.log(user);
+
       Child.find({legal_guardian_id: user._id }, function(err, children){
         if(err) console.log("error finding users children");
         else{

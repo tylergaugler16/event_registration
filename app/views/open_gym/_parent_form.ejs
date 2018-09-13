@@ -8,7 +8,8 @@
   <input type="text" name="firstname" value="" required="">
   <label for="lastname">Lastname</label>
   <input type="text" name="lastname" value="" required="">
-  <input type="hidden" name="legal_guardian_id" value= '<%=(current_user)? current_user._id : "" %>' >
+  <input type="hidden" name="legal_guardian_id"
+  value= '<%= (legal_guardian_id)? legal_guardian_id : "" %>' >
   <br>
   <label for="address">Address</label>
   <input type="text" name="address" value="" required="">

@@ -248,7 +248,7 @@ exports.upload_photo = function(req, res){
   if (err) { req.flash('error_message', 'Could not upload image');
       res.redirect('/users/'+req.body.id);
     } else {
-       req.flash('error_message', 'Uploaded image');
+       req.flash('success_message', 'Uploaded image');
        saveProfilePictureUrl(req.body.id);
        res.redirect('/users/'+req.body.id);
     }

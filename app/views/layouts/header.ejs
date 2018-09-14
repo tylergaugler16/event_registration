@@ -1,23 +1,22 @@
 <div id="header">
 
   <div id="header_main_nav">
-    <a href="/"><h2>Maspeth Bible Church</h2></a>
-
+    <a href="/"><h3>Maspeth Bible Church</h3></a>
   </div>
 
   <div id="header_buttons" class="avenir-900">
-    <div class="button"><a href="/">Home</a></div>
-    <div class="button"><a href="/events">Events</a></div>
-    <div class="button"><a href="/open_gym/info">Open Gym</a></div>
+    <div class="header-button"><a href="/">Home</a></div>
+    <div class="header-button"><a href="/events">Events</a></div>
+    <div class="header-button"><a href="/open_gym/info">Open Gym</a></div>
     <% if (current_user) { %>
-      <div class="button"> <span id="current-user"> <a href="/users/<%= current_user._id %>"><%= current_user.full_name() %></a> </span></div>
+      <div class="header-button"> <span id="current-user"> <a href="/users/<%= current_user._id %>"><%= current_user.full_name() %></a> </span></div>
       <%  if(current_user.is_admin()){ %>
-          <div class="button"> <a href="/admin">Admin Page</a></div>
+          <div class="header-button"> <a href="/admin">Admin Page</a></div>
         <% } %>
-        <div class="button"> <a href="/users/logout">Logout</a></div>
+        <div class="header-button"> <a href="/users/logout">Logout</a></div>
     <% } else{ %>
-      <div class="button"><a href="/users/login">Log in</a></div>
-      <div class="button"><a href="/users/signup">Sign Up</a></div>
+      <div class="header-button"><a href="/users/login">Log in</a></div>
+      <div class="header-button"><a href="/users/signup">Sign Up</a></div>
     <% } %>
   </div>
 </div>

@@ -7,7 +7,8 @@ const passport = require('passport');
 const session = require('client-sessions');
 const flash = require('connect-flash');
 const dateFns = require('date-fns');
-
+const sassMiddleware = require('node-sass-middleware');
+const path = require('path');
 const multer = require('multer');
 const upload = multer({dest: 'public/user_images/'});
 const env = process.env.NODE_ENV || 'dev';
@@ -20,6 +21,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
+app.use(sassMiddleware({
+    src: path.join(__dirname, "public/sass"),
+    dest: path.join(__dirname, "public/stylesheets"),
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/stylesheets',
+    force: true,
+}));
+
 app.use(express.static('public'));
 app.use(session({
   cookieName: 'session',

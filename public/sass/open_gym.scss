@@ -1,3 +1,9 @@
+$royal-blue: #4062bb;
+$light-blue: #27aae3;
+$light-gray: #e6e6e6;
+$dark-gray: #3f3f3f;
+$orange: #dc493b;
+
 /* global classes */
 
 .attendance-action-button-container{
@@ -7,7 +13,7 @@
 .attendance-action-button{
   height: 40px;
   padding: 5px 10px;
-  background-color: #1f3052;
+  background-color: $royal-blue;
   color: #ffffff;
   display: inline-block;
   font-weight:900;
@@ -29,7 +35,7 @@
   margin: 10px;
   background-color: #f7faff;
     border: solid 1px #eaf0fb;
-    color: #1f3052;
+    color: $royal-blue;
     line-height: 18px;
     font-size: 14px;
 }
@@ -44,7 +50,7 @@
 #register_button_container a{
   display: inline-block;
   margin: 5px 25px;
-  background-color: #1f3052;
+  background-color: $royal-blue;
   color: #ffffff;
   padding: 8px 30px;
   border-radius: 4px;

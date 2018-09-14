@@ -1,3 +1,9 @@
+$royal-blue: #4062bb;
+$light-blue: #27aae3;
+$light-gray: #e6e6e6;
+$dark-gray: #3f3f3f;
+$orange: #dc493b;
+
 /*index*/
 #admin_actions{
   width: 70%;
@@ -7,7 +13,7 @@
 .action{
   width: 50%;
   height:150px;
-  background-color: #1f3052;
+  background-color: $royal-blue;
    float:left;
    display: flex;
    justify-content: center;

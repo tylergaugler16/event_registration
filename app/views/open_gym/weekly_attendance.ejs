@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Open Gym Registration</title>
-    <link rel="stylesheet" href="/css/DateTimePicker.css">
-    <link rel="stylesheet" href="/css/open_gym.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/DateTimePicker.css">
+    <link rel="stylesheet" href="/stylesheets/open_gym.css">
+
 
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
     <script src="/js/DateTimePicker.js" charset="utf-8"></script>
@@ -24,7 +26,7 @@
           <div class="attendance_header_flexbox">
             <% var dateString = "MMM D, YYYY" %>
             <h1><%=formatDate(date, [format=dateString]) %></h1>
-          
+
           </div>
           <div class="attendance_header_flexbox">
             <a href="/open_gym/weekly_attendance/view/<%= date %>"><h3>View Sheet</h3></a>

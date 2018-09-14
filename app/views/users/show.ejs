@@ -3,82 +3,126 @@
   <head>
     <meta charset="utf-8">
     <title>Event</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/user.css">
   </head>
   <body>
     <% include ../layouts/header %>
     <% include ../layouts/message %>
-<div class="main-container">
+<div class="main-container no-margin-top">
 
-      <% if (user.email == current_user.email){  %>
 
-      <div class="links_container">
-        <div id="event-register">
-          <a href="/events" class="avenir-900">Register for Upcoming Event</a>
+        <div class="profile-page-container is-fullwidth">
+          <div class="profile-sidebar">
+              <h2 class="user_page_header"><%= user.full_name() %>'s Info</h2>
+              <img src="<%= user.profile_url %>" alt="">
+              <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<%= user._id %>">
+                <input type="hidden" name="profile_pic" value=true>
+                <input type="file" name="user_photo" accept="image/*" value="Choose Profile Picture">
+                <input type="submit" value="Submit Profile Pciture">
+              </form>
+              <div class="sidebar-info-container">
+                <span class="is-bold">Email: </span>
+                <span class="info"><%= user.email %></span>
+              </div>
+              <div class="sidebar-info-container">
+                <span class="is-bold">Address: </span>
+                <span class="info"><%= user.full_address() %></span>
+              </div>
+              <div class="sidebar-info-container">
+                <span class="is-bold">Phone: </span>
+                <span class="info"><%= user.phone_number %></span>
+              </div>
+            
+              <%  if(current_user.is_admin()){ %>
+                  <div class="sidebar-info-container">
+                    <span class="is-bold">Signed Up:</span>
+                    <% var dateString = "MMM D, YYYY" %>
+                    <span class="info"><%=formatDate(user.created_at, [format=dateString]) %></span>
+                  </div>
 
+              <% } %>
+
+            <a class="edit-user-button is-bold" href="/users/<%=user._id%>/edit">Edit</a>
+            <% if(current_user.is_super_admin()) { %>
+
+            <h1><a href="/users/delete/<%=user._id %>">Delete</a></h1>
+
+            <% } %>
+
+          </div>
+          <div class="profile-content">
+            <% if (user.email == current_user.email){  %>
+
+            <div class="links_container profile-content-container">
+              <div id="event-register">
+                <a href="/events" class="avenir-900">Register for Upcoming Event</a>
+
+              </div>
+              <div id="open-gym-register">
+                <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
+              </div>
+            </div>
+            <% } else if(current_user.is_admin){ %>
+              <% if(user.needsToBeUpdatedForFall()){  %>
+                    <h1 class="need-to-update-account">NEED TO UPDATE ACCOUNT FOR FALL</h1>
+              <%  } %>
+              <div class="profile-content-container">
+              <div id="open-gym-register" >
+                <a href="/open_gym/register?parent_id=<%= user._id %>" class="avenir-900">Register <%= user.full_name() %>  children for Open Gym</a>
+              </div>
+            </div>
+            <% } else{  %>
+
+              <% } %>
+              <div id="children_container" class="profile-content-container">
+                <h2 class="user_page_header">Children Registered For Open Gym</h2>
+                <% if(children.length === 0){ %>
+                  <h4 class="is-italic">No children registered for Open Gym</h4>
+                  <% } %>
+                <% for(var i =0;i<children.length;i++){ %>
+                  <div class="registered-child-container">
+                    <div class="child-info-container">
+                      <span class="is-bold">Name: </span>
+                      <span class="info"><%= children[i].full_name() %></span>
+                    </div>
+                    <div class="child-info-container">
+                      <span class="is-bold">Birthday: </span>
+                      <span class="info"><%= children[i].birthday.toLocaleDateString("en-US") %></span>
+                    </div>
+                    <div class="child-info-container">
+                      <span class="is-bold">Medical Notes: </span>
+                      <span class="info"><%= children[i].medical_notes %></span>
+                    </div>
+                    <div class="child-info-container">
+                      <span class="is-bold">Address </span>
+                      <span class="info"><%= children[i].address +" "+ children[i].zip_code%></span>
+                    </div>
+
+
+                    <a class="edit-child-info-button" href="/open_gym/registered/children/<%=children[i]._id%>/edit">Edit <%= children[i].full_name() %>'s information</a>
+
+                  </div>
+                <% } %>
+              </div>
+              <div id="event_container" class="profile-content-container">
+                <h1 class="user_page_header">Events Registered For</h1>
+                <% if(registered_events.length === 0){ %>
+                  <h4 class="is-italic">No events registered for</h4>
+                  <% } %>
+                <% for(var i =0;i<registered_events.length;i++){ %>
+                  <h4><%= registered_events[i].title %></h4>
+                <% } %>
+              </div>
+          </div>
         </div>
-        <div id="open-gym-register">
-          <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
-        </div>
-      </div>
-      <% } else if(current_user.is_admin){ %>
-        <% if(user.needsToBeUpdatedForFall()){  %>
-              <h1 class="need-to-update-account">NEED TO UPDATE ACCOUNT FOR FALL</h1>
-        <%  } %>
-        <div id="open-gym-register">
-          <a href="/open_gym/register?parent_id=<%= user._id %>" class="avenir-900">Register <%= user.full_name() %>  children for Open Gym</a>
-        </div>
-      <% } else{  %>
-
-        <% } %>
-      <div id="user_info" class="user_container">
-        <h1 class="user_page_header">Info</h1>
-        <img src="<%= user.profile_url %>" alt="" style="height:300px;width:300px;">
-        <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="id" value="<%= user._id %>">
-          <input type="hidden" name="profile_pic" value=true>
-          <input type="file" name="user_photo" accept="image/*" value="Choose Profile Picture">
-          <input type="submit" value="Submit Profile Pciture">
-        </form>
-        <h2 class="username-header"><%= user.full_name() %></h2>
-        <h4><%= user.email %></h4>
-        <h4><%= user.full_address() %></h4>
-        <h4><%= user.phone_number %></h4>
-        <h4><%= user.church %></h4>
-      <a href="/users/<%=user._id%>/edit">Edit</a>
-
-      </div>
-      <div id="children_container" class="user_container">
-        <h1 class="user_page_header">Children Registered For Open Gym</h1>
-        <% for(var i =0;i<children.length;i++){ %>
-
-          <h3><%= children[i].full_name() %></h3>
-          <h4><%= children[i].birthday.toLocaleDateString("en-US") %></h4>
-          <h4>Medical Notes: <%=children[i].medical_notes %></h4>
-          <h4><%= children[i].address +" "+ children[i].zip_code%></h4>
-          <h4><%=children[i].get_gaurdian() %></h4>
-          <a href="/open_gym/registered/children/<%=children[i]._id%>/edit">Edit</a>
-          <br>
-        <% } %>
-      </div>
-      <div id="event_container" class="user_container">
-        <h1 class="user_page_header">Events Registered For</h1>
-        <% for(var i =0;i<registered_events.length;i++){ %>
-          <h4><%= registered_events[i].title %></h4>
-        <% } %>
-      </div>
-
-      <% if(current_user.is_super_admin()) { %>
-
-      <h1><a href="/users/delete/<%=user._id %>">Delete</a></h1>
-
-      <% } %>
 
 
 
 
-      <!-- <h1><%= user.eventsRegisteredFor %></h1> -->
+
 
 
     </div>

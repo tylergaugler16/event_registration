@@ -1,3 +1,10 @@
+$royal-blue: #4062bb;
+$light-blue: #27aae3;
+$light-gray: #e6e6e6;
+$dark-gray: #3f3f3f;
+$orange: #dc493b;
+
+
 html,body,blockquote,code,h1,h2,h3,h4,h5,h6,p,pre{margin:0;padding:0}
 button,fieldset,form,input,legend,textarea,select{margin:0;padding:0}
 a,a *{cursor:pointer}
@@ -5,6 +12,16 @@ a:link,a:visited,a:hover,a:active{color:black;text-decoration:none;}
 div{margin:0;padding:0;background-color:transparent}
 button,input[type=button],input[type=image],input[type=reset],input[type=submit],label{cursor:pointer;}
 ul,li{list-style:none;margin:0;padding:0;}
+
+.is-fullwidth{
+  width: 100%;
+}
+.is-bold{
+  font-weight: 900;
+}
+.is-italic{
+  font-style: italic;
+}
 
 /**{
   border:0.5px solid red;
@@ -18,7 +35,7 @@ ul,li{list-style:none;margin:0;padding:0;}
   background-color: #2c3f48;;
 }
 .blue-background{
-  background-color: #1f3052;
+  background-color: $royal-blue;
 }
 #message_container{
   display: block;
@@ -99,7 +116,7 @@ ul,li{list-style:none;margin:0;padding:0;}
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.4px;
-  color: #1f3052;
+  color: $royal-blue;
 }
 .users-table tr{
   height: 50px;
@@ -135,10 +152,13 @@ body{
    font-size: 14px;
    font-weight: 300;
    letter-spacing: 0.4px;
-   color:#1f3052;
+   color:$royal-blue;
 }
 .main-container{
   margin-top: 40px;
+}
+.main-container.no-margin-top{
+  margin-top: 0px;
 }
 #header{
   width:100%;
@@ -156,11 +176,18 @@ body{
 #header_main_nav{
   display: block;
   width:100%;
-  background-color: #1f3052;
+  background-color: $royal-blue;
   padding: 5px 0;
+  height: 40px;
+  h3{
+    line-height: 40px;
+    margin-left: 20px;
+  }
 }
+
 #header_main_nav a{
-  color:white; !important
+  padding: 5px 0;
+  color:white!important;
 }
 #header_buttons{
   display: block;
@@ -169,22 +196,29 @@ body{
   padding: 7px 0;
   text-align: right;
   box-shadow:1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+  .header-button{
+    display: inline-block;
+  }
+  .header-button:last-child{
+    margin-right: 20px;
+  }
+  a{
+    margin-right: 5px;
+    background-color: $royal-blue;
+    color: white;
+    padding: 3px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+  }
 }
 .button{
   display:inline-block;
   margin: 0 3px;
   margin-right:5px;
-  color: #1f3052; !important
+  color: $royal-blue!important;
 
 }
-.button a{
-  margin-right: 5px;
-  background-color: #1f3052;
-  color: white;
-  padding: 3px;
-  border-radius: 8px;
-  box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-}
+
 .button #current-user{
   border-left: 1px solid #2c3f48;
   border-right: 1px solid #2c3f48;
@@ -192,17 +226,8 @@ body{
 
 }
 #current-user a{
-  background-color: #13709c; !important
+  background-color: $light-blue!important;
 }
-/*#message_container{
-  position: absolute;
-  height: 200px;
-  width: 200px;
-  background-color: blue;
-  right: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-}*/
 
 
 /*dashboard page*/
@@ -210,18 +235,18 @@ body{
   position: absolute;
   left: 10%;
   /*width:50%;*/
-  color:#1f3052;
+  color:$royal-blue;
   text-align: center;
 }
 .step-header{
-  color:#1f3052;
+  color:$royal-blue;
   text-decoration: underline;
 }
 .step-container{
   width:70%;
   margin:25px auto;
   background-color: rgba(204, 204, 204, 0.9);
-  color:#1f3052;
+  color:$royal-blue;
   padding: 15px;
   box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
 }
@@ -251,7 +276,7 @@ body{
 #open-gym-step a h3, #event-step a h3{
   padding: 5px;
   display:inline-block;
-  background-color: #1f3052;
+  background-color: $royal-blue;
   color: #cccccc;
   border-radius: 4px;
 }
@@ -298,7 +323,7 @@ body{
    border: solid 1px #eaf0fb;
 }
 #submit_button{
-  background-color: #1f3052!important;
+  background-color: $royal-blue!important;
   color: white;
   padding: 3px!important;
   border-radius: 5px;

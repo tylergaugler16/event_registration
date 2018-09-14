@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Admin Home</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/admin.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.29.0/date_fns.js"></script>
   </head>
   <body>
@@ -12,7 +13,7 @@
     <% include ../layouts/message %>
       <div class="main-container">
         <div id="attendance_list_container">
-          <h1><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h1>
+          <h1 class="title is-1"><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h1>
           <% for(var i = 0; i< attendance.length; i++){ %>
             <div class="attendance_list">
               <% var dateString = "MMM D, YYYY" %>

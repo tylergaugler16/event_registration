@@ -20,13 +20,16 @@ $orange: #dc493b;
    align-items: center;
    outline :1px solid #cccccc;
    cursor: pointer;
+
+   text-align: center;
 }
 .action_headers{
   color: #f7faff;
+   padding: 0px 10px;
 }
 .action:hover{
   /*background-color: #cccccc;*/
-  background-color: #263b65;
+  background-color: #334e95;
 }
 .action:hover .action_headers{
     /*color:#2c3f48 !important;*/
@@ -43,7 +46,7 @@ $orange: #dc493b;
   margin: 10px auto;
   background: #59824F;
 }
-.attendance_list h1{
+.attendance_list h2{
   display: inline-table!important;
 }
 .attendance_list a{

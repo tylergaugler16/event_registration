@@ -1,23 +1,23 @@
 // var User = require('../models/user.js');
-var mongoose = require( 'mongoose' ),
-    User = mongoose.model('User', 'userSchema'),
-    Child = mongoose.model('Child', 'childSchema'),
-    Event = mongoose.model('Event');
-   fs = require('fs');
-  var Attendance = mongoose.model('Attendance','attendanceSchema');
+const mongoose = require( 'mongoose' );
+const User = mongoose.model('User', 'userSchema');
+const Child = mongoose.model('Child', 'childSchema');
+const Event = mongoose.model('Event');
+const fs = require('fs');
+const Attendance = mongoose.model('Attendance','attendanceSchema');
 
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var mg = require('nodemailer-mailgun-transport');
+const async = require('async');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const mg = require('nodemailer-mailgun-transport');
 // var ApplicationHelper = require('../helpers/application_helper.js');
-var mkdirp = require('mkdirp');
-var AWS = require('aws-sdk');
-var myBucket = 'maspethbiblechurch-images';
-var s3Bucket = new AWS.S3( { params: {Bucket: myBucket } } )
+const mkdirp = require('mkdirp');
+const AWS = require('aws-sdk');
+const myBucket = 'maspethbiblechurch-images';
+const s3Bucket = new AWS.S3( { params: {Bucket: myBucket } } );
 
 
-var smtpTransport = nodemailer.createTransport( {
+const smtpTransport = nodemailer.createTransport( {
   service: 'SendGrid',
   host: "smtp.sendgrid.net",
   port: '587',
@@ -120,28 +120,38 @@ exports.send_all_email = function(req, res){
 }
 
 exports.list = function(req, res){
+  const sortByHash = {
+    lastnameAsc: { lastname: 1},
+    lastnameDesc: {lastname: -1},
+    firstnameAsc: {firstname: 1},
+    firstnameDesc: {firstname: -1}
+  }
+  const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
   User.find({},function(err, users) {
     if(err) console.log(err);
     else{
       res.render('./users/index',{users: users });
     }
-  }).sort({lastname: 1});
+  }).sort( sortByHash[sortBy.toString()] || {lastname: 1});
 };
+
+
 exports.findUserById = function(req, res){
+
   User.findOne({ _id: req.params.id }, function(err, user){
 
     if(err || (user == null)) res.send('could not find user with that id');
     else{
-
-      Child.find({legal_guardian_id: user._id }, function(err, children){
-        if(err) console.log("error finding users children");
-        else{
-          Event.find({_id: { $in: user.eventsRegisteredFor }}, function(err, events){
-            if(err) console.log("error finding events for user in findUserById method");
-            else res.render('./users/show',{user: user, children: children, registered_events: events});
-          })
-        }
-      });
+      user.getChildren()
+            .then(function(children){
+              user.getEvents().then(function(events){
+                 res.render('./users/show',{user: user, children: children, registered_events: events});
+              }).catch(function(err){
+                console.log("error getting user events user#findUserById");
+              });
+            }).catch(function(err){
+              console.log("error getting user's childrens user#findUserById");
+            })
     }
   });
 };
@@ -220,7 +230,7 @@ exports.update = function(req, res){
       console.log("error trying to update"+user.firstname+" "+user.lastname);
     }
     else{
-      req.flash('success_message', 'Succesfully updated');
+      req.flash('success_message', ' updated');
       res.redirect('/users/'+req.body.id);
 
     }

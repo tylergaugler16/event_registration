@@ -31,7 +31,7 @@
           <% for(var i=0;i < children.length;i++){ %>
             <tr>
               <td><%= children[i].full_name() %> </td>
-              <td><%= parent_hash[children[i].legal_guardian_id[0]]%></td>
+              <td><a href="/users/<%= children[i].legal_guardian_id[0] %>"><%= parent_hash[children[i].legal_guardian_id[0]]%></a></td>
               <td><%= children[i].emergency_contact_name %></td>
               <td><%= children[i].emergency_contact_phone%></td>
               <td><%= children[i].address %></td>

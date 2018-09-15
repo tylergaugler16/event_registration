@@ -6,23 +6,30 @@
     <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/user.css">
+    <link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
   </head>
   <body>
     <% include ../layouts/header %>
     <% include ../layouts/message %>
-<div class="main-container no-margin-top">
+<div class="main-container no-margin-top no-padding-bottom">
 
 
         <div class="profile-page-container is-fullwidth">
           <div class="profile-sidebar">
               <h2 class="user_page_header"><%= user.full_name() %>'s Info</h2>
               <img src="<%= user.profile_url %>" alt="">
-              <form action="/users/upload_photo" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="<%= user._id %>">
-                <input type="hidden" name="profile_pic" value=true>
-                <input type="file" name="user_photo" accept="image/*" value="Choose Profile Picture">
-                <input type="submit" value="Submit Profile Pciture">
-              </form>
+              <div class="profile-picture-form-container">
+                <form action="/users/upload_photo" method="POST" enctype="multipart/form-data" class="profile-picture-form">
+                  <input type="hidden" name="id" value="<%= user._id %>">
+                  <input type="hidden" name="profile_pic" value=true>
+                  <div class="label-and-filename">
+                    <label for="user_photo"><i class="fas fa-upload"></i> Choose Profile Picture</label>
+                    <input type="file" class="file-input" name="user_photo" accept="image/*" value="Choose Profile Picture" id="user_photo" onchange="getFileName()" style="display:none">
+                    <span id="fileName"></span>
+                  </div>
+                  <input type="submit" class="submit-profile-picture" value="Submit Profile Pciture">
+                </form>
+              </div>
               <div class="sidebar-info-container">
                 <span class="is-bold">Email: </span>
                 <span class="info"><%= user.email %></span>
@@ -35,7 +42,7 @@
                 <span class="is-bold">Phone: </span>
                 <span class="info"><%= user.phone_number %></span>
               </div>
-            
+
               <%  if(current_user.is_admin()){ %>
                   <div class="sidebar-info-container">
                     <span class="is-bold">Signed Up:</span>
@@ -45,7 +52,7 @@
 
               <% } %>
 
-            <a class="edit-user-button is-bold" href="/users/<%=user._id%>/edit">Edit</a>
+            <a class="edit-user-button is-bold" href="/users/<%=user._id%>/edit"><span>Edit</span> <i class="fas fa-pencil-alt"></i></a>
             <% if(current_user.is_super_admin()) { %>
 
             <h1><a href="/users/delete/<%=user._id %>">Delete</a></h1>
@@ -102,13 +109,13 @@
                     </div>
 
 
-                    <a class="edit-child-info-button" href="/open_gym/registered/children/<%=children[i]._id%>/edit">Edit <%= children[i].full_name() %>'s information</a>
+                    <a class="edit-child-info-button" href="/open_gym/registered/children/<%=children[i]._id%>/edit"><span>Edit <%= children[i].full_name() %>'s information</span> <i class="fas fa-pencil-alt"></i></a>
 
                   </div>
                 <% } %>
               </div>
               <div id="event_container" class="profile-content-container">
-                <h1 class="user_page_header">Events Registered For</h1>
+                <h2 class="user_page_header">Events Registered For</h2>
                 <% if(registered_events.length === 0){ %>
                   <h4 class="is-italic">No events registered for</h4>
                   <% } %>
@@ -120,9 +127,13 @@
         </div>
 
 
-
-
-
+<script type="text/javascript">
+function getFileName(){
+  var x = document.getElementsByClassName('file-input')[0];
+  x.style.visibility = 'collapse';
+  document.getElementById('fileName').innerHTML = x.value.split('\\').pop();
+}
+</script>
 
 
     </div>

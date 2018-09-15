@@ -3,6 +3,7 @@ $light-blue: #27aae3;
 $light-gray: #e6e6e6;
 $dark-gray: #3f3f3f;
 $orange: #dc493b;
+$white: #ffffff;
 
 /*show page*/
 .links_container{
@@ -64,11 +65,42 @@ $orange: #dc493b;
     color: $light-gray;
     padding: 15px;
     display: inline-block;
+
     img{
       width: 80%;
       height: auto;
       margin: 5px auto;
       display: block;
+    }
+    .profile-picture-form-container{
+      margin: 10px auto;
+      border: 2px solid $white;
+      padding: 10px 5px;
+
+      .label-and-filename{
+        white-space:nowrap;
+        margin-bottom: 5px;
+        label{
+          font-size: 18px;
+          font-weight: 600;
+        }
+        #fileName{
+          font-size: 15px;
+          text-overflow: ellipsis;
+          font-style: italic;
+        }
+      }
+      .submit-profile-picture{
+        display: block;
+        background: $white;
+        outline: none;
+        border: 1px solid $white;
+        color: $royal-blue;
+        padding: 5px 8px;
+        border-radius: 5px;
+        margin: 0 auto;
+        font-weight: 900;
+      }
     }
     .sidebar-info-container{
       margin: 5px 0px;
@@ -85,6 +117,9 @@ $orange: #dc493b;
       display: block;
       margin-top: 10px;
       color: $light-gray;
+      .fa-pencil-alt{
+            font-size: 0.8em;
+      }
     }
   }
   .profile-content{
@@ -113,6 +148,9 @@ $orange: #dc493b;
       font-size: 22px;
       font-weight: 900;
       color: $orange;
+      .fa-pencil-alt{
+            font-size: 0.8em;
+      }
     }
   }
 }

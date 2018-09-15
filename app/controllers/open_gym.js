@@ -150,12 +150,14 @@ exports.edit_child = function(req, res){
   });
 }
 exports.update_child = function(req, res){
+  var d = req.body.birthday.split('-');
   var new_data = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     address: req.body.address,
     city: req.body.city,
     zip_code: req.body.zip_code,
+    birthday: Date.UTC(d[2], d[1], d[0]),
     emergency_contact_name: req.body.emergency_contact_name,
     emergency_contact_phone: req.body.emergency_contact_phone,
     medical_notes: req.body.medical_notes,
@@ -164,10 +166,13 @@ exports.update_child = function(req, res){
   }
   Child.findOneAndUpdate({_id: req.body.id}, {$set: new_data}, function(err, child){
     if(err){
-      console.log("error");
+        console.log("error in open_gym#update_child");
+      req.flash('error_message', 'Error updating child: '+child.fullname);
+      res.redirect('/users/'+child.get_gaurdian().toString());
+
     }
     else{
-      console.log(child);
+      req.flash('success_message', 'Successfully updated child: '+child.fullname);
       res.redirect('/users/'+child.get_gaurdian().toString());
 
     }

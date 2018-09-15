@@ -6,18 +6,20 @@
     <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/open_gym.css">
+    <link rel="stylesheet" href="/stylesheets/DateTimePicker.css">
 
 
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <script src="/js/DateTimePicker.js" charset="utf-8"></script>
     <!-- <script src="/js/open_gym.js" charset="utf-8"></script> -->
 
   </head>
   <body>
     <% include ../layouts/header %>
     <% include ../layouts/message %>
-    <div class="main-container">
+    <div class="main-container edit-child-page">
 
-      <h3>Edit</h3>
+      <h2 class="is-text-centered is-underline">Edit <%= child.firstname %>'s Info </h2>
       <form action="/open_gym/registered/children/<%=child._id%>/update" method="post">
       <div class="child">
         <label for="firstname">Firstname</label>
@@ -39,6 +41,10 @@
         <label for="emergency_contact_phone">Emergency Contact Phone Number</label>
         <input type="text" name="emergency_contact_phone" value="<%= child.emergency_contact_phone %>">
         <br>
+        <label for="birthday" >Birthday</label>
+        <% var dateString = "DD-MM-YYYY" %>
+        <input type="text" data-field="date" name="birthday" readonly value="<%= formatDate(child.birthday, [format=dateString]) %>">
+        <br>
         <label for="medical_notes">Medical Notes:</label>
         <br>
         <textarea name="medical_notes" rows="8" cols="50" ><%= child.medical_notes %></textarea>
@@ -53,10 +59,10 @@
       </div>
       <!-- <input type="submit" name="" value="Submit"> -->
       <div id="register_button_container">
-        <input type="submit" value="Update">
+        <input type="submit" value="Update" class="is-standard-submit blue-background">
         <!-- <a href="#" id="submitEditChild">Update</a> -->
       </div>
-
+  <div class="dtBox"></div>
       </form>
 
 
@@ -64,6 +70,14 @@
 
     </div>
 
-
+<script>
+$(document).ready(function(){
+  $(".dtBox").DateTimePicker(
+    {
+    timepicker:false,
+    dateTimeFormat: 'dd-MM-yyyy hh:mm:ss AA'
+    });
+});
+</script>
   </body>
 </html>

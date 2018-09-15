@@ -26,22 +26,24 @@ $orange: #dc493b;
   padding:10px;
   width:60%;
   margin:50px auto;
+  label{
+    font-weight: 900;
+    font-size: 16px;
+  }
+   input,  textarea{
+    margin: 10px;
+    background-color: #f7faff;
+      border: solid 1px #eaf0fb;
+      color: $royal-blue;
+      line-height: 18px;
+      font-size: 14px;
+  }
+  textarea{
+    width:100%;
+  }
 }
-.child label{
-  font-weight: 900;
-  font-size: 16px;
-}
-.child input, .child textarea{
-  margin: 10px;
-  background-color: #f7faff;
-    border: solid 1px #eaf0fb;
-    color: $royal-blue;
-    line-height: 18px;
-    font-size: 14px;
-}
-.child textarea{
-  width:100%;
-}
+
+
 #register_button_container{
   width: 50%;
   margin: 10px auto;
@@ -192,4 +194,11 @@ $orange: #dc493b;
 
 .open_gym_info_container{
   padding: 20px;
+}
+
+.edit-child-page{
+  .child{
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
 }

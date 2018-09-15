@@ -13,11 +13,11 @@
     <% include ../layouts/message %>
       <div class="main-container">
         <div id="attendance_list_container">
-          <h1 class="title is-1"><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h1>
+          <h2 class="title is-1"><a href="/open_gym/weekly_attendance/new">Create New Weekly Attendance Sheet +</a></h2>
           <% for(var i = 0; i< attendance.length; i++){ %>
             <div class="attendance_list">
               <% var dateString = "MMM D, YYYY" %>
-              <h1><%=formatDate(attendance[i].date, [format=dateString]) %></h1>
+              <h2><%=formatDate(attendance[i].date, [format=dateString]) %></h2>
 
               <a href="/open_gym/weekly_attendance/<%= attendance[i].date %>">Add Children</a>
               <a href="/open_gym/weekly_attendance/view/<%= attendance[i].date %>">View Sheet</a>

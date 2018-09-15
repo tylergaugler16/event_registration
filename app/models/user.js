@@ -1,11 +1,14 @@
-var mongoose = require('mongoose'),
-    bcrypt = require('bcrypt'),
-    SALT_WORK_FACTOR = 10;
-var salt = bcrypt.genSaltSync(10);
-var mailchimp = require('../../config/mailchimp.js');
-var fs = require('fs');
+const mongoose = require('mongoose');
+const  bcrypt = require('bcrypt');
+const   SALT_WORK_FACTOR = 10;
+
+const Child = mongoose.model('Child', 'childSchema');
+const Event = mongoose.model('Event', 'eventSchema');
+const salt = bcrypt.genSaltSync(10);
+const mailchimp = require('../../config/mailchimp.js');
+const fs = require('fs');
 // grab the things we need
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // create a schema
 var userSchema = new Schema({
@@ -125,14 +128,17 @@ userSchema.methods.updatePassword = function(new_password, next){
   // });
 }
 
+userSchema.methods.getChildren = function(){
+  return Child.find( { legal_guardian_id: this._id });
+}
+userSchema.methods.getEvents = function(){
+  return Event.find({_id: { $in: this.eventsRegisteredFor} });
+}
+
 // Statics
 
-userSchema.statics.findParent = function(parent_id, next){
-  this.findOne({_id: parent_id}, function(err, user){
-    if(user) return next(user);
-    else return next('yeet');
-  });
-
+userSchema.statics.getUser = function(user_id){
+  return User.find( { _id: user_id });
 }
 
 

@@ -14,6 +14,7 @@ const Schema = mongoose.Schema;
 var userSchema = new Schema({
   firstname: { type: String, required: true, unique: false },
   lastname: { type: String, required: true, unique: false },
+  fullname: {type: String, unique: false},
   email: { type: String, required: true, unique: true },
   phone_number: [{type: String, required: true, unique: true}],
   password: {type: String, required: true},
@@ -38,6 +39,7 @@ userSchema.pre('save', true, function(next, done) {
   var user = this;
   var currentDate = new Date();
   this.updated_at = currentDate;
+  this.fullname = this.firstname+ " "+this.lastname;
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at)

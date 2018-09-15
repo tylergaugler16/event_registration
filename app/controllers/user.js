@@ -47,6 +47,22 @@ exports.fixAll = function(req, res){
   //   if(err) res.send("failed");
   //   else res.send("success");
   // })
+  User.find({}, function(err, users){
+    if(err) send('error');
+    else{
+      for(var i =0; i< users.length; i++){
+        const fullname = users[i].firstname+" "+users[i].lastname;
+        User.findOneAndUpdate({_id: users[i]._id}, {$set: {fullname: fullname}} , function(err, user){
+          if(err){
+                     console.log("error");
+                   }
+                   else{
+                     console.log(user.fullname);
+                   }
+        });
+      }
+    }
+  });
 
   // Child.find({}, function(err, children){
   //   if(err) res.send("error");
@@ -142,6 +158,7 @@ exports.findUserById = function(req, res){
 
     if(err || (user == null)) res.send('could not find user with that id');
     else{
+      console.log(user);
       user.getChildren()
             .then(function(children){
               user.getEvents().then(function(events){

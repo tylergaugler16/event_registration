@@ -30,7 +30,8 @@ module.exports = function(passport, upload){
   Router.route('/users/fix_one/:email').get(users.fixOne);
   Router.route('/users/fix_all').get(users.fixAll);
   Router.route('/users/send_all_email').get(users.send_all_email);
-  Router.route('/users/:sortBy').get(isAdmin, users.list);
+  Router.route('/users/search/:keywords/sort/:sortBy').get(isAdmin, users.list);
+  Router.route('/users/sort/:sortBy').get(isAdmin, users.list);
   Router.route('/users').get(isAdmin, users.list);
   Router.route('/users/signup').get(users.signup);
   Router.route('/users/signup').post(users.create);

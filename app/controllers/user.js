@@ -137,13 +137,15 @@ exports.send_all_email = function(req, res){
 
 exports.list = function(req, res){
   const sortByHash = {
-    lastnameAsc: { lastname: 1},
-    lastnameDesc: {lastname: -1},
-    firstnameAsc: {firstname: 1},
-    firstnameDesc: {firstname: -1}
+    lastnameAsc: { lastname: -1},
+    lastnameDesc: {lastname: 1},
+    firstnameAsc: {firstname: -1},
+    firstnameDesc: {firstname: 1}
   }
+  const searchValue = req.params.keywords? req.params.keywords : "";
   const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
-  User.find({},function(err, users) {
+  console.log(sortByHash[sortBy.toString()] );
+  User.find({fullname: new RegExp( searchValue , "i") },function(err, users) {
     if(err) console.log(err);
     else{
       res.render('./users/index',{users: users });

@@ -3,9 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Users</title>
-    <link rel="stylesheet" href="/stylesheets/">
+    <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/user.css">
+
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <script src="/js/user.js" charset="utf-8"></script>
   </head>
   <body>
     <% include ../layouts/header %>
@@ -13,7 +16,31 @@
     <div class="main-container">
 
       <div class="table-header-container">
-        <h1 class="is-underline">Parents</h1>
+      
+          <h1 class="is-underline">Parents</h1>
+
+        <div class="search-sort-container">
+
+          <div>
+            <label for="sort-user" class="is-bold">Sort:</label>
+            <select name="sort-user" id="sort-users">
+              <option value="lastnameAsc">Lastname ↑(z-a)</option>
+
+              <option value="lastnameDesc">Lastname ↓(a-z)</option>
+              <option value="firstnameAsc">Firstname ↑(z-a)</option>
+              <option value="firstnameDesc">Firstname ↓(a-z) </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="search-users" class="is-bold">Search:</label>
+            <input type="text" name="search-users" id="search-users">
+          </div>
+          <div>
+            <button class="search-users-button">Search</button>
+          </div>
+
+        </div>
       </div>
       <table class="users-table">
         <thead>

@@ -137,6 +137,65 @@ ul,li{list-style:none;margin:0;padding:0;}
 .table-header-container{
   width: 90%;
   margin: 0 auto;
+  h1{
+    display: inline-block;
+  }
+  .search-sort-container{
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 15px;
+    div:not(:first-child){
+      margin: 0px 20px;
+    }
+    label{
+      font-size: 18px;
+    }
+    select{
+      display: inline-block;
+      appearance: none;
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     border: none;
+     /* needed for Firefox: */
+     overflow:hidden;
+     min-width: 180px;
+     padding: 4px 8px;
+     background-color: #f7faff;
+      border: solid 1px #eaf0fb;
+      background-image: url("/images/dropdown-select.png");
+      background-repeat: no-repeat;
+      background-size: 20px 20px;
+      background-position: 0px 0px;
+      background-size: auto 55%;
+    background-position: 95% 50%;
+      height: 30px;
+
+        font-size: 14px;
+    }
+    input{
+        border: solid 1px #eaf0fb;
+      min-width: 130px;
+      padding: 0px 8px;
+      background-color: #f7faff;
+      height: 30px;
+      font-size: 14px;
+    }
+    button{
+      outline: none;
+      border: solid 1px #eaf0fb;
+      background-color: $royal-blue;
+      color: $white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      min-width: 100px;
+      text-align: center;
+      font-weight: 900;
+      height: 30px;
+      font-size: 14px;
+    }
+  }
 }
 .users-table{
   width: 90%;

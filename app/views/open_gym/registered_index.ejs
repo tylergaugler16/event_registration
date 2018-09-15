@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/open_gym.css">
+    <link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
 
 
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
@@ -16,22 +17,49 @@
     <% include ../layouts/header %>
     <% include ../layouts/message %>
 
-    <div class="main-container">
+    <div class="main-container registered-index-page">
+      <div class="table-header-container">
+
+          <h1 class="is-underline">Children Registered for Open Gym</h1>
+
+        <div class="search-sort-container">
+
+          <div>
+            <label for="sort-user" class="is-bold">Sort:</label>
+            <select name="sort-user" id="sort-users">
+              <option value="lastnameAsc">Lastname ↑(z-a)</option>
+
+              <option value="lastnameDesc">Lastname ↓(a-z)</option>
+              <option value="firstnameAsc">Firstname ↑(z-a)</option>
+              <option value="firstnameDesc">Firstname ↓(a-z) </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="search-users" class="is-bold">Search:</label>
+            <input type="text" name="search-users" id="search-users">
+          </div>
+          <div>
+            <button class="search-users-button">Search</button>
+          </div>
+
+        </div>
+      </div>
 
       <table class="users-table">
         <thead>
-          <td>Child Name</td>
-          <td>Parent Name</td>
-          <td>Emergency Contact Name</td>
-          <td>Emergency Contact Number</td>
-          <td>Address</td>
-          <td>Medical Notes</td>
+          <th>Child Name</th>
+          <th>Parent Name</th>
+          <th>Emergency Contact Name</th>
+          <th>Emergency Contact Number</th>
+          <th>Address</th>
+          <th>Medical Notes</th>
         </thead>
         <tbody>
           <% for(var i=0;i < children.length;i++){ %>
             <tr>
               <td><%= children[i].full_name() %> </td>
-              <td><a href="/users/<%= children[i].legal_guardian_id[0] %>"><%= parent_hash[children[i].legal_guardian_id[0]]%></a></td>
+              <td><a href="/users/<%= children[i].legal_guardian_id[0] %>"><%= parent_hash[children[i].legal_guardian_id[0]]%> <i class="fas fa-link"></i></a></td>
               <td><%= children[i].emergency_contact_name %></td>
               <td><%= children[i].emergency_contact_phone%></td>
               <td><%= children[i].address %></td>

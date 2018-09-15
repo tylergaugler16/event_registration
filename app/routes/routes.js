@@ -60,6 +60,8 @@ module.exports = function(passport, upload){
   Router.route('/open_gym/info').get(open_gym.info);
   Router.route('/open_gym/register').get(isAuthenticated, open_gym.register);
   Router.route('/open_gym/register_children').post(isAuthenticated, open_gym.register_children);
+  Router.route('/open_gym/registered/children/sort/:sortBy/search/:keywords').get(isAdmin, open_gym.registered_index);
+  Router.route('/open_gym/registered/children/sort/:sortBy').get(isAdmin, open_gym.registered_index);
   Router.route('/open_gym/registered/children').get(isAdmin, open_gym.registered_index);
   Router.route('/open_gym/registered/parents').get(isAdmin, open_gym.registered_parents_index);
   Router.route('/open_gym/registered/children/:id/edit').get(open_gym.edit_child);

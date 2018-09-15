@@ -106,8 +106,17 @@ exports.register_children = function(req,res){
 
 exports.registered_index = function(req, res){
 
+  const sortByHash = {
+    lastnameAsc: { lastname: -1},
+    lastnameDesc: {lastname: 1},
+    firstnameAsc: {firstname: -1},
+    firstnameDesc: {firstname: 1}
+  }
+  const searchValue = req.params.keywords? req.params.keywords : "";
+  const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
 
-  Child.find(function(err, children){
+
+  Child.find({fullname: new RegExp( searchValue , "i") }, function(err, children){
     if(err) console.log(err);
     else{
       var legal_guardian_ids = children.map(function(a) {return a.legal_guardian_id[0];});
@@ -123,7 +132,7 @@ exports.registered_index = function(req, res){
         }
       });
     }
-  }).sort({lastname: 1});
+  }).sort( sortByHash[sortBy.toString()] || {lastname: 1});
   // console.log(child_array);
   // res.send(parents);
 }

@@ -202,3 +202,13 @@ $orange: #dc493b;
     margin-bottom: 10px;
   }
 }
+
+// registered index page
+.registered-index-page{
+  .users-table{
+    a, a:hover, a:focus, a:active{
+      color: $royal-blue;
+      font-weight: 700;
+    }
+  }
+}

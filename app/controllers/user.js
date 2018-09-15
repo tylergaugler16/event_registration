@@ -195,7 +195,16 @@ exports.create = function(req, res){
     }
     else {
       sendWelcomeEmail(user, req.headers.host );
-      res.redirect('/users/login');
+      req.login(user, function (err) {
+               if ( ! err ){
+                   req.flash('success_message', 'Successfully registered');
+                   res.redirect('/users/'+user._id);
+               } else {
+                  req.flash('error_message', 'Something went wrong when trying to register. Please enter your information again. Please make sure to fill out all fields. ');
+                   res.send('/users/signup');
+               }
+           })
+      //
     }
   });
 }

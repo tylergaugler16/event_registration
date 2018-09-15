@@ -62,15 +62,19 @@
           </div>
           <div class="profile-content">
             <% if (user.email == current_user.email){  %>
+            <div class="profile-welcome-container">
+              <h2>Hello, <%= user.firstname %>!</h2>
+              <p >This is your Pofile Page! You have registered yourself as an Open Gym Parent. This means you can register your children for our Open Gymp Program or register your family for Maspeth Bible Church Events. On this page you will see your basic info, your registered childrens' information, events you have registerd for, as well as buttons to register your children and register for an event. If you have any questions, please email: tylergaugler16@gmail.com </span>
+            </p>
 
             <div class="links_container profile-content-container">
-              <div id="event-register">
-                <a href="/events" class="avenir-900">Register for Upcoming Event</a>
-
-              </div>
               <div id="open-gym-register">
                 <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
               </div>
+              <div id="event-register">
+                <a href="/events" class="avenir-900">Register for Upcoming Event</a>
+              </div>
+
             </div>
             <% } else if(current_user.is_admin){ %>
               <% if(user.needsToBeUpdatedForFall()){  %>

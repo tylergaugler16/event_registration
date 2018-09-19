@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -57,6 +58,9 @@ childSchema.methods.get_gaurdian = function(){
 }
 childSchema.methods.initials = function(){
   return this.firstname.charAt(0) +" " + this.lastname.charAt(0);
+}
+childSchema.methods.initials = function(User){
+  return User.find({_id: this.legal_guardian_id[0]});
 }
 
 

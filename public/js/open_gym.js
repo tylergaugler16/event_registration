@@ -93,8 +93,11 @@ $(document).on('keyup','#search_bar', function(e){
       var date = $('#current_date').val();
       $('#children_container').empty();
       for(var i = 0; i< data.children.length; i++){
-        console.log(data.children[i].firstname);
-        $('#children_container').append(`<div class="child_container"><h3 class="child_name">`+data.children[i].firstname+ ` `+ data.children[i].lastname+`</h3> <a href="/open_gym/weekly_attendance/signin/`+date+`?child_id=`+data.children[i]._id+`" class="sign_in_button">Sign In</a></div>`
+        const isStaff= (data && data.children && data.children[i] &&  data.children[i].status && data.children[i].status === "staff")? "true" : "false";
+        console.log(data);
+        const person_id = data.children[i]._id;
+        // console.log(data.children)
+        $('#children_container').append(`<div class="child_container"><h3 class="child_name">`+data.children[i].firstname+ ` `+ data.children[i].lastname+`</h3> <a href="/open_gym/weekly_attendance/signin/`+date+`?person_id=`+person_id+`&is_staff=` +isStaff+`" class="sign_in_button">Sign In</a></div>`
       );
 
       }

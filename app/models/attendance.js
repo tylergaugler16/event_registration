@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-
+const Child = mongoose.model('Child', 'childSchema');
+const User = mongoose.model('User', 'userSchema');
 // grab the things we need
 var Schema = mongoose.Schema;
 
@@ -12,6 +13,12 @@ var attendanceSchema = new Schema({
     sign_in_time: { type: String, required: true },
     signed_out: {type: Boolean, default: false },
     signed_out_time: { type: String }
+  }],
+  staff: [{
+    staff_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, // do not make this unique!
+    sign_in_time: { type: String, required: true },
+    signed_out: {type: Boolean, default: false },
+    signed_out_time: { type: String }
   }]
 });
 
@@ -21,6 +28,90 @@ var attendanceSchema = new Schema({
 // eventSchema.methods.formatDate = function(){
 //   return this.date.toDateString() + " " + this.date.toLocaleTimeString();
 // }
+
+attendanceSchema.statics.getSortedMemberArray = function(attendance){
+  return new Promise(function(resolve, reject) {
+    var member_array = [];
+    if(!attendance.children) attendance.children = [];
+    if(!attendance.staff) attendance.staff = [];
+    const childrenArrayLength = attendance.children? attendance.children.length : 0;
+    for(var i = 0 ; i < childrenArrayLength; i++){
+      member_array.push( {
+        id: attendance.children[i].child_id,
+        parent_id: null,
+        sign_in_time: attendance.children[i].sign_in_time,
+        signed_out: attendance.children[i].signed_out,
+        signed_out_time: attendance.children[i].signed_out_time,
+        fullname: null,
+        isStaff: false,
+      });
+    }
+    const staffArrayLength = attendance.staff? attendance.staff.length : 0;
+    for(var i = 0 ; i < staffArrayLength; i++){
+      member_array.push( {
+        id: attendance.staff[i].staff_id,
+        parent_id: null,
+        sign_in_time: attendance.staff[i].sign_in_time,
+        signed_out: attendance.staff[i].signed_out,
+        signed_out_time: attendance.staff[i].signed_out_time,
+        fullname: null,
+        isStaff: true,
+      });
+    }
+    console.log(attendance);
+    console.log(attendance.children.map(x => x.child_id.toString() ));
+    Child.find({_id: {$in: attendance.children.map(x => x.child_id.toString() ) } }, function(err, children){
+      if(err) reject(err);
+      else{
+
+        User.find( { $and: [
+                        {_id: { $in: attendance.staff.map(x => x.staff_id.toString() ) } },
+                        { status: 'staff' } ] }, function(err, users){
+            if(err) reject(err);
+            else{
+
+              for(var i = 0; i < children.length; i++){
+                for(var n = 0; n < member_array.length; n++){
+                  if(children[i]._id.toString() == member_array[n].id.toString()){
+                    console.log(children[i].firstname);
+                    member_array[n].fullname = children[i].fullname;
+                    member_array[n].parent_id = children[i].get_gaurdian();
+                    break;
+                  }
+                }
+              }
+              for(var i = 0; i < users.length; i++){
+                for(var n = 0; n < member_array.length; n++){
+                  if(users[i]._id.toString() == member_array[n].id.toString()){
+                    if(member_array[n].isStaff){
+                      member_array[n].fullname = users[i].fullname;
+                      break;
+                    }
+                  }
+                }
+              }
+              const sortedMemberArray = member_array.sort(compare);
+              resolve(sortedMemberArray);
+            }
+
+        }); // user.find
+      }
+    });
+  });
+}
+
+function compare(a,b) {
+  if (a.fullname < b.fullname)
+    return -1;
+  if (a.fullname > b.fullname)
+    return 1;
+  return 0;
+}
+
+
+attendanceSchema.statics.getAttendance = function(date){
+  return this.find({date: date});
+}
 
 
 // the schema is useless so far

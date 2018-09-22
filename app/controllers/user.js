@@ -67,31 +67,33 @@ exports.fixAll = function(req, res){
   //   }
   // });
 
-  Child.find({}, function(err, children){
-    if(err) res.send("error");
-    else{
-      for(var i =0; i<children.length; i++){
+  // Child.find({}, function(err, children){
+  //   if(err) res.send("error");
+  //   else{
+  //     for(var i =0; i<children.length; i++){
+  //
+  //
+  //         Child.findOneAndUpdate({_id: children[i]._id }, {$set: {archived: false}} , function(err, child){
+  //           if(err){
+  //             console.log("error");
+  //           }
+  //           else{
+  //
+  //
+  //           }
+  //         }
+  //       );
+  //
+  //
+  //       if(i == children.length -1){
+  //         res.send("success");
+  //       }
+  //     }
+  //
+  //   }
+  // });
 
 
-          Child.findOneAndUpdate({_id: children[i]._id }, {$set: {archived: false}} , function(err, child){
-            if(err){
-              console.log("error");
-            }
-            else{
-        
-
-            }
-          }
-        );
-
-
-        if(i == children.length -1){
-          res.send("success");
-        }
-      }
-
-    }
-  });
   // Attendance.find({}, function(err, attendances){
   //   if(err) res.send("error");
   //   else{

@@ -49,6 +49,11 @@
                     <% var dateString = "MMM D, YYYY" %>
                     <span class="info"><%=formatDate(user.created_at, [format=dateString]) %></span>
                   </div>
+                  <div class="sidebar-info-container">
+                    <span class="is-bold">Info For Admin:</span>
+                    <span class="info"><a href="/admin/users/<%= user._id %>" target="_blank">info</a></span>
+                  </div>
+
 
               <% } %>
 
@@ -115,6 +120,11 @@
                     <div class="child-info-container">
                       <span class="is-bold">Address </span>
                       <span class="info"><%= children[i].address +" "+ children[i].zip_code%></span>
+                    </div>
+
+                    <div class="child-info-container">
+                      <span class="is-bold">Info for Admin </span>
+                      <span class="info"><a href="/admin/children/<%= children[i]._id %>" target="_blank">info</a></span>
                     </div>
 
 

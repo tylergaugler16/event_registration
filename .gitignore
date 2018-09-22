@@ -8,3 +8,4 @@ npm-debug.log
 /public/spreadsheets/*
 /public/user_images/*
 /config/aws.json
+rotateImages

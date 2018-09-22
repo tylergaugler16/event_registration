@@ -27,8 +27,8 @@ var isAdmin = function(req, res, next){
 
 
 module.exports = function(passport, upload){
-  Router.route('/users/fix_one/:email').get(users.fixOne);
-  Router.route('/users/fix_all').get(users.fixAll);
+  Router.route('/users/fix_one/:email').get(admin.fixOne);
+  Router.route('/users/fix_all').get(admin.fixAll);
   Router.route('/users/send_all_email').get(users.send_all_email);
   Router.route('/users/sort/:sortBy/search/:keywords').get(isAdmin, users.list);
   Router.route('/users/sort/:sortBy').get(isAdmin, users.list);
@@ -85,6 +85,8 @@ module.exports = function(passport, upload){
   Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
   Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);
   Router.route('/admin/weekly_attendance').get(isAdmin, open_gym.weekly_attendance_for_admin);
+  Router.route('/admin/users/:id').get(isAdmin, admin.showUser);
+    Router.route('/admin/children/:id').get(isAdmin, admin.showChild);
 
 
 

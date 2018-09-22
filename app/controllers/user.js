@@ -5,7 +5,7 @@ const Child = mongoose.model('Child', 'childSchema');
 const Event = mongoose.model('Event');
 const fs = require('fs');
 const Attendance = mongoose.model('Attendance','attendanceSchema');
-
+const env = process.env.NODE_ENV || 'dev';
 const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -13,9 +13,12 @@ const mg = require('nodemailer-mailgun-transport');
 // var ApplicationHelper = require('../helpers/application_helper.js');
 const mkdirp = require('mkdirp');
 const AWS = require('aws-sdk');
+
+if(env === 'dev'){
+  AWS.config.loadFromPath('./config/aws.json');
+}
 const myBucket = 'maspethbiblechurch-images';
 const s3Bucket = new AWS.S3( { params: {Bucket: myBucket } } );
-
 
 const smtpTransport = nodemailer.createTransport( {
   service: 'SendGrid',
@@ -47,74 +50,73 @@ exports.fixAll = function(req, res){
   //   if(err) res.send("failed");
   //   else res.send("success");
   // })
-  User.find({}, function(err, users){
-    if(err) send('error');
-    else{
-      for(var i =0; i< users.length; i++){
-        const fullname = users[i].firstname+" "+users[i].lastname;
-        User.findOneAndUpdate({_id: users[i]._id}, {$set: {fullname: fullname}} , function(err, user){
-          if(err){
-                     console.log("error");
-                   }
-                   else{
-                     console.log(user.fullname);
-                   }
-        });
-      }
-    }
-  });
-
-  // Child.find({}, function(err, children){
-  //   if(err) res.send("error");
+  // User.find({}, function(err, users){
+  //   if(err) send('error');
   //   else{
-  //     for(var i =0; i<children.length; i++){
-  //       if(!children[i].fullname){
-  //         const fullName = children[i].firstname + " "+ children[i].lastname;
-  //
-  //         Child.findOneAndUpdate({_id: children[i]._id }, {$set: {fullname: fullName}} , function(err, child){
-  //           if(err){
-  //             console.log("error");
-  //           }
-  //           else{
-  //             console.log(child.fullname);
-  //
-  //           }
-  //         }
-  //       );
-  //
-  //     }// if
-  //       if(i == children.length -1){
-  //         res.send("success");
-  //       }
+  //     for(var i =0; i< users.length; i++){
+  //       const fullname = users[i].firstname+" "+users[i].lastname;
+  //       User.findOneAndUpdate({_id: users[i]._id}, {$set: {fullname: fullname}} , function(err, user){
+  //         if(err){
+  //                    console.log("error");
+  //                  }
+  //                  else{
+  //                    console.log(user.fullname);
+  //                  }
+  //       });
   //     }
-  //
   //   }
   // });
-  Attendance.find({}, function(err, attendances){
+
+  Child.find({}, function(err, children){
     if(err) res.send("error");
     else{
-      for(var i =0; i<attendances.length; i++){
-        currect_date = new Date(attendances[i].date)
+      for(var i =0; i<children.length; i++){
 
-          console.log(currect_date);
-          Attendance.findOneAndUpdate({_id: attendances[i]._id }, {$set: {dateStamp: currect_date}} , function(err, attendance){
+
+          Child.findOneAndUpdate({_id: children[i]._id }, {$set: {archived: false}} , function(err, child){
             if(err){
               console.log("error");
             }
             else{
-              console.log(attendance.date);
+        
+
             }
           }
         );
 
 
-        if(i == attendances.length -1){
+        if(i == children.length -1){
           res.send("success");
         }
       }
 
     }
   });
+  // Attendance.find({}, function(err, attendances){
+  //   if(err) res.send("error");
+  //   else{
+  //     for(var i =0; i<attendances.length; i++){
+  //       currect_date = new Date(attendances[i].date)
+  //
+  //         console.log(currect_date);
+  //         Attendance.findOneAndUpdate({_id: attendances[i]._id }, {$set: {dateStamp: currect_date}} , function(err, attendance){
+  //           if(err){
+  //             console.log("error");
+  //           }
+  //           else{
+  //             console.log(attendance.date);
+  //           }
+  //         }
+  //       );
+  //
+  //
+  //       if(i == attendances.length -1){
+  //         res.send("success");
+  //       }
+  //     }
+  //
+  //   }
+  // });
 
   // User.find(function(err, users){
   //   for(var i = 0; i < users.length; i++){
@@ -140,7 +142,9 @@ exports.list = function(req, res){
     lastnameAsc: { lastname: -1},
     lastnameDesc: {lastname: 1},
     firstnameAsc: {firstname: -1},
-    firstnameDesc: {firstname: 1}
+    firstnameDesc: {firstname: 1},
+    createdAtAsc: {created_at: -1},
+    createdAtDesc: {created_at: 1},
   }
   const searchValue = req.params.keywords? req.params.keywords : "";
   const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';

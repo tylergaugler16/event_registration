@@ -20,6 +20,7 @@ var childSchema = new Schema({
   legal_guardian_id: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   registered_for_og: {type: Boolean, default: false},
   on_waiting_list: {type: Boolean, default: true},
+  archived:  {type: Boolean, default: false},
   created_at: Date,
   updated_at: Date
 });

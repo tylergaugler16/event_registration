@@ -139,6 +139,7 @@ $(document).ready(function(){
 $(document).on('change', '#sort-users', function(e){
   const sortBy = $(this).val() || "lastnameAsc";
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
+  console.log(sortBy);
   console.log(this.val);
   window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortBy+ searchValue;
 });

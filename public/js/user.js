@@ -26,7 +26,6 @@ $(document).ready(function(){
 $(document).on('change', '#sort-users', function(e){
   const sortBy = $(this).val() || "lastnameAsc";
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
-  console.log(this.val);
   window.location= "http://"+window.location.host+"/users/sort/"+sortBy+ searchValue;
 });
 

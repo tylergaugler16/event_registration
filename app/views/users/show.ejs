@@ -69,7 +69,12 @@
 
             <div class="links_container profile-content-container">
               <div id="open-gym-register">
-                <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
+                <% if(children.length > 0) {  %>
+                  <a href="/open_gym/register" class="avenir-900">Register your children for Open Gym</a>
+                <% } else{  %>
+                  <a href="/open_gym/register" class="avenir-900">Register more children for Open Gym</a>
+                  <% } %>
+
               </div>
               <div id="event-register">
                 <a href="/events" class="avenir-900">Register for Upcoming Event</a>

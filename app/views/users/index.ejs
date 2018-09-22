@@ -29,6 +29,8 @@
               <option value="lastnameDesc">Lastname ↓(a-z)</option>
               <option value="firstnameAsc">Firstname ↑(z-a)</option>
               <option value="firstnameDesc">Firstname ↓(a-z) </option>
+              <option value="createdAtDesc">Sign Up Date ↓(earliest-latest) </option>
+              <option value="createdAtAsc">Sign Up Date ↑(latest-earliest) </option>
             </select>
           </div>
 
@@ -47,6 +49,7 @@
           <th>Name</th>
           <th>Email</th>
           <th>Status</th>
+          <th>Sign Up Date</th>
         </thead>
         <tbody>
           <% for(var i =0; i< users.length;i++) { %>
@@ -60,6 +63,10 @@
               </td>
               <td>
                 <%= users[i].status %>
+              </td>
+              <td>
+                <% var dateString = "MMM D, YYYY" %>
+                <%=formatDate(users[i].created_at, [format=dateString]) %>
               </td>
             </tr>
 

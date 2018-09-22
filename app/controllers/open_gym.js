@@ -110,11 +110,12 @@ exports.registered_index = function(req, res){
     lastnameAsc: { lastname: -1},
     lastnameDesc: {lastname: 1},
     firstnameAsc: {firstname: -1},
-    firstnameDesc: {firstname: 1}
+    firstnameDesc: {firstname: 1},
+    createdAtAsc: {created_at: -1},
+    createdAtDesc: {created_at: 1},
   }
   const searchValue = req.params.keywords? req.params.keywords : "";
   const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
-
 
   Child.find({fullname: new RegExp( searchValue , "i") }, function(err, children){
     if(err) console.log(err);
@@ -224,7 +225,7 @@ exports.weekly_attendance_view = function(req,res){
 
 }
 exports.find_user = function(req, res){
-  Child.find( {fullname: new RegExp('^' + req.body.name, "i") },{firstname: 1, lastname: 1, address: 1, fullname: 1}, function(err, children){
+  Child.find( {fullname: new RegExp('^' + req.body.name, "i"), archived: false },{firstname: 1, lastname: 1, address: 1, fullname: 1}, function(err, children){
     User.find({fullname: new RegExp('^' + req.body.name, "i"), status: 'staff' }, {firstname: 1, lastname: 1, address: 1, status: 1, fullname: 1}, function(err, staff){
       if(err) console.log("error in open_gym#find_user");
       else{

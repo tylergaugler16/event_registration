@@ -7,3 +7,4 @@ npm-debug.log
 /*.env
 /public/spreadsheets/*
 /public/user_images/*
+/config/aws.json

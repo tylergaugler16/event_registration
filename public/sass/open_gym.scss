@@ -214,4 +214,9 @@ $orange: #dc493b;
       font-weight: 700;
     }
   }
+  .is-archived{
+    &, & a{
+      color: $orange;
+    }
+  }
 }

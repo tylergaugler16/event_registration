@@ -23,8 +23,10 @@ exports.fixOne = function(req, res){
     });
 
   });
+
 }
 exports.fixAll = function(req, res){
+
   // User.updateMany({}, {$set: {
   //     profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
   //   }
@@ -48,7 +50,7 @@ exports.fixAll = function(req, res){
   //     }
   //   }
   // });
-
+  //
   // Child.find({}, function(err, children){
   //   if(err) res.send("error");
   //   else{
@@ -74,8 +76,8 @@ exports.fixAll = function(req, res){
   //
   //   }
   // });
-
-
+  //
+  //
   // Attendance.find({}, function(err, attendances){
   //   if(err) res.send("error");
   //   else{
@@ -102,11 +104,7 @@ exports.fixAll = function(req, res){
   //   }
   // });
 
-  // User.find(function(err, users){
-  //   for(var i = 0; i < users.length; i++){
-  //     console.log(users[i].resetPasswordToken);
-  //   }
-  // });
+
 }
 
 exports.showUser = function(req, res){

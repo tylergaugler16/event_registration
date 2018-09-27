@@ -3,6 +3,7 @@ var mongoose = require( 'mongoose' ),
     User = mongoose.model('User', 'userSchema'),
     Attendance = mongoose.model('Attendance', 'attendanceSchema');
 
+
 exports.info = function(req, res){
   res.render('./open_gym/info');
 }
@@ -106,6 +107,8 @@ exports.register_children = function(req,res){
 
 exports.registered_index = function(req, res){
 
+
+
   const sortByHash = {
     lastnameAsc: { lastname: -1},
     lastnameDesc: {lastname: 1},
@@ -117,12 +120,26 @@ exports.registered_index = function(req, res){
   const searchValue = req.params.keywords? req.params.keywords : "";
   const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
 
-  Child.find({fullname: new RegExp( searchValue , "i") }, function(err, children){
+
+  const queryConditions = {fullname: new RegExp( searchValue , "i") };
+  if(req.query.archived){
+    queryConditions.archived = req.query.archived;
+  }
+  if(req.query.medical_notes){
+    queryConditions.medical_notes = req.query.medical_notes ==="true"? { $ne: "none" } : "none";
+  }
+  if(req.query.signed_up_after){
+    const number_of_days = (parseInt(req.query.signed_up_after, 10) || 0)  * 86400000;
+    const ms = new Date().getTime() - number_of_days;
+    const selectedDate = new Date(ms).toISOString();
+    queryConditions.created_at = { $gte: selectedDate }
+  }
+
+  Child.find( queryConditions , function(err, children){
     if(err) console.log(err);
     else{
       var legal_guardian_ids = children.map(function(a) {return a.legal_guardian_id[0];});
       var parent_hash = {};
-      console.log(legal_guardian_ids);
       User.find({_id: {$in: legal_guardian_ids}}, function(err, parents){
         if(err) console.log(err);
         else{
@@ -136,7 +153,11 @@ exports.registered_index = function(req, res){
   }).sort( sortByHash[sortBy.toString()] || {lastname: 1});
   // console.log(child_array);
   // res.send(parents);
+
+
 }
+
+
 exports.registered_parents_index = function(req, res){
   User.find({status: "parent"}, function(err, parents){
     if(err) console.log(err);

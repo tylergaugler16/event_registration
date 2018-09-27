@@ -54,7 +54,6 @@
                     <span class="info"><a href="/admin/users/<%= user._id %>" target="_blank">info</a></span>
                   </div>
 
-
               <% } %>
 
             <a class="edit-user-button is-bold" href="/users/<%=user._id%>/edit"><span>Edit</span> <i class="fas fa-pencil-alt"></i></a>
@@ -66,7 +65,8 @@
 
           </div>
           <div class="profile-content">
-            <% if (user.email == current_user.email){  %>
+            <% if (user.email == current_user.email && user.status === "parent"){  %>
+
             <div class="profile-welcome-container">
               <h2>Hello, <%= user.firstname %>!</h2>
               <p >This is your Pofile Page! You have registered yourself as an Open Gym Parent. This means you can register your children for our Open Gymp Program or register your family for Maspeth Bible Church Events. On this page you will see your basic info, your registered childrens' information, events you have registerd for, as well as buttons to register your children and register for an event. If you have any questions, please email: tylergaugler16@gmail.com </span>
@@ -86,6 +86,10 @@
               </div>
 
             </div>
+            <% } else if(user.email == current_user.email && user.status === "staff"){  %>
+              <h2>Hello, <%= user.firstname %>!</h2>
+              <p >This is your Pofile Page! You have registered yourself as an Open Gym Staff member. This means you can sign in at the front desk along with the kids to ensure that your service hour credits will be tracked.  </span>
+            </p>
             <% } else if(current_user.is_admin){ %>
               <% if(user.needsToBeUpdatedForFall()){  %>
                     <h1 class="need-to-update-account">NEED TO UPDATE ACCOUNT FOR FALL</h1>
@@ -95,44 +99,15 @@
                 <a href="/open_gym/register?parent_id=<%= user._id %>" class="avenir-900">Register <%= user.full_name() %>  children for Open Gym</a>
               </div>
             </div>
-            <% } else{  %>
-
-              <% } %>
-              <div id="children_container" class="profile-content-container">
-                <h2 class="user_page_header">Children Registered For Open Gym</h2>
-                <% if(children.length === 0){ %>
-                  <h4 class="is-italic">No children registered for Open Gym</h4>
-                  <% } %>
-                <% for(var i =0;i<children.length;i++){ %>
-                  <div class="registered-child-container">
-                    <div class="child-info-container">
-                      <span class="is-bold">Name: </span>
-                      <span class="info"><%= children[i].full_name() %></span>
-                    </div>
-                    <div class="child-info-container">
-                      <span class="is-bold">Birthday: </span>
-                      <span class="info"><%= children[i].birthday.toLocaleDateString("en-US") %></span>
-                    </div>
-                    <div class="child-info-container">
-                      <span class="is-bold">Medical Notes: </span>
-                      <span class="info"><%= children[i].medical_notes %></span>
-                    </div>
-                    <div class="child-info-container">
-                      <span class="is-bold">Address </span>
-                      <span class="info"><%= children[i].address +" "+ children[i].zip_code%></span>
-                    </div>
-
-                    <div class="child-info-container">
-                      <span class="is-bold">Info for Admin </span>
-                      <span class="info"><a href="/admin/children/<%= children[i]._id %>" target="_blank">info</a></span>
-                    </div>
+            <% }  %>
 
 
-                    <a class="edit-child-info-button" href="/open_gym/registered/children/<%=children[i]._id%>/edit"><span>Edit <%= children[i].full_name() %>'s information</span> <i class="fas fa-pencil-alt"></i></a>
 
-                  </div>
-                <% } %>
-              </div>
+            <% if(user.status === "parent" || current_user.is_admin()){  %>
+              <% include ./clientProfile/_clientProfileChildrenContainer.ejs %>
+            <% } %>
+
+
               <div id="event_container" class="profile-content-container">
                 <h2 class="user_page_header">Events Registered For</h2>
                 <% if(registered_events.length === 0){ %>

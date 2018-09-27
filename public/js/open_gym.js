@@ -141,12 +141,41 @@ $(document).on('change', '#sort-users', function(e){
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
   console.log(sortBy);
   console.log(this.val);
-  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortBy+ searchValue;
+  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortBy+ searchValue+getFilterQueryParemeters();
 });
 
 $(document).on('click', '.search-users-button', function(e){
   console.log("here");
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
   const sortValue= ($('#sort-users').val()|| "lastnameAsc");
-  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortValue+searchValue;
+  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortValue+searchValue+getFilterQueryParemeters();;
 });
+
+const getFilterQueryParemeters = function(){
+  const values = [];
+
+  const signed_up_after = $('input[name=signed_up_after]:checked').val();
+  if(signed_up_after){
+    values.push("signed_up_after="+signed_up_after);
+  }
+
+  const medical_notes = $('input[name=medical_notes]:checked').val();
+  if(medical_notes){
+    values.push("medical_notes="+medical_notes);
+  }
+
+  const archived = $('input[name=archived]:checked').val();
+  if(archived){
+    values.push("archived="+archived);
+  }
+
+  if(values.length > 0){
+    return "?"+values.join("&");
+  }
+  else{
+    return "";
+  }
+}
+
+
+// $(document).on('change', '')

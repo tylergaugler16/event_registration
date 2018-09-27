@@ -1,0 +1,35 @@
+<div id="children_container" class="profile-content-container">
+  <h2 class="user_page_header">Children Registered For Open Gym</h2>
+  <% if(children.length === 0){ %>
+    <h4 class="is-italic">No children registered for Open Gym</h4>
+    <% } %>
+  <% for(var i =0;i<children.length;i++){ %>
+    <div class="registered-child-container">
+      <div class="child-info-container">
+        <span class="is-bold">Name: </span>
+        <span class="info"><%= children[i].full_name() %></span>
+      </div>
+      <div class="child-info-container">
+        <span class="is-bold">Birthday: </span>
+        <span class="info"><%= children[i].birthday.toLocaleDateString("en-US") %></span>
+      </div>
+      <div class="child-info-container">
+        <span class="is-bold">Medical Notes: </span>
+        <span class="info"><%= children[i].medical_notes %></span>
+      </div>
+      <div class="child-info-container">
+        <span class="is-bold">Address </span>
+        <span class="info"><%= children[i].address +" "+ children[i].zip_code%></span>
+      </div>
+
+      <div class="child-info-container">
+        <span class="is-bold">Info for Admin </span>
+        <span class="info"><a href="/admin/children/<%= children[i]._id %>" target="_blank">info</a></span>
+      </div>
+
+
+      <a class="edit-child-info-button" href="/open_gym/registered/children/<%=children[i]._id%>/edit"><span>Edit <%= children[i].full_name() %>'s information</span> <i class="fas fa-pencil-alt"></i></a>
+
+    </div>
+  <% } %>
+</div>

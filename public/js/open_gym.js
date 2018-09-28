@@ -167,7 +167,7 @@ $(document).on('click', '.search-users-button', function(e){
   console.log("here");
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
   const sortValue= ($('#sort-users').val()|| "lastnameAsc");
-  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortValue+searchValue+getFilterQueryParemeters();;
+  window.location= "http://"+window.location.host+"/open_gym/registered/children/sort/"+sortValue+searchValue+getFilterQueryParemeters();
 });
 
 const getFilterQueryParemeters = function(){
@@ -195,6 +195,9 @@ const getFilterQueryParemeters = function(){
     return "";
   }
 }
+$(document).on('click', '.show-filters-button', function(e){
+  $('.all-filter-options-container').slideToggle(300);
+})
 
 
 // $(document).on('change', '')

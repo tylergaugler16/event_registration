@@ -43,6 +43,46 @@
           </div>
 
         </div>
+        <div class="filter-container">
+          <div>
+            <span class="show-filters-button"> Advanced Filtering</span>
+          </div>
+          <div class="all-filter-options-container">
+
+            <div class="all-filter-options">
+              <div class="filter-option">
+                <h4>Signed Up in the last:</h4>
+                <input type="radio" name="signed_up_after" value="7"><span>1 Week</span><br>
+                <input type="radio" name="signed_up_after" value="30"><span>1 Month</span> <br>
+                <input type="radio" name="signed_up_after" value="90"><span>3 Months</span>  <br>
+                <input type="radio" name="signed_up_after" value="180"><span>6 Months </span><br>
+              </div>
+              <div class="filter-option">
+                <h4>Status:</h4>
+                <input type="checkbox" name="status" value="parent"><span>Parent</span><br>
+                <input type="checkbox" name="status" value="staff"><span>Staff</span><br>
+                <input type="checkbox" name="status" value="admin"><span>Admin</span><br>
+              </div>
+              <div class="filter-option">
+                <h4>Has Profile picture:</h4>
+                <input type="radio" name="profile_picture" value="true"><span>Yes</span><br>
+                <input type="radio" name="profile_picture" value="false"><span>No</span> <br>
+              </div>
+              <!-- <div class="filter-option">
+                <h4>Has Medical Notes:</h4>
+                <input type="radio" name="medical_notes" value="true">Yes<br>
+                <input type="radio" name="medical_notes" value="false"> No<br>
+              </div>
+              <div class="filter-option">
+                <h4>Is Archived:</h4>
+                <input type="radio" name="archived" value="true">Yes<br>
+                <input type="radio" name="archived" value="false"> No<br>
+              </div> -->
+
+              <!-- filter options: status(staff, parent, admin), if they have profile picture -->
+            </div>
+          </div>
+        </div>
       </div>
       <table class="users-table">
         <thead>

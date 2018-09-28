@@ -26,12 +26,45 @@ $(document).ready(function(){
 $(document).on('change', '#sort-users', function(e){
   const sortBy = $(this).val() || "lastnameAsc";
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
-  window.location= "http://"+window.location.host+"/users/sort/"+sortBy+ searchValue;
+  window.location= "http://"+window.location.host+"/users/sort/"+sortBy+ searchValue+getFilterQueryParemeters();
 });
 
 $(document).on('click', '.search-users-button', function(e){
   console.log("here");
   const searchValue = $('#search-users').val() ? "/search/" + $('#search-users').val() :  "/";
   const sortValue= ($('#sort-users').val()|| "lastnameAsc");
-  window.location= "http://"+window.location.host+"/users/sort/"+sortValue+searchValue;
+  window.location= "http://"+window.location.host+"/users/sort/"+sortValue+searchValue+getFilterQueryParemeters();
 });
+
+
+const getFilterQueryParemeters = function(){
+  const values = [];
+
+  const signed_up_after = $('input[name=signed_up_after]:checked').val();
+  if(signed_up_after){
+    values.push("signed_up_after="+signed_up_after);
+  }
+
+  const profile_picture = $('input[name=profile_picture]:checked').val();
+  if(profile_picture){
+    values.push("profile_picture="+profile_picture);
+  }
+
+  const status = $("input[name=status]:checked").map(function() {
+      return this.value;
+    }).get().join(",") ;
+  if(status){
+    values.push("status="+status);
+  }
+
+  if(values.length > 0){
+    return "?"+values.join("&");
+  }
+  else{
+    return "";
+  }
+}
+
+$(document).on('click', '.show-filters-button', function(e){
+  $('.all-filter-options-container').slideToggle(300);
+})

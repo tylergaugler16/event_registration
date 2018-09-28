@@ -140,6 +140,9 @@ exports.send_all_email = function(req, res){
 }
 
 exports.list = function(req, res){
+
+
+
   const sortByHash = {
     lastnameAsc: { lastname: -1},
     lastnameDesc: {lastname: 1},
@@ -151,7 +154,27 @@ exports.list = function(req, res){
   const searchValue = req.params.keywords? req.params.keywords : "";
   const sortBy = req.params.sortBy? req.params.sortBy : 'lastnameAsc';
   console.log(sortByHash[sortBy.toString()] );
-  User.find({fullname: new RegExp( searchValue , "i") },function(err, users) {
+
+
+  const queryConditions = {fullname: new RegExp( searchValue , "i") };
+
+  if(req.query.signed_up_after){
+    const number_of_days = (parseInt(req.query.signed_up_after, 10) || 0)  * 86400000;
+    const ms = new Date().getTime() - number_of_days;
+    const selectedDate = new Date(ms);
+    queryConditions.created_at = { $gte: selectedDate }
+  }
+  if(req.query.profile_picture){
+    const url = "https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg"
+    queryConditions.profile_url = req.query.profile_picture === "true"? { $ne: url } : url;
+  }
+  if(req.query.status){
+    const statusArray = req.query.status.split(",");
+    queryConditions.status = {$in: statusArray }
+  }
+  console.log(queryConditions);
+
+  User.find( queryConditions ,function(err, users) {
     if(err) console.log(err);
     else{
       res.render('./users/index',{users: users });

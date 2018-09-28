@@ -30,7 +30,17 @@ exports.register_children = function(req,res){
   var successfully_added_kids= [];
   if(req.body.firstname instanceof Array){
     for(var i = 0;i < req.body.firstname.length;i++){
-      var d = req.body.birthday[i].split('-');
+
+
+      if(req.body.birthday){
+        var d = req.body.birthday[i].split('-');
+        var birthday = new Date(d[2] + "-"+ d[1]+"-"+ d[0]+" EST").toISOString();
+      }
+      else{
+        var birthday = null;
+      }
+
+      console.log(birthday);
       var child = new Child({
         firstname: req.body.firstname[i],
         lastname: req.body.lastname[i],
@@ -40,34 +50,44 @@ exports.register_children = function(req,res){
         zip_code: req.body.zip_code[i],
         emergency_contact_name: req.body.emergency_contact_name[i],
         emergency_contact_phone: req.body.emergency_contact_phone[i],
-        birthday: Date.UTC(d[2], d[1], d[0]),
+        birthday: birthday,
         registered_for_og: true,
         permission_to_walk: (req.body.permission_to_walk[i] == 'yes')? true : false,
         media_agreement: (req.body.media_agreement[i] == 'yes')? true : false
       });
       child.save(function(err,resp){
-        console.log(err);
         if(err) {
-          console.log("ERRORR");
+          console.log("error from open_gym#register_children(multiple children register)",err);
           req.flash('error_message', 'Unable to register child!!!');
-          res.redirect('/')
+          res.sendStatus(400);
         }
         else{
-          console.log('child registered');
+
           successfully_added_kids.push(child.fullname);
-          console.log(child);
           User.update({_id: req.body.legal_guardian_id},{$addToSet: {children: child}}, function(err, user){
                 if(err) console.log(err);
                 else console.log(user);
               });
         }
       });
-      console.log(req.body);
+
+      if(i === req.body.firstname.length -1){
+        req.flash('success_message', 'Successfully registered');
+        res.sendStatus(200);
+      }
     }//for
 
   }
   else{
-    var d = req.body.birthday.split('-');
+
+    if(req.body.birthday){
+      var d = req.body.birthday.split('-');
+      var birthday = new Date(d[2] + "-"+ d[1]+"-"+ d[0]+" EST").toISOString();
+    }
+    else{
+      var birthday = null;
+    }
+
     var child = new Child({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -78,31 +98,36 @@ exports.register_children = function(req,res){
       zip_code: req.body.zip_code,
       emergency_contact_name: req.body.emergency_contact_name,
       emergency_contact_phone: req.body.emergency_contact_phone,
-      birthday: Date.UTC(d[2], d[1], d[0]),
+      birthday: birthday,
       registered_for_og: true,
       permission_to_walk: (req.body.permission_to_walk == 'yes')? true : false,
       media_agreement: (req.body.media_agreement == 'yes')? true : false
     });
     child.save(function(err){
-      if(err) console.log(err);
+      if(err){
+        console.log("error from open_gym#register_children(single child register)",err);
+        res.sendStatus(400);
+      }
       else{
         console.log('child registered');
         successfully_added_kids.push(child.fullname);
         User.update({_id: req.body.legal_guardian_id},{$addToSet: {children: child}}, function(err, user){
               if(err) console.log(err);
-              else console.log(user);
+              else {
+                req.flash('success_message', 'Successfully registered');
+                res.sendStatus(200);
+              }
             });
       }
     });
 
   }
-  console.log(successfully_added_kids[0]);
-  if(successfully_added_kids.length > 0){
-    req.flash('success_message', 'Successfully registered'+ successfully_added_kids.join(", "));
-    res.redirect('/users/'+req.user._id);
-  }
-  req.flash('success_message', 'Successfully registered');
-  res.sendStatus(200);
+  // console.log(successfully_added_kids[0]);
+  // if(successfully_added_kids.length > 0){
+  //   req.flash('success_message', 'Successfully registered'+ successfully_added_kids.join(", "));
+  //   res.redirect('/users/'+req.user._id);
+  // }
+
 }
 
 exports.registered_index = function(req, res){
@@ -131,15 +156,17 @@ exports.registered_index = function(req, res){
   if(req.query.signed_up_after){
     const number_of_days = (parseInt(req.query.signed_up_after, 10) || 0)  * 86400000;
     const ms = new Date().getTime() - number_of_days;
-    const selectedDate = new Date(ms).toISOString();
+    const selectedDate = new Date(ms);
     queryConditions.created_at = { $gte: selectedDate }
   }
+  console.log(queryConditions);
 
   Child.find( queryConditions , function(err, children){
     if(err) console.log(err);
     else{
       var legal_guardian_ids = children.map(function(a) {return a.legal_guardian_id[0];});
       var parent_hash = {};
+
       User.find({_id: {$in: legal_guardian_ids}}, function(err, parents){
         if(err) console.log(err);
         else{
@@ -168,6 +195,7 @@ exports.registered_parents_index = function(req, res){
 }
 
 exports.edit_child = function(req, res){
+
   Child.findOne({ _id: req.params.id }, function(err, child){
     if(err) res.send('could not find child with that id');
     else{
@@ -181,14 +209,23 @@ exports.edit_child = function(req, res){
   });
 }
 exports.update_child = function(req, res){
-  var d = req.body.birthday.split('-');
+
+
+  if(req.body.birthday){
+    var d = req.body.birthday.split('-');
+    var birthday = new Date(d[2] + "-"+ d[1]+"-"+ d[0]+" EST").toISOString();
+  }
+  else{
+    var birthday = null;
+  }
+
   var new_data = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     address: req.body.address,
     city: req.body.city,
     zip_code: req.body.zip_code,
-    birthday: Date.UTC(d[2], d[1], d[0]),
+    birthday: birthday,
     emergency_contact_name: req.body.emergency_contact_name,
     emergency_contact_phone: req.body.emergency_contact_phone,
     medical_notes: req.body.medical_notes,
@@ -203,6 +240,7 @@ exports.update_child = function(req, res){
 
     }
     else{
+
       req.flash('success_message', 'Successfully updated child: '+child.fullname);
       res.redirect('/users/'+child.get_gaurdian().toString());
 

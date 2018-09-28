@@ -24,27 +24,27 @@ $(document).on('click', '#addChild', function(){
         `<form class="register_children_form`+count+`" action="/open_gym/register_children" method="post">
         <div class="child" style="border-top: 1px solid #1f3052">
           <a href="#" id="close">X</a>
-          <label for="firstname">Firstname</label>
+          <label for="firstname">Firstname*</label>
           <input type="text" name="firstname" value="" required>
-          <label for="lastname">Lastname</label>
+          <label for="lastname">Lastname*</label>
           <input type="text" name="lastname" value="" required>
           <br>
           <input type="hidden" name="legal_guardian_id" value=`+legal_guardian_id+` >
-          <label for="address">Address</label>
-          <input type="text" name="address" value=`+address+`>
-          <label for="city">City</label>
-          <input type="text" name="city" value=`+city+` required="">
+          <label for="address">Address*</label>
+          <input type="text" name="address" required value=`+address+` >
+          <label for="city">City*</label>
+          <input type="text" name="city" required value=`+city+` >
           <br>
-          <label for="zip_code">Zip Code</label>
-          <input type="text" name="zip_code" value=`+zip_code+` required>
+          <label for="zip_code">Zip Code*</label>
+          <input type="text" name="zip_code" required value=`+zip_code+` >
           <br>
-          <label for="emergency_contact_name">Emergency Contact Name</label>
-          <input type="text" name="emergency_contact_name" value=`+emergency_contact_name+`><br>
-          <label for="emergency_contact_phone">Emergency Contact Phone Number</label>
-          <input type="text" name="emergency_contact_phone" value=`+emergency_contact_phone+`>
+          <label for="emergency_contact_name">Emergency Contact Name*</label>
+          <input type="text" name="emergency_contact_name" required value=`+emergency_contact_name+` ><br>
+          <label for="emergency_contact_phone">Emergency Contact Phone Number*</label>
+          <input type="text" name="emergency_contact_phone" required value=`+emergency_contact_phone+` >
           <br>
-          <label for="birthday">Birthday</label>
-          <input type="text" data-field="date" name="birthday" readonly>
+          <label for="birthday">Birthday*</label>
+          <input type="text" data-field="date" name="birthday" readonly required>
           <br>
           <label for="medical_notes">Medical Notes:</label>
           <br>
@@ -68,7 +68,23 @@ $(document).on('click', '#addChild', function(){
 
 });
 $(document).on('click', '#submitRegistrationForms', function(e){
-var dataString = $('form').serialize();
+  let formHasErrors = false;
+  $('input,textarea,select').filter('[required]:visible').each(function(){
+    if($(this).val()){
+      $(this).removeClass('has-errors');
+    }
+    else{
+      $(this).addClass('has-errors');
+      formHasErrors = true;
+    }
+  });
+
+  if(formHasErrors){
+    e.preventDefault();
+    alert("Please fill out the requred fields");
+    return;
+  }
+  var dataString = $('form').serialize();
 
   $.ajax({
     method: 'POST',
@@ -76,7 +92,10 @@ var dataString = $('form').serialize();
     data: dataString,
     success: function(data){
       window.location= "http://"+window.location.host
-    }
+    },
+    error: function(data){
+      alert("There was an error submitting the form. Please check that you have filled out everything appropriately");
+    },
   });
 });
 

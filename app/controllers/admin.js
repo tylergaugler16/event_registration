@@ -25,18 +25,35 @@ exports.fixOne = function(req, res){
   });
 
 }
-exports.fixAll = function(req, res){
-  Child.findOne({ _id: '5b9d40a3d1408c5f4e2624f4' }, function(err, user) {
-    console.log(user);
-    var date = new Date('2018-04-02')
-    user.created_at = date;
-    console.log(user.password);
-    user.save(function(err) {
-      if(err) res.send(err);
-      else res.send('success');
-    });
 
-  });
+
+exports.fixAll = function(req, res){
+  // Child.findOne({ _id: '5b9d40a3d1408c5f4e2624f4' }, function(err, user) {
+  //   console.log(user);
+  //   var date = new Date('2018-04-02')
+  //   user.created_at = date;
+  //   console.log(user.password);
+  //   user.save(function(err) {
+  //     if(err) res.send(err);
+  //     else res.send('success');
+  //   });
+  //
+  // });
+
+  // getUserWithPsosts('5b9d30083e33585cc0b8c710');
+
+  User.findOne({ _id: '5b9d30083e33585cc0b8c710' })
+  .populate('children').exec((err, doc) => {
+    if (err) { return console.error(err); }
+    console.log(doc);
+    res.send(doc);
+})
+
+  //   Child.find({_id: "5bad7f4f3ad24718a2e78223"}).populate('legal_guardian_id').exec((err, doc) => {
+  //     if (err) { return console.error(err); }
+  //     res.send(doc);
+  // })
+
 
   // User.updateMany({}, {$set: {
   //     profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',

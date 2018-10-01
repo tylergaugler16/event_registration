@@ -65,6 +65,18 @@ childSchema.methods.initials = function(User){
 }
 
 
+//parent was deleted so we need to
+// delete the children of that parents
+childSchema.statics.parentWasDeleted = function(parent_id){
+  console.log(parent_id)
+  Child.find({legal_guardian_id: {$in: [parent_id]}}, function(err, children){
+    console.log(children);
+    for(var i = 0;i < children.length; i++){
+      children[i].remove();
+    }
+  });
+}
+
 // the schema is useless so far
 // we need to create a model using it
 var Child = mongoose.model('Child', childSchema);

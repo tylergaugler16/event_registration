@@ -53,7 +53,8 @@ exports.register_children = function(req,res){
         birthday: birthday,
         registered_for_og: true,
         permission_to_walk: (req.body.permission_to_walk[i] == 'yes')? true : false,
-        media_agreement: (req.body.media_agreement[i] == 'yes')? true : false
+        media_agreement: (req.body.media_agreement[i] == 'yes')? true : false,
+        archived: false
       });
       child.save(function(err,resp){
         if(err) {
@@ -101,7 +102,8 @@ exports.register_children = function(req,res){
       birthday: birthday,
       registered_for_og: true,
       permission_to_walk: (req.body.permission_to_walk == 'yes')? true : false,
-      media_agreement: (req.body.media_agreement == 'yes')? true : false
+      media_agreement: (req.body.media_agreement == 'yes')? true : false,
+      archived: false
     });
     child.save(function(err){
       if(err){

@@ -322,26 +322,17 @@ exports.upload_photo = function(req, res){
   });
 }
 exports.delete = function(req, res){
-  deleted_accounts = [];
-  User.remove({_id: req.params.id}, function(err, results){
+  User.findOne({_id: req.params.id}, function(err, user){
     if (err) res.send('no');
-    else{
-      console.log(results);
-      deleted_accounts.push('Parent');
-      Child.find({legal_guardian_id: req.params.id }, function(err, children){
-        if(err) res.send('');
-        else{
-          for(var i =0; i< children.length; i++){
-            Child.remove({_id: children[i]._id}, function(err, results){
-              if(err) res.send('no')
-              else deleted_accounts.push('child');
-            });
-          }
-        }
-        res.send(deleted_accounts); // does not wait for deleted_accounts.push('child'); need to refactor
-      });
+    else if(user){
+      User.removeChildren(user.children);
+      user.remove();
+      res.send("deleted");
     }
-  });
+    else{
+      res.send("couldnt find user");
+    }
+  })
 }
 
 

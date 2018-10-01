@@ -76,6 +76,14 @@ userSchema.post('save', function(user){
   mailchimp(user);
 });
 
+// userSchema.post('remove',function(user){
+//   Child.parentWasDeleted(user.children); // removes all children of deleted user
+// });
+
+// userSchema.pre('find', function() {
+//   this.populate('children');
+// });
+
 
 // METHODS
 
@@ -141,6 +149,15 @@ userSchema.methods.getEvents = function(){
 
 userSchema.statics.getUser = function(user_id){
   return User.find( { _id: user_id });
+}
+
+userSchema.statics.removeChildren = function(children_ids){
+  Child.deleteMany({_id: {$in: children_ids} }, function(err){
+    if(err)console.log(err);
+    else{
+      console.log("deleted children: ",children_ids);
+    }
+  })
 }
 
 

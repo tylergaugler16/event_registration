@@ -33,7 +33,7 @@ exports.fixAll = function(req, res){
   // attendanceHelper.getAttendanceForUser("5b9d40a3d1408c5f4e2624f6", false);
   // res.send("ye");
 console.time('test');
-  attendanceHelper.getAttendanceStatisticsOnUser("5b9d40a3d1408c5f4e2624f4", false, function(err, result){
+  attendanceHelper.getAttendanceStatisticsOnUser("59824310f40028001191143c", false, function(err, result){
 console.log(result.attendancesForUser)
   });
   console.timeEnd('test');

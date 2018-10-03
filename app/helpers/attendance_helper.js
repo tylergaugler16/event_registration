@@ -21,15 +21,14 @@ exports.getAttendanceForUser = function(user_id, is_user){
 
 const getAttendanceForUser = function(user_id, is_user){
 
-  return Attendance.find({'children.child_id': user_id})
-  // const query = {};
-  // if(is_user){
-  //   query['staff.staff_id'] = user_id;
-  // }
-  // else{
-  //   query['children.child_id'] = user_id;
-  // }
-  //   return Attendance.find(query);
+  const query = {};
+  if(is_user){
+    query['staff.staff_id'] = user_id;
+  }
+  else{
+    query['children.child_id'] = user_id;
+  }
+    return Attendance.find(query);
 }
 
 

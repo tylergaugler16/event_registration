@@ -9,7 +9,6 @@ const Attendance = mongoose.model('Attendance','attendanceSchema');
 
 exports. getAttendanceForUser = function(user_id, is_user){
 
-  return Attendance.find({'children.child_id': user_id })
   const query = {};
   if(is_user){
     query['staff.staff_id'] = user_id;
@@ -22,7 +21,6 @@ exports. getAttendanceForUser = function(user_id, is_user){
 
 const getAttendanceForUser = function(user_id, is_user){
 
-  return Attendance.find({'children.child_id': user_id })
   const query = {};
   if(is_user){
     query['staff.staff_id'] = user_id;
@@ -44,6 +42,7 @@ exports.getAttendanceStatisticsOnUser = function(user_id, is_user, next){
     return getAttendanceForUser(user_id, is_user)
   })
   .then(function(attendance_for_user){
+    console.log(attendance_for_user);
     next(null, {allAttendances: allAttendance, attendancesForUser: attendance_for_user.map(x => x._id)  });
   })
   .catch(function(err){

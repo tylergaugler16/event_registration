@@ -30,6 +30,7 @@ exports.fixOne = function(req, res){
 
 
 exports.fixAll = function(req, res){
+  // jasmin:
   // attendanceHelper.getAttendanceForUser("5b9d40a3d1408c5f4e2624f6", false);
   // res.send("ye");
 console.time('test');

@@ -22,6 +22,8 @@ var attendanceSchema = new Schema({
   }]
 });
 
+
+
 // eventSchema.methods.in_the_past = function(){
 //   return (new Date(this.date) < new Date());
 // }
@@ -100,7 +102,7 @@ attendanceSchema.statics.getSortedMemberArray = function(attendance){
   });
 }
 
-function compare(a,b) {
+const compare = function(a,b) {
   if (a.fullname < b.fullname)
     return -1;
   if (a.fullname > b.fullname)
@@ -108,6 +110,27 @@ function compare(a,b) {
   return 0;
 }
 
+
+// Attendance.statics.getAttendanceForUser = function(user_id, is_user){
+//   getAttendanceStatisticsOnUser(user_id, is_user).then(function(sheets){
+//     console.log(sheets);
+//   });
+// }
+//
+//
+// const getAttendanceStatisticsOnUser = function(user_id, is_user){
+//   return Attendance.find({})
+//
+// }
+//
+// const getUserForAttendance = function(user_id, is_user){
+//   if(is_user){
+//     return User.findOne({_id: user_id});
+//   }
+//   else{
+//     return Child.findOne({_id: user_id});
+//   }
+// }
 
 attendanceSchema.statics.getAttendance = function(date){
   return this.find({date: date});

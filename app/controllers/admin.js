@@ -6,6 +6,8 @@ const fs = require('fs');
 const Attendance = mongoose.model('Attendance','attendanceSchema');
 const env = process.env.NODE_ENV || 'dev';
 const async = require('async');
+var attendanceHelper = require('../helpers/attendance_helper.js');
+
 
 
 exports.home = function(req, res){
@@ -28,9 +30,14 @@ exports.fixOne = function(req, res){
 
 
 exports.fixAll = function(req, res){
-  User.updateMany({}, {archived: false}, function(err, users){
-    if(!err)res.send(users);
-  })
+  // attendanceHelper.getAttendanceForUser("5b9d40a3d1408c5f4e2624f6", false);
+  // res.send("ye");
+console.time('test');
+  attendanceHelper.getAttendanceStatisticsOnUser("5b9d40a3d1408c5f4e2624f4", false, function(err, result){
+console.log(result.attendancesForUser)
+  });
+  console.timeEnd('test');
+  res.send('yeet');
 
   // User.findOne({ _id: '5b9d30083e33585cc0b8c710' }).then((user) =>{
   //   return user.children;

@@ -76,7 +76,6 @@ userSchema.post('save', function(user){
 });
 
 userSchema.post('findOneAndUpdate', function(user){
-  User.updateChildren(user.children, valuesToUpdate);
   mailchimp(user);
 })
 

@@ -19,6 +19,9 @@ exports.getAttendanceForUser = function(user_id, is_user){
     return Attendance.find(query);
 }
 
+
+// @returns query of all attendance sheets that user has signed in on
+//
 const getAttendanceForUser = function(user_id, is_user){
 
   const query = {};
@@ -32,8 +35,13 @@ const getAttendanceForUser = function(user_id, is_user){
 }
 
 
-
-
+// @returns a hash:
+// {
+//   allAttendance:
+//   attendancesForUser:
+// }
+// where allAttendance is all attendance sheets created,
+// and attendancesForUser are the attendance sheets that the user has signed in on
 exports.getAttendanceStatisticsOnUser = function(user_id, is_user, next){
   let allAttendance = null;
   Attendance.find({}).sort({dateStamp: 1})
@@ -42,8 +50,7 @@ exports.getAttendanceStatisticsOnUser = function(user_id, is_user, next){
     return getAttendanceForUser(user_id, is_user)
   })
   .then(function(attendance_for_user){
-    console.log(attendance_for_user);
-    next(null, {allAttendances: allAttendance, attendancesForUser: attendance_for_user.map(x => x._id)  });
+    next(null, {allAttendances: allAttendance.map(x => x._id), attendancesForUser: attendance_for_user.map(x => x._id)  });
   })
   .catch(function(err){
     console.log(err);

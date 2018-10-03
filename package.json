@@ -14,6 +14,7 @@
     "async": "^2.6.0",
     "aws-sdk": "^2.211.0",
     "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.2",
     "body-parser": "^1.17.1",
     "bulma": "^0.7.1",
     "client-sessions": "^0.7.0",

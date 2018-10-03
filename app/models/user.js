@@ -26,6 +26,7 @@ var userSchema = new Schema({
   city: {type: String, required: true},
   zip_code: {type: String, required: true},
   status: {type: String, required: true, unique:false}, // child, parent, helper, admin (only works for open gym, should change)
+  archived: {type: Boolean, default: false},
   children: [{type: mongoose.Schema.Types.ObjectId, ref: 'Child'}],
   eventsRegisteredFor: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
@@ -35,7 +36,6 @@ var userSchema = new Schema({
 
 // on every save, add the date
 userSchema.pre('save', true, function(next, done) {
-    console.log("hereee");
   var user = this;
   var currentDate = new Date();
   this.updated_at = currentDate;
@@ -73,16 +73,11 @@ userSchema.pre('save', true, function(next, done) {
 
 userSchema.post('save', function(user){
   console.log('trying to add user email');
+  // if(user.archived){
+  //   Child.archiveChildren(user.children);
+  // }
   mailchimp(user);
 });
-
-// userSchema.post('remove',function(user){
-//   Child.parentWasDeleted(user.children); // removes all children of deleted user
-// });
-
-// userSchema.pre('find', function() {
-//   this.populate('children');
-// });
 
 
 // METHODS

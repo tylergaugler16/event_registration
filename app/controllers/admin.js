@@ -28,110 +28,24 @@ exports.fixOne = function(req, res){
 
 
 exports.fixAll = function(req, res){
-  // Child.findOne({ _id: '5b9d40a3d1408c5f4e2624f4' }, function(err, user) {
-  //   console.log(user);
-  //   var date = new Date('2018-04-02')
-  //   user.created_at = date;
-  //   console.log(user.password);
-  //   user.save(function(err) {
-  //     if(err) res.send(err);
-  //     else res.send('success');
-  //   });
-  //
-  // });
+  User.updateMany({}, {archived: false}, function(err, users){
+    if(!err)res.send(users);
+  })
 
-  // getUserWithPsosts('5b9d30083e33585cc0b8c710');
-
-  User.findOne({ _id: '5b9d30083e33585cc0b8c710' })
-  .populate('children').exec((err, doc) => {
-    if (err) { return console.error(err); }
-    console.log(doc);
-    res.send(doc);
-})
-
-  //   Child.find({_id: "5bad7f4f3ad24718a2e78223"}).populate('legal_guardian_id').exec((err, doc) => {
-  //     if (err) { return console.error(err); }
-  //     res.send(doc);
+  // User.findOne({ _id: '5b9d30083e33585cc0b8c710' }).then((user) =>{
+  //   return user.children;
+  // }).then((children_ids) =>{
+  //   return Child.find({_id: {$in: children_ids}})
+  // }).then((children) => {
+  //   res.send(children);
+  // }).catch((err) =>{
+  //   res.send(err);
   // })
-
-
-  // User.updateMany({}, {$set: {
-  //     profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
-  //   }
-  // }, {$unset: false}, function(err){
-  //   if(err) res.send("failed");
-  //   else res.send("success");
-  // })
-  // User.find({}, function(err, users){
-  //   if(err) send('error');
-  //   else{
-  //     for(var i =0; i< users.length; i++){
-  //       const fullname = users[i].firstname+" "+users[i].lastname;
-  //       User.findOneAndUpdate({_id: users[i]._id}, {$set: {fullname: fullname}} , function(err, user){
-  //         if(err){
-  //                    console.log("error");
-  //                  }
-  //                  else{
-  //                    console.log(user.fullname);
-  //                  }
-  //       });
-  //     }
-  //   }
-  // });
-  //
-  // Child.find({}, function(err, children){
-  //   if(err) res.send("error");
-  //   else{
-  //     for(var i =0; i<children.length; i++){
-  //
-  //
-  //         Child.findOneAndUpdate({_id: children[i]._id }, {$set: {archived: false}} , function(err, child){
-  //           if(err){
-  //             console.log("error");
-  //           }
-  //           else{
-  //
-  //
-  //           }
-  //         }
-  //       );
-  //
-  //
-  //       if(i == children.length -1){
-  //         res.send("success");
-  //       }
-  //     }
-  //
-  //   }
-  // });
-  //
-  //
-  // Attendance.find({}, function(err, attendances){
-  //   if(err) res.send("error");
-  //   else{
-  //     for(var i =0; i<attendances.length; i++){
-  //       currect_date = new Date(attendances[i].date)
-  //
-  //         console.log(currect_date);
-  //         Attendance.findOneAndUpdate({_id: attendances[i]._id }, {$set: {dateStamp: currect_date}} , function(err, attendance){
-  //           if(err){
-  //             console.log("error");
-  //           }
-  //           else{
-  //             console.log(attendance.date);
-  //           }
-  //         }
-  //       );
-  //
-  //
-  //       if(i == attendances.length -1){
-  //         res.send("success");
-  //       }
-  //     }
-  //
-  //   }
-  // });
-
+//   .populate('children child').exec((err, doc) => {
+//     if (err) { return console.error(err); }
+//     console.log(doc);
+//     res.send(doc.children);
+// })
 
 }
 

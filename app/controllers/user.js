@@ -30,102 +30,6 @@ const smtpTransport = nodemailer.createTransport( {
   }
 });
 
-exports.fixOne = function(req, res){
-  User.findOne({ email: req.params.email }, function(err, user) {
-    console.log(user);
-    user.password = user.firstname.toLowerCase() + "1234";
-    console.log(user.password);
-    user.save(function(err) {
-      if(err) res.send(err);
-      else res.send('success');
-    });
-
-  });
-}
-exports.fixAll = function(req, res){
-  // User.updateMany({}, {$set: {
-  //     profile_url: 'https://s3.amazonaws.com/maspethbiblechurch-images/user-placeholder.jpg',
-  //   }
-  // }, {$unset: false}, function(err){
-  //   if(err) res.send("failed");
-  //   else res.send("success");
-  // })
-  // User.find({}, function(err, users){
-  //   if(err) send('error');
-  //   else{
-  //     for(var i =0; i< users.length; i++){
-  //       const fullname = users[i].firstname+" "+users[i].lastname;
-  //       User.findOneAndUpdate({_id: users[i]._id}, {$set: {fullname: fullname}} , function(err, user){
-  //         if(err){
-  //                    console.log("error");
-  //                  }
-  //                  else{
-  //                    console.log(user.fullname);
-  //                  }
-  //       });
-  //     }
-  //   }
-  // });
-
-  // Child.find({}, function(err, children){
-  //   if(err) res.send("error");
-  //   else{
-  //     for(var i =0; i<children.length; i++){
-  //
-  //
-  //         Child.findOneAndUpdate({_id: children[i]._id }, {$set: {archived: false}} , function(err, child){
-  //           if(err){
-  //             console.log("error");
-  //           }
-  //           else{
-  //
-  //
-  //           }
-  //         }
-  //       );
-  //
-  //
-  //       if(i == children.length -1){
-  //         res.send("success");
-  //       }
-  //     }
-  //
-  //   }
-  // });
-
-
-  // Attendance.find({}, function(err, attendances){
-  //   if(err) res.send("error");
-  //   else{
-  //     for(var i =0; i<attendances.length; i++){
-  //       currect_date = new Date(attendances[i].date)
-  //
-  //         console.log(currect_date);
-  //         Attendance.findOneAndUpdate({_id: attendances[i]._id }, {$set: {dateStamp: currect_date}} , function(err, attendance){
-  //           if(err){
-  //             console.log("error");
-  //           }
-  //           else{
-  //             console.log(attendance.date);
-  //           }
-  //         }
-  //       );
-  //
-  //
-  //       if(i == attendances.length -1){
-  //         res.send("success");
-  //       }
-  //     }
-  //
-  //   }
-  // });
-
-  // User.find(function(err, users){
-  //   for(var i = 0; i < users.length; i++){
-  //     console.log(users[i].resetPasswordToken);
-  //   }
-  // });
-}
 exports.send_all_email = function(req, res){
   User.find({},function(err, users) {
     if(err) console.log(err);
@@ -140,8 +44,6 @@ exports.send_all_email = function(req, res){
 }
 
 exports.list = function(req, res){
-
-
 
   const sortByHash = {
     lastnameAsc: { lastname: -1},
@@ -212,12 +114,9 @@ exports.create = function(req, res){
   else if(req.body.phone_number.length == 11 && /^\d+$/.test(req.body.phone_number)){
      req.body.phone_number = req.body.phone_number.substr(0,4)+"-"+req.body.phone_number.substr(4,3)+"-"+req.body.phone_number.substr(7,4);
    }
-  console.log(req.body.address);
   var user = new User(req.body);
-  console.log(user);
-  console.log(req.body);
   user.save(function(err){
-    console.log(err);
+    console.log("error in users#create:",err);
     if(err) {
       req.flash('error_message', err.message);
       res.redirect('/');

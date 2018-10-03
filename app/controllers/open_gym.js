@@ -40,7 +40,6 @@ exports.register_children = function(req,res){
         var birthday = null;
       }
 
-      console.log(birthday);
       var child = new Child({
         firstname: req.body.firstname[i],
         lastname: req.body.lastname[i],
@@ -133,8 +132,6 @@ exports.register_children = function(req,res){
 }
 
 exports.registered_index = function(req, res){
-
-
 
   const sortByHash = {
     lastnameAsc: { lastname: -1},

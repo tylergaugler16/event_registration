@@ -56,7 +56,20 @@
         <label for="media_agreement">Media Agreement</label>
         <input type="radio" name="media_agreement" value="yes" <%=(child.media_agreement)? checked ='checked' : '' %>>Yes
         <input type="radio" name="media_agreement" value="no" <%=(!child.media_agreement)? checked ='checked' : '' %>>No
+
+        <% if(current_user.is_admin()) { %>
+
+          <div class="signup-input-container admin-input-container">
+            <h1>Admin Updates</h1>
+            <label for="archived">Archived</label> <br>
+            <input type="radio" name="archived" value="true" <%=child.archived? 'checked' : "" %> >Yes<br>
+            <input type="radio" name="archived" value="false"  <%=!child.archived? 'checked' : "" %>>No<br>
+          </div>
+
+        <% } %>
       </div>
+
+
       <!-- <input type="submit" name="" value="Submit"> -->
       <div id="register_button_container">
         <input type="submit" value="Update" class="is-standard-submit blue-background">

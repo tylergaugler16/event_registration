@@ -72,12 +72,14 @@ userSchema.pre('save', true, function(next, done) {
 });
 
 userSchema.post('save', function(user){
-  console.log('trying to add user email');
-  // if(user.archived){
-  //   Child.archiveChildren(user.children);
-  // }
   mailchimp(user);
 });
+
+userSchema.post('findOneAndUpdate', function(user){
+  User.updateChildren(user.children, valuesToUpdate);
+  mailchimp(user);
+})
+
 
 
 // METHODS

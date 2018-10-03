@@ -64,6 +64,23 @@ childSchema.methods.initials = function(User){
   return User.find({_id: this.legal_guardian_id[0]});
 }
 
+childSchema.statics.updateChildren = function(children_ids, valuesToUpdate, childModel){
+
+  console.log("I'M HERE");
+  console.log(children_ids);
+  childModel.find({_id: "5b9d3f23d1408c5f4e2624f3" }).then(function(children){
+    console.log("children", children);
+  });
+  childModel.find({ _id: {$in: ["5b9d3f23d1408c5f4e2624f3"]} }, function(err, children){
+    if(!err)console.log("children", children);
+    else{ console.log(children);}
+  })
+  childModel.updateMany({ _id: {$in: children_ids} }, {archived: true}, function(err, users){
+    if(!err)console.log(users);
+    else{console.log(users)}
+  })
+
+}
 
 // the schema is useless so far
 // we need to create a model using it

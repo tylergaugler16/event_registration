@@ -4,6 +4,8 @@ $light-gray: #e6e6e6;
 $dark-gray: #3f3f3f;
 $orange: #dc493b;
 $white: #ffffff;
+$danger-red: #cc0000;
+$success-green: #4BB543;;
 
 
 html,body,blockquote,code,h1,h2,h3,h4,h5,h6,p,pre{margin:0;padding:0}
@@ -75,14 +77,14 @@ ul,li{list-style:none;margin:0;padding:0;}
   width: 100%;
   min-height: 30px;
   line-height: 30px;
-  background-color: #4BB543;
+  background-color: $success-green;
 }
 .error_message{
   padding: 5px;
   width: 100%;
   min-height: 30px;
   line-height: 30px;
-  background-color: #cc0000;
+  background-color: $danger-red;
 }
 .link-blue{
   color: #3b7adb !important;
@@ -141,6 +143,11 @@ ul,li{list-style:none;margin:0;padding:0;}
     display: inline-block;
     margin-bottom: 15px;
   }
+  .filter-container{
+    i{
+      font-size: .7em;
+    }
+  }
   .search-sort-container{
     display: inline-flex;
     align-items: center;
@@ -197,7 +204,7 @@ ul,li{list-style:none;margin:0;padding:0;}
       font-size: 14px;
     }
   }
-  .show-filters-button{
+  .show-filters-button, .clear-filters-button, .apply-filters-button{
     font-size: 20px;
     font-weight: 900;
     font-style: italic;
@@ -208,6 +215,11 @@ ul,li{list-style:none;margin:0;padding:0;}
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+  }
+  .clear-filters-button, .apply-filters-button{
+    font-size: 16px;
+    padding: 5px 8px;
+    margin: 0px 10px;
   }
   .all-filter-options-container{
     display: none;
@@ -222,6 +234,13 @@ ul,li{list-style:none;margin:0;padding:0;}
           padding-left: 5px;
         }
       }
+    }
+    .clear-filters-container, {
+      text-align: center;
+    }
+    .apply-filters-button{
+      background-color: $orange;
+      color: $white;
     }
 
   }
@@ -280,6 +299,12 @@ ul,li{list-style:none;margin:0;padding:0;}
    font-size: 14px;
    font-weight: 900;
    letter-spacing: 0.4px;
+}
+.is-danger{
+  color: $danger-red;
+}
+.is-centerd-text{
+  text-align: center;
 }
 
 body{
@@ -469,6 +494,17 @@ body{
   padding: 1px;
   background-color: #f7faff;
    border: solid 1px #eaf0fb;
+   &[type="radio"]{
+     width: auto;
+     margin-right: 5px;
+   }
+}
+.admin-input-container{
+  h1{
+    margin-bottom: 5px;
+    color: $danger-red;
+    font-weight: 900;
+  }
 }
 #submit_button{
   background-color: $royal-blue!important;

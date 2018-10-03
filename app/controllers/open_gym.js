@@ -158,6 +158,9 @@ exports.registered_index = function(req, res){
     const selectedDate = new Date(ms);
     queryConditions.created_at = { $gte: selectedDate }
   }
+  if(req.query.archived){
+    queryConditions.archived = req.query.archived;
+  }
   console.log(queryConditions);
 
   Child.find( queryConditions , function(err, children){
@@ -229,7 +232,8 @@ exports.update_child = function(req, res){
     emergency_contact_phone: req.body.emergency_contact_phone,
     medical_notes: req.body.medical_notes,
     permission_to_walk: (req.body.permission_to_walk.toString() == 'yes')? true : false,
-    media_agreement: (req.body.media_agreement == 'yes')? true : false
+    media_agreement: (req.body.media_agreement == 'yes')? true : false,
+    archived: req.body.archived
   }
   Child.findOneAndUpdate({_id: req.body.id}, {$set: new_data}, function(err, child){
     if(err){

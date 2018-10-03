@@ -8,6 +8,9 @@
       <div class="child-info-container">
         <span class="is-bold">Name: </span>
         <span class="info"><%= children[i].full_name() %></span>
+        <% if(children[i].archived){ %>
+          <span class="is-danger is-bold"> ARCHIVED</span>
+        <% } %>
       </div>
       <div class="child-info-container">
         <span class="is-bold">Birthday: </span>

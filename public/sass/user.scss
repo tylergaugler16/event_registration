@@ -4,7 +4,8 @@ $light-gray: #e6e6e6;
 $dark-gray: #3f3f3f;
 $orange: #dc493b;
 $white: #ffffff;
-
+$danger-red: #cc0000;
+$success-green: #4BB543;;
 /*show page*/
 .links_container{
   width: 90%;
@@ -61,6 +62,9 @@ $white: #ffffff;
   align-items: stretch;
   // overflow: hidden;
   .profile-sidebar{
+    &.archived{
+      background-color: $danger-red;
+    }
     width: 30%;
     background-color: $royal-blue;
     color: $light-gray;

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/user.css">
+    <link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
 
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
     <script src="/js/user.js" charset="utf-8"></script>
@@ -45,7 +46,8 @@
         </div>
         <div class="filter-container">
           <div>
-            <span class="show-filters-button"> Advanced Filtering</span>
+            <span class="show-filters-button"> Advanced Filtering <i class="fas fa-filter"></i></span>
+
           </div>
           <div class="all-filter-options-container">
 
@@ -68,6 +70,11 @@
                 <input type="radio" name="profile_picture" value="true"><span>Yes</span><br>
                 <input type="radio" name="profile_picture" value="false"><span>No</span> <br>
               </div>
+              <div class="filter-option">
+                <h4>Is Archived:</h4>
+                <input type="radio" name="archived" value="true"><span>Yes</span><br>
+                <input type="radio" name="archived" value="false"><span>No</span> <br>
+              </div>
               <!-- <div class="filter-option">
                 <h4>Has Medical Notes:</h4>
                 <input type="radio" name="medical_notes" value="true">Yes<br>
@@ -80,6 +87,11 @@
               </div> -->
 
               <!-- filter options: status(staff, parent, admin), if they have profile picture -->
+            </div>
+            <div class="clear-filters-container">
+
+                <span class="clear-filters-button" id="clear-filters">Clear Filters</span>
+                <span class="apply-filters-button search-users-button">Apply Filters</span>
             </div>
           </div>
         </div>

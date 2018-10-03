@@ -52,6 +52,18 @@
             <input type="text" name="phone_number" value="<%= user.phone_number %>" required>
           </div>
 
+
+          <% if(current_user.is_admin()) { %>
+
+            <div class="signup-input-container admin-input-container">
+              <h1>Admin Updates</h1>
+              <label for="archived">Archived</label> <br>
+              <input type="radio" name="archived" value="true" <%=user.archived? 'checked' : "" %> >Yes<br>
+              <input type="radio" name="archived" value="false"  <%=!user.archived? 'checked' : "" %>>No<br>
+            </div>
+
+          <% } %>
+
           <div class="signup-input-container">
             <input type="submit" name="" value="Update" id="submit_button">
           </div>

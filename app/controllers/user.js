@@ -74,6 +74,9 @@ exports.list = function(req, res){
     const statusArray = req.query.status.split(",");
     queryConditions.status = {$in: statusArray }
   }
+  if(req.query.archived){
+    queryConditions.archived = req.query.archived;
+  }
   console.log(queryConditions);
 
   User.find( queryConditions ,function(err, users) {
@@ -177,6 +180,7 @@ exports.update = function(req, res){
     zip_code: req.body.zip_code,
     phone_number: req.body.phone_number,
     updated_at: new Date(),
+    archived: req.body.archived,
   }
   if(res.locals.current_user.is_admin && req.body.email != null){
     new_data["email"] = req.body.email;
@@ -186,7 +190,7 @@ exports.update = function(req, res){
       console.log("error trying to update"+user.firstname+" "+user.lastname);
     }
     else{
-      req.flash('success_message', ' updated');
+      req.flash('success_message', user.firstname+"'s account had been updated.");
       res.redirect('/users/'+req.body.id);
 
     }

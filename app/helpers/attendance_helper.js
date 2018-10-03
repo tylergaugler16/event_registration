@@ -7,7 +7,7 @@ const Event = mongoose.model('Event', 'eventSchema');
 const Attendance = mongoose.model('Attendance','attendanceSchema');
 
 
-exports. getAttendanceForUser = function(user_id, is_user){
+exports.getAttendanceForUser = function(user_id, is_user){
 
   const query = {};
   if(is_user){
@@ -21,14 +21,15 @@ exports. getAttendanceForUser = function(user_id, is_user){
 
 const getAttendanceForUser = function(user_id, is_user){
 
-  const query = {};
-  if(is_user){
-    query['staff.staff_id'] = user_id;
-  }
-  else{
-    query['children.child_id'] = user_id;
-  }
-    return Attendance.find(query);
+  return Attendance.find({'children.child_id': user_id})
+  // const query = {};
+  // if(is_user){
+  //   query['staff.staff_id'] = user_id;
+  // }
+  // else{
+  //   query['children.child_id'] = user_id;
+  // }
+  //   return Attendance.find(query);
 }
 
 

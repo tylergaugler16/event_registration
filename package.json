@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Church event registration app",
   "main": "server.js",
+  "engines": {
+   "node": "9.11.1"
+ },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",

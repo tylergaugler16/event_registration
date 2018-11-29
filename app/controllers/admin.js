@@ -57,6 +57,15 @@ console.log(result.attendancesForUser)
 
 }
 
+exports.all_attendance_chart = function(req, res){
+  Attendance.find(function(err, attendance) {
+    if(err) console.log(err);
+    else{
+      res.render('./admin/charts/all_attendance_chart', {attendances: attendance} );
+    }
+  }).sort({dateStamp: -1}) ;
+}
+
 exports.showUser = function(req, res){
   User.findOne({ _id: req.params.id }, function(err, user) {
     if(err) res.send(err);

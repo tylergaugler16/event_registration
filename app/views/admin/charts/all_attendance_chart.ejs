@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Home</title>
+
+    <link rel="stylesheet" href="/stylesheets/simple-grid.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+    <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  </head>
+  <body>
+    <style>
+    .progress-container{
+      display: inline-block;
+    }
+    .progress{
+      margin: 0 auto;
+      height: 250px;
+      overflow: auto;
+      width: 25px;
+      transform: rotate(180deg);
+      border: 1px solid gray;
+    }
+    .progress-value{
+      background-color: green;
+    }
+    .inline-graph{
+      display: inline-block;
+    }
+    </style>
+    <% include ../../layouts/header %>
+    <% include ../../layouts/message %>
+      <div class="main-container">
+        <% var dateString = "MMM D, YYYY" %>
+
+        <div id="main-bar-chart"></div>
+        <script type="text/javascript">
+          // Load google charts
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          // Draw the chart and set the chart values
+
+          const numberOfAttendeesData = [['Date', 'Number of Children']];
+          <% for(var i = 0; i< attendances.length; i++){ %>
+
+            numberOfAttendeesData.push(["<%=formatDate( attendances[i].dateStamp, [format=dateString]) %>" ,<%= attendances[i].children.length%>])
+
+        <%  } %>
+          function drawChart() {
+            let data = google.visualization.arrayToDataTable(numberOfAttendeesData);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = {'title':'Children/Staff Breakdown', 'width': '100%' , 'height':400};
+
+            // Display the chart inside the <div> element with id="piechart"
+            var chart = new google.visualization.ColumnChart(document.getElementById('main-bar-chart'));
+            chart.draw(data, options);
+          }
+          </script>
+
+
+
+        <% let attendance = attendances[0] %>
+
+
+
+    <% for(let i = 0; i < attendances.length; i++){  %>
+      <% let attendance = attendances[i] %>
+      <h2><%=formatDate( attendance.dateStamp, [format=dateString]) %></h2>
+
+      <% let breakdown = attendanceHelper.attendeeTypeBreakdown(attendance)  %>
+
+
+      <div class="inline-graph" id="piechart<%=attendance._id%>"></div>
+      <h4> <span class="is-bold">Total Number of Children: </span><%= attendance.children.length %> </h4>
+      <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+          ['Attendee Type', 'Percentage'],
+          ['Staff', <%= attendance.staff.length%>],
+          ['Children', <%=attendance.children.length %>],
+        ]);
+
+          // Optional; add a title and set the width and height of the chart
+          var options = {'title':'Children/Staff Breakdown', 'width':550, 'height':400};
+
+          // Display the chart inside the <div> element with id="piechart"
+          var chart = new google.visualization.PieChart(document.getElementById('piechart<%=attendance._id%>'));
+          chart.draw(data, options);
+        }
+        </script>
+
+    <% } %>
+
+
+
+  </body>
+</html>

@@ -64,6 +64,15 @@ childSchema.methods.initials = function(User){
   return User.find({_id: this.legal_guardian_id[0]});
 }
 
+childSchema.methods.age = function(){
+  return 5;
+  // console.log("hey");
+  // const ageDifMs = Date.now() - this.birthday.getTime();
+  // console.log(ageDifMs);
+  //  const ageDate = new Date(ageDifMs); // miliseconds from epoch
+  //  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
 childSchema.statics.updateChildren = function(children_ids, valuesToUpdate, childModel){
 
   console.log("I'M HERE");

@@ -63,6 +63,7 @@ app.use(function(req, res, next){
 
 
 app.locals.formatDate = dateFns.format;
+app.locals.attendanceHelper = require('./app/helpers/attendance_helper')
 console.log(app.locals.formatDate);
 
 

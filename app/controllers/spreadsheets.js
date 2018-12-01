@@ -53,10 +53,10 @@ var writeRows = function(done){
           full_name: item.fullname,
           birthday: item.birthday,
           address: item.address,
-          parent_name: parent.full_name(),
-          parent_number: parent.phone_number,
-          parent_email: parent.email,
-          parent_address: parent.address + " " + parent.zip_code,
+          parent_name: parent? parent.full_name() : '',
+          parent_number: parent? parent.phone_number.join(',') : '',
+          parent_email: parent? parent.email : '',
+          parent_address: parent? parent.address + " " + parent.zip_code : '',
           emergency_contact_name: item.emergency_contact_name,
           emergency_contact_phone: item.emergency_contact_phone,
           medical_notes: item.medical_notes,
@@ -157,7 +157,7 @@ exports.download_weekly_attendance = function(req, res){
                 }
               }
             }
-  
+
             for(var i = 0;i<children.length;i++){
 
               sheet.addRow({
@@ -200,7 +200,8 @@ exports.download_weekly_attendance = function(req, res){
 
 exports.download_all_weekly_attendance = function(req, res){
   writeToFileAndEmailAllWeeklyAttendance();
-  res.send("trying to download email");
+   req.flash('success_message', 'Sending email to: tylergaugler16@gmail.com');
+  res.redirect('/admin');
 }
 
 

@@ -85,8 +85,15 @@ module.exports = function(passport, upload){
 
   Router.route('/admin').get(isAdmin, admin.home)
   Router.route('/admin/spreadsheets').get(isAdmin, spreadsheets.index);
-  Router.route('/admin/spreadsheets/create').get(isAdmin, spreadsheets.create);
+  Router.route('/admin/spreadsheets/download/all_registration').get(isAdmin, spreadsheets.create);
+  Router.route('/admin/spreadsheets/download/all_weekly_attendance').get(isAdmin, spreadsheets.download_all_weekly_attendance);
+
+
+
   Router.route('/admin/weekly_attendance').get(isAdmin, open_gym.weekly_attendance_for_admin);
+
+
+
   Router.route('/admin/charts/all_attendance').get(isAdmin, admin.all_attendance_chart);
   Router.route('/admin/users/:id').get(isAdmin, admin.showUser);
   Router.route('/admin/children/:id').get(isAdmin, admin.showChild);
